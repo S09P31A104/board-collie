@@ -89,7 +89,7 @@ const SearchResultsPage: React.FC = () => {
         <div style={centerStyle}>검색결과가 없습니다.</div>
       ) : (
         <div>
-          {results.map(item => (
+          {results.map((item, index) => (
             <div key={item.name}>
               <h3>
                 <Link to={`/game/${item.name}`}   
@@ -102,6 +102,7 @@ const SearchResultsPage: React.FC = () => {
                   <li key={tag}>{tag}</li>
                 ))}
               </ul>
+              {index < results.length - 1 && <Divider />}
             </div>
           ))}
         </div>
