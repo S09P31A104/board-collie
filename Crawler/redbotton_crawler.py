@@ -4,11 +4,13 @@ import pandas as pd
 import numpy as np
 
 
+# 정적 html파일 읽기
 def read_html_file(file_name):
     with open(file_name, 'r', encoding='utf-8') as f:
         return f.read()
 
 
+# Game
 def extract_game_times(strings):
     result = []
     for s in strings:
