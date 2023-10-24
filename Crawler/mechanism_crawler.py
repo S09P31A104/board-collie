@@ -21,16 +21,24 @@ def fetch_data(start_idx, end_idx):
             soup = BeautifulSoup(response.text, 'html.parser')
 
             sbj = soup.find('h5', class_='sbj')
-            sbj_text = sbj.get_text(strip=True) if sbj else "Not Found"
-            sbj_text = re.sub(r'\s+', ' ', sbj_text)  # 연속된 화이트 스페이스를 공백 하나로 변환
+            if sbj:
+                sbj_text = sbj.get_text(strip=True)
+                sbj_text = re.sub(r'\s+', ' ', sbj_text)  # 연속된 화이트 스페이스를 공백 하나로 변환
+                match = re.match(r'(.*) \((.*)\)', sbj_text)
+                if match:
+                    sbj_kor, sbj_eng = match.groups()
+                else:
+                    sbj_kor, sbj_eng = sbj_text, "Not Found"
+            else:
+                sbj_kor, sbj_eng = "Not Found", "Not Found"
 
             memo_wrap = soup.find('div', class_='memoWrap')
             p_tag = memo_wrap.find('p').get_text(strip=True) if memo_wrap and memo_wrap.find('p') else "Not Found"
             p_tag = re.sub(r'\s+', ' ', p_tag)  # 연속된 화이트 스페이스를 공백 하나로 변환
 
-            results.append({'idx': idx-781, 'sbj': sbj_text, 'memo_wrap': p_tag})
+            results.append({'tag_id': idx - 781, 'sbj_kor': sbj_kor, 'sbj_eng': sbj_eng, 'description': p_tag})
         else:
-            print(f"Failed to fetch idx {idx}: Status code {response.status_code}")
+            print(f"Failed to fetch idx {idx - 781}: Status code {response.status_code}")
 
     df = pd.DataFrame(results)
     return df
