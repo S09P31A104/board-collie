@@ -135,7 +135,7 @@ const dummyData = transformData(dummyDataFromServer);
 
 
 const SearchResultsPage: React.FC = () => {
-  
+
   const [results, setResults] = useState<Game[]>([]);
   const [numberOfPlayers, setNumberOfPlayers] = useState('');
 
@@ -157,7 +157,7 @@ const SearchResultsPage: React.FC = () => {
         game.name.toLowerCase().includes(query.toLowerCase()) ||
         game.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()))
       );
-  
+
       if (numberOfPlayers && numberOfPlayers !== "all") { // "all"일 때는 필터링하지 않습니다.
         filteredGames = filteredGames.filter(game => {
           return game.tags.some(tag => {
@@ -174,65 +174,65 @@ const SearchResultsPage: React.FC = () => {
           });
         });
       }
-  
+
       setResults(filteredGames);
     }
   };
-  
+
 
   const handleGameClick = (gameName: string) => {
-  
+
     const recentGames = JSON.parse(localStorage.getItem('recentGames') || '[]');
-    
+
     const newRecentGames = [...recentGames.filter((name: string) => name !== gameName), gameName];
-    
+
     localStorage.setItem('recentGames', JSON.stringify(newRecentGames));
   };
-  
+
 
   return (
-    <div>
-    <SearchBar onSearch={handleSearch} style={{ position: 'relative', zIndex: 1000 }}/>
-    <FilterBar numberOfPlayers={numberOfPlayers} setNumberOfPlayers={setNumberOfPlayers} style={{ marginTop: '2.1vh' }} />
-    <Grid container spacing={2}>
-      <Grid item xs={9}>
-        {results.length === 0 ? (
-          <div style={centerStyle}>검색 결과가 없습니다.</div>
-        ) : (
-          <div>
-            {results.map((item, index) => (
-              <div key={item.name}>
-                <h3>
-                  <Link 
-                    to={`/game/${item.name}`} 
-                    style={{ textDecoration: 'none', color: 'inherit' }}
-                    onClick={() => handleGameClick(item.name)}
-                  >
-                    {item.name}
-                  </Link>
-                </h3>
-                <Stack direction="row" spacing={1} style={{ marginBottom: '20px' }}>
-                  {item.tags.map(tag => (
-                    <Chip key={tag} label={tag} />
-                  ))}
-                </Stack>
-                {index < results.length - 1 && <Divider />}
-              </div>
-            ))}
-          </div>
-        )}
-      </Grid>
-      <Grid item container xs={3} style={{ alignItems: 'flex-start' }}>
-        <Divider orientation="vertical" flexItem sx={{ height: '100%' }} />
-        <Grid item xs style={{ overflowY: 'auto' }} className="hide-scrollbar">
-          <div style={{ textAlign: 'center' }}>
-            <h4>최근 본 게임</h4>
-            <RecentGamesList />
-          </div>
+    <div style={{ overflow: 'hidden', height: '100vh' }}>
+      <SearchBar onSearch={handleSearch} style={{ position: 'relative', zIndex: 1000 }} />
+      <FilterBar numberOfPlayers={numberOfPlayers} setNumberOfPlayers={setNumberOfPlayers} style={{ marginTop: '2.1vh' }} />
+      <Grid container spacing={2}>
+        <Grid item xs={9}>
+          {results.length === 0 ? (
+            <div style={centerStyle}>검색 결과가 없습니다.</div>
+          ) : (
+            <div>
+              {results.map((item, index) => (
+                <div key={item.name}>
+                  <h3>
+                    <Link
+                      to={`/game/${item.name}`}
+                      style={{ textDecoration: 'none', color: 'inherit' }}
+                      onClick={() => handleGameClick(item.name)}
+                    >
+                      {item.name}
+                    </Link>
+                  </h3>
+                  <Stack direction="row" spacing={1} style={{ marginBottom: '20px' }}>
+                    {item.tags.map(tag => (
+                      <Chip key={tag} label={tag} />
+                    ))}
+                  </Stack>
+                  {index < results.length - 1 && <Divider />}
+                </div>
+              ))}
+            </div>
+          )}
+        </Grid>
+        <Grid item container xs={3} style={{ alignItems: 'flex-start' }}>
+          <Divider orientation="vertical" flexItem sx={{ height: '100%' }} />
+          <Grid item xs style={{ overflowY: 'auto' }} className="hide-scrollbar">
+            <div style={{ textAlign: 'center' }}>
+              <h4>최근 본 게임</h4>
+              <RecentGamesList />
+            </div>
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
-  </div>
+    </div>
   );
 }
 
