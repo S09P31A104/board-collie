@@ -57,7 +57,9 @@ TABLE_NAME = "tag"
 df = fetch_data(781, 1051)
 
 
-save_to_mysql(df, TABLE_NAME, USER, PASSWORD, ENDPOINT, PORT, DATABASE)
+# save_to_mysql(df, TABLE_NAME, USER, PASSWORD, ENDPOINT, PORT, DATABASE)
 
 
 print(df)
+
+df.to_csv('mechanism.csv', index=False, encoding='utf-8-sig')
