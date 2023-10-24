@@ -76,7 +76,7 @@ def fetch_boardgames(search_terms):
                 href = game_link.get('href')
                 game_url = 'https://boardgamegeek.com' + href + '/credits#boardgamemechanic'
                 game_data = fetch_game_data(driver, game_url)
-                results.append({'search_term': term, 'game_url': href, **game_data})
+                results.append({'game_id': term, **game_data})
             else:
                 print(f"No game found for search term {term}")
     finally:
