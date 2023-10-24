@@ -72,6 +72,3 @@ def get_game_data(file_name):
 
     return data
 
-# if __name__ == "__main__":
-#     game_data = get_game_data("redbotton.html")
-#     print(game_data)
