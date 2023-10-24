@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, CSSProperties } from 'react';
 import { TextField, Grid, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 interface Props {
   onSearch: (query: string) => void;
+  style?: CSSProperties; 
 }
 
-const SearchBar: React.FC<Props> = ({ onSearch }) => {
+const SearchBar: React.FC<Props> = ({ onSearch, style }) => {
   const [inputValue, setInputValue] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
@@ -19,7 +20,7 @@ const SearchBar: React.FC<Props> = ({ onSearch }) => {
   };
 
   return (
-    <Grid container justifyContent="center" alignItems="center" spacing={2} style={{ marginBottom: '20px' }}>
+    <Grid container justifyContent="center" alignItems="center" spacing={2} style={{ marginTop: '15px', ...style }}>
       <Grid item xs={4}>
         <TextField
           fullWidth
