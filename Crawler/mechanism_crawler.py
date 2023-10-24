@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 import re
 import pandas as pd
 from tqdm import tqdm
+from db_util import save_to_mysql
+from secret import *
 
 pd.set_option('display.max_rows', None)  # 행의 최대 출력 수를 무제한으로 설정
 pd.set_option('display.max_columns', None)  # 열의 최대 출력 수를 무제한으로 설정
@@ -44,6 +46,18 @@ def fetch_data(start_idx, end_idx):
     return df
 
 
+USER = DB_USERNAME
+PASSWORD = DB_PASSWORD
+ENDPOINT = DB_ENDPOINT
+PORT = DB_PORT
+DATABASE = DB_NAME
+TABLE_NAME = "tag"
+
 # 사용 예
 df = fetch_data(781, 1051)
+
+
+save_to_mysql(df, TABLE_NAME, USER, PASSWORD, ENDPOINT, PORT, DATABASE)
+
+
 print(df)
