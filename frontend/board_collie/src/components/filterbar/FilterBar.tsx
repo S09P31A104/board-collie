@@ -1,5 +1,14 @@
 import React from 'react';
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Select, MenuItem, FormControl, SelectChangeEvent } from '@mui/material';
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  Select,
+  MenuItem,
+  FormControl,
+  SelectChangeEvent
+} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import styled from '@emotion/styled';
 
@@ -28,7 +37,7 @@ const CustomSelect = styled(Select<string>)`
   }
 `;
 
-const FilterBar: React.FC<FilterBarProps> = ({ numberOfPlayers, setNumberOfPlayers }) => {
+const FilterBar: React.FC<FilterBarProps> = ({ numberOfPlayers, setNumberOfPlayers, style }) => {
   const handleChange = (event: SelectChangeEvent<string>) => {
     setNumberOfPlayers(event.target.value);
   };
@@ -44,7 +53,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ numberOfPlayers, setNumberOfPlaye
   };
 
   return (
-    <FilterBarContainer>
+    <FilterBarContainer style={style}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />} >
         <FormControl variant="outlined" sx={{ m: 1, minWidth: 120 }}>
           <CustomSelect

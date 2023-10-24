@@ -114,7 +114,7 @@ const SearchResultsPage: React.FC = () => {
   return (
     <div>
     <SearchBar onSearch={handleSearch} style={{ position: 'relative', zIndex: 1000 }}/>
-    <FilterBar numberOfPlayers={numberOfPlayers} setNumberOfPlayers={setNumberOfPlayers} style={{ marginTop: '200px' }} />
+    <FilterBar numberOfPlayers={numberOfPlayers} setNumberOfPlayers={setNumberOfPlayers} style={{ marginTop: '2.1vh' }} />
     <Grid container spacing={2}>
       <Grid item xs={9}>
         {results.length === 0 ? (
