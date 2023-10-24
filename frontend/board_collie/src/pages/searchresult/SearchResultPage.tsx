@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import SearchBar from '../../components/SearchBar/SearchBar';
+import SearchBar from '../../components/searchbar/SearchBar';
 import { Divider, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 import './SearchResultPage.css';
