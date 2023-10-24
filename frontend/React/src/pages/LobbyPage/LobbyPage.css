@@ -30,11 +30,6 @@
   margin: 0;
 }
 
-
-@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Jolly+Lodger&display=swap');
-
-
 .container .MuiTypography-h3 span {
   display: inline-block;
   animation: float .4s ease-in-out infinite;

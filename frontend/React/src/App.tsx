@@ -4,6 +4,7 @@ import LobbyPage from './pages/LobbyPage/LobbyPage';
 import MainPage from './pages/MainPage/MainPage';
 import SearchResultPage from './pages/SearchResultPage/SearchResultPage'
 import GameDetailPage from './pages/GameDetailPage/GameDetailPage';
+import TutorialPage from './pages/TutorialPage/TutorialPage';
 
 const App: React.FC = () => {
   return (
@@ -13,6 +14,7 @@ const App: React.FC = () => {
         <Route path="/main" element={<MainPage />} />
         <Route path="/searchresult" element={<SearchResultPage />} />
         <Route path="/game/:name" element={<GameDetailPage />} />
+        <Route path="/tutorial/:title" element={<TutorialPage />} />
       </Routes>
     </Router>
   );
