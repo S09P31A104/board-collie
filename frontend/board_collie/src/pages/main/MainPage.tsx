@@ -53,7 +53,7 @@ const MainPage: React.FC = () => {
 
   return (
     <div>
-      <Grid container style={{ height: '100vh' }} justifyContent="center" alignItems="center" spacing={16}>
+      <Grid container style={{ height: '110vh' }} justifyContent="center" alignItems="center" spacing={16}>
         <Grid item>
           <Paper elevation={3} style={boxStyle}>
             게임 추천받기
