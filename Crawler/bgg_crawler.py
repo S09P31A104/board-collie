@@ -1,3 +1,5 @@
+import time
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -9,7 +11,6 @@ import pandas as pd
 from tqdm import tqdm
 import os
 
-
 pd.set_option('display.max_rows', None)  # 행의 최대 출력 수를 무제한으로 설정
 pd.set_option('display.max_columns', None)  # 열의 최대 출력 수를 무제한으로 설정
 pd.set_option('display.width', None)  # 출력 너비를 터미널의 너비에 맞게 설정
@@ -18,27 +19,34 @@ pd.set_option('display.max_colwidth', None)  # 열의 최대 너비를 무제한
 
 def fetch_game_data(driver, game_url):
     driver.get(game_url)
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'span.ng-binding.gameplay-weight-light')))
-    soup = BeautifulSoup(driver.page_source, 'html.parser')
 
-    # weight 값을 가져옵니다.
-    weight_span = soup.find('span', class_='ng-binding gameplay-weight-light')
-    weight = float(weight_span.get_text(strip=True)) if weight_span else None
+    # WebDriverWait(driver, 5).until(
+    #     EC.presence_of_element_located((By.CSS_SELECTOR, 'span.ng-binding.gameplay-weight-light')))
+    soup = BeautifulSoup(driver.page_source, 'html.parser')
+    #
+    # # weight 값을 가져옵니다.
+    # weight_span = soup.find('span', class_='ng-binding gameplay-weight-light')
+    # weight = float(weight_span.get_text(strip=True)) if weight_span else None
+    #
+    # print(f"weight : {weight}")
 
     # tags 값을 가져옵니다.
     ul = soup.find('ul', class_='outline outline-col-xs-block outline-border')
     if ul:
-        lis = ul.find_all('li')
-        if len(lis) >= 16:  # 14번째와 15번째 li가 존재하는지 확인합니다.
+        lis = ul.find_all('li', recursive=False)
+        if len(lis) >= 15:  # 14번째와 15번째 li가 존재하는지 확인합니다.
             divs_14 = lis[13].find_all('div', class_='ng-scope')
             divs_15 = lis[14].find_all('div', class_='ng-scope')
-            tags = [a.get_text(strip=True) for div in divs_14 + divs_15 for a in div.find_all('a')]
+            #print(divs_15)
+            tags = {a.get_text(strip=True) for div in divs_14 + divs_15 for a in div.find_all('a')}
         else:
-            tags = []
+            tags = set()
     else:
-        tags = []
+        tags = set()
 
-    return {'weight': weight, 'tags': tags}
+    # return {'weight': weight, 'tags': tags}
+    return {'tags': list(tags)}
+
 
 def fetch_boardgames(search_terms):
     results = []
@@ -65,10 +73,16 @@ def fetch_boardgames(search_terms):
 
     try:
         for term in tqdm(search_terms, desc='Fetching Boardgames', unit='term'):
+
             url = f'https://boardgamegeek.com/geeksearch.php?action=search&q={term}&objecttype=boardgame'
             driver.get(url)
-            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div#results_objectname1 a')))
 
+            try:
+                WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, 'div#results_objectname1 a')))
+            except Exception:
+                print(f"Timeout reached for search term {term}. Moving to the next term.")
+                continue
             soup = BeautifulSoup(driver.page_source, 'html.parser')
             game_link = soup.select_one('div#results_objectname1 a')
 
@@ -79,17 +93,21 @@ def fetch_boardgames(search_terms):
                 results.append({'game_id': term, **game_data})
             else:
                 print(f"No game found for search term {term}")
+
+        time.sleep(1)
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
     finally:
         driver.quit()
 
     df = pd.DataFrame(results)
     return df
 
-# 검색할 게임 이름의 리스트
-search_terms = ['7 Wonders Duel']
-
-# 데이터 프레임 생성
-df = fetch_boardgames(search_terms)
-
-# 결과 출력
-print(df)
+# # 검색할 게임 이름의 리스트
+# search_terms = ['7 Wonders Duel']
+#
+# # 데이터 프레임 생성
+# df = fetch_boardgames(search_terms)
+#
+# # 결과 출력
+# print(df)
