@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Splender from "./Splendor";
+import { Box, Modal, Button } from '@mui/material';
 
 
 /* 스타일 */
@@ -31,17 +32,73 @@ const BackgroundLayer = styled.div`
     left: 0;
     background-color: rgba(247, 238, 246, 0.2);
 `;
+const BackButton = styled.div`
+    position: absolute;
+    top: 3vh;
+    left: 3vw;
+    font-family: 'Jua', sans-serif;
+    font-size: 2vw;
+    color: #F7EEF6;
+`;
 const MainContent = styled.div`
     position: absolute;
     z-index: 1;
     width: 80%;
     height: 90%;
 `;
+const modalStyle = {
+    position: 'absolute',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '30%',
+    height: '20%',
+    bgcolor: '#FFFFFF',
+    pt: 3,
+    px: 4,
+    pb: 3,
+    borderRadius: '8px'
+};
+const BackModalMessage = styled.h2`
+    display: flex;
+    justify-content: center;
+    font-family: 'Jua', sans-serif;
+    font-size: 2.5vw;
+    letter-spacing: 0.05em;
+`;
+const BackModalButton = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
+const BackModalButtonStyle = {
+    fontFamily: 'Jua',
+    fontSize: '1.8vw'
+};
+
+/* 튜토리얼 나가기 */
+function exitTutorial() {
+    // 어느 단계에서 많이 나갔는지 통계 필요
+    window.history.back();
+}
 
 function TutorialPage() {
 
     const params = useParams();
+
+    /* 배경 사진 관련 */
     const [backgroundImage, setBackgroundImage] = useState('');
+
+    /* 돌아가기 버튼 모달 관련 */
+    const [backModalOpen, setBackModalOpen] = useState(false);
+    const handleBackModalOpen = () => {
+        setBackModalOpen(true);
+    };
+    const handleBackModalClose = () => {
+        setBackModalOpen(false);
+    };
 
     useEffect(() => {
         if(params.title === 'splender') {
@@ -54,6 +111,29 @@ function TutorialPage() {
             style={{backgroundImage: `url(${backgroundImage})`}}
         >
             <BackgroundLayer/>
+            <BackButton onClick={handleBackModalOpen}>돌아가기</BackButton>
+            <Modal
+                open={backModalOpen}
+                onClose={handleBackModalClose}
+            >
+                <Box sx={{ ...modalStyle, '&:focus': { outline: 'none' }}}>
+                    <BackModalMessage>튜토리얼을 나가시겠습니까?</BackModalMessage>
+                    <BackModalButton>
+                        <Button
+                            sx={{ ...BackModalButtonStyle}}
+                            onClick={handleBackModalClose}
+                        >
+                            아니요
+                        </Button>
+                        <Button
+                            sx={{ ...BackModalButtonStyle}}
+                            onClick={exitTutorial}
+                        >
+                            예
+                        </Button>
+                    </BackModalButton>
+                </Box>
+            </Modal>
             <MainContent>
             {
                 (params.title === 'splender') ?
