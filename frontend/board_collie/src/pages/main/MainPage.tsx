@@ -55,10 +55,12 @@ const MainPage: React.FC = () => {
     <div>
       <Grid container style={{ height: '100vh' }} justifyContent="center" alignItems="center" spacing={16}>
         <Grid item>
-          <Paper elevation={3} style={boxStyle}>
-            게임 추천받기
-            <img src={recommendLogo} alt="Recommend Game Logo" style={logoStyle} />
-          </Paper>
+          <Link to="/gamerecommend" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Paper elevation={3} style={boxStyle}>
+              게임 추천받기
+              <img src={recommendLogo} alt="Recommend Game Logo" style={logoStyle} />
+            </Paper>
+          </Link>
         </Grid>
         <Grid item>
           <Link to="/searchresult" style={{ textDecoration: 'none', color: 'inherit' }}>
