@@ -1,5 +1,5 @@
-DB_ENDPOINT = "boardcollie.c1mhvbecagl9.us-east-2.rds.amazonaws.com"
+DB_ENDPOINT = "localhost"
 DB_PORT = 3306
-DB_USERNAME = "collie"
-DB_PASSWORD = "ssafy104!"
-DB_NAME = "board_collie_db"
+DB_USERNAME = "ssafy"
+DB_PASSWORD = "ssafy"
+DB_NAME = "test"
