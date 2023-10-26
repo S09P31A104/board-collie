@@ -102,7 +102,7 @@ function TutorialPage() {
 
     useEffect(() => {
         if(params.title === 'splendor') {
-            setBackgroundImage(process.env.PUBLIC_URL + '/Tutorial/Splendor/background.jpg');
+            setBackgroundImage(process.env.PUBLIC_URL + '/tutorial/splendor/background.jpg');
         }
     }, [params.title])
 
