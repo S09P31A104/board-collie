@@ -1,8 +1,9 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Box, Typography, Button, IconButton, Card, CardMedia } from '@mui/material';
+import { Box, Typography, IconButton, Card, CardMedia } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import gameimg from '../../assets/splendor.png';
+import yt_logo from '../../assets/yt_logo_rgb_light.png';
 
 const SelectPage: React.FC = () => {
   const { name } = useParams<{ name: string }>();
@@ -13,10 +14,9 @@ const SelectPage: React.FC = () => {
   };
 
   const handleYoutubeSearch = () => {
-    const gameName = encodeURIComponent(name || "게임 이름 없음"); // 게임 이름을 URL 인코딩합니다.
+    const gameName = encodeURIComponent(name || "게임 이름 없음");
     window.open(`https://www.youtube.com/results?search_query=${gameName} 게임방법`, '_blank');
   };
-  
 
   return (
     <Box sx={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', mt: '90px' }}>
@@ -27,9 +27,31 @@ const SelectPage: React.FC = () => {
         <Card sx={{ width: 300 }}>
           <CardMedia component="img" height="140" image={gameimg} alt={name} />
         </Card>
-        <Button variant="contained" color="primary" onClick={handleYoutubeSearch}>
-          유튜브 검색
-        </Button>
+        <Box
+          component="button"
+          onClick={handleYoutubeSearch}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            backgroundColor: 'E9E9EB',
+            borderRadius: '20px',
+            padding: '8px 16px',
+            border: '2px solid black',
+            cursor: 'pointer',
+            '&:hover': {
+              backgroundColor: 'darkgrey',
+            }
+          }}
+        >
+          <img src={yt_logo} alt="YouTube Logo" style={{ height: '30px', marginRight: '10px', padding: '8px' }} />
+          <Typography 
+            variant="body2" 
+            color="black"
+            sx={{ fontSize: '1.5rem', fontFamily: 'Jua, sans-serif' }} 
+            >
+            에서 게임방법 검색
+          </Typography>
+        </Box>
       </Box>
       <Typography 
         variant="body1" 
@@ -38,7 +60,6 @@ const SelectPage: React.FC = () => {
       >
         게임의 튜토리얼을 체험해보시거나 유튜브 영상을 감상하실 수 있습니다.
       </Typography>
-
     </Box>
   );
 };
