@@ -101,7 +101,7 @@ function TutorialPage() {
     };
 
     useEffect(() => {
-        if(params.title === 'splender') {
+        if(params.title === 'splendor') {
             setBackgroundImage('/Tutorial/Splendor/background.jpg');
         }
     }, [params.title])
@@ -136,7 +136,7 @@ function TutorialPage() {
             </Modal>
             <MainContent>
             {
-                (params.title === 'splender') ?
+                (params.title === 'splendor') ?
                     <Splender/>
                     :
                     null
