@@ -42,12 +42,15 @@ def extract_game_info(soup):
     min_game_members = [members[0] for members in game_members_extracted]
     max_game_members = [members[1] if len(members) > 1 else members[0] for members in game_members_extracted]
 
+    game_ids = list(range(len(game_titles_en)))
+
     return pd.DataFrame({
-        'English Title': game_titles_en,
-        'Korean Title': game_titles_kor,
-        'Game Time (min)': game_times_extracted,
-        'Min Players': min_game_members,
-        'Max Players': max_game_members
+        'game_id': game_ids,
+        'game_title_eng': game_titles_en,
+        'game_title_kor': game_titles_kor,
+        'game_time': game_times_extracted,
+        'game_min_player': min_game_members,
+        'game_max_player': max_game_members
     })
 
 
