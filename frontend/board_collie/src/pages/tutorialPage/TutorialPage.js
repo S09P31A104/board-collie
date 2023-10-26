@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Splender from "./Splendor";
+import Splendor from "./Splendor";
 import { Box, Modal, Button } from '@mui/material';
 
 
@@ -102,7 +102,7 @@ function TutorialPage() {
 
     useEffect(() => {
         if(params.title === 'splendor') {
-            setBackgroundImage('/Tutorial/Splendor/background.jpg');
+            setBackgroundImage(process.env.PUBLIC_URL + '/Tutorial/Splendor/background.jpg');
         }
     }, [params.title])
 
@@ -137,7 +137,7 @@ function TutorialPage() {
             <MainContent>
             {
                 (params.title === 'splendor') ?
-                    <Splender/>
+                    <Splendor/>
                     :
                     null
             }
