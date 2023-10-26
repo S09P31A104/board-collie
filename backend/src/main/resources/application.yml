@@ -1,14 +1,14 @@
-openai:
-  url: "https://api.openai.com/v1"
-  key: "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"
-
 spring:
+  profiles:
+    include: secret
+    active: develop
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: develop
   redis:
     host: localhost
     port: 6379
-
-notification:
-  mattermost:
-    enabled: true
-    webhook-url: "https://meeting.ssafy.com/hooks/dfa1n5fwbiy7fqrj1arn4ba4sw"
-
