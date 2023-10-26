@@ -13,7 +13,7 @@ function Splender() {
     const flow = [
         [ // 0: 튜토리얼 시작 페이지
             'TutorialStartComponent', // 템플릿
-            '/Tutorial/Splendor/title.png', // 타이틀 이미지
+            process.env.PUBLIC_URL + '/Tutorial/Splendor/title.png', // 타이틀 이미지
             '스플렌더', // 타이틀
             '인원 수별 세팅 방법이 달라집니다.\n인원수를 다시 한번 확인해 주세요.', // 추가 메시지
             'START', 1 // 버튼, 이동 페이지 flow 번호
