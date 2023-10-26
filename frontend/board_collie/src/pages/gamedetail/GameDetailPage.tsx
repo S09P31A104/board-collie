@@ -71,6 +71,13 @@ const GameDetailPage: React.FC = () => {
   const goBack = () => {
     navigate(-1);
   };
+  
+  // 재생버튼 클릭 시 선택페이지로 이동
+  const handlePlayButtonClick = () => {
+    if (game) {
+      navigate(`/select/${game.name}`);
+    }
+  };
 
   return (
     <Box sx={{ padding: '20px', display: 'flex', flexDirection: 'row', marginTop: '90px' }}>
@@ -113,6 +120,7 @@ const GameDetailPage: React.FC = () => {
         height: '100px',
         position: 'relative',
       }}
+      onClick={handlePlayButtonClick}
     >
       <PlayArrowIcon
         sx={{
