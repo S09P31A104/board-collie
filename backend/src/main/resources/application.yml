@@ -6,3 +6,9 @@ spring:
   redis:
     host: localhost
     port: 6379
+
+notification:
+  mattermost:
+    enabled: true
+    webhook-url: "https://meeting.ssafy.com/hooks/dfa1n5fwbiy7fqrj1arn4ba4sw"
+

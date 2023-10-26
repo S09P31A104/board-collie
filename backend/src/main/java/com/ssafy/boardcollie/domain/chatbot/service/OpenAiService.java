@@ -13,7 +13,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,7 +25,7 @@ public class OpenAiService {
     private String API_ENDPOINT;
     @Value("${openai.key}")
     private String OPEN_AI_KEY;
-    private final RestTemplate restTemplate = restTemplate();
+    private final RestTemplate restTemplate;
     private final RedisTemplate<String, String> redisTemplate;
     private static final String QUEUE_KEY = "prevQuestion";
     private static final int QUEUE_SIZE = 3;
@@ -40,7 +39,7 @@ public class OpenAiService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(OPEN_AI_KEY);
 
-        Map<String, Object> requestBody = new HashMap<>();
+        Map<String, Object> requestBody = createBody();
         List<Map<String, Object>> messages = new ArrayList<>();
         Map<String, Object> userMessage = new HashMap<>();
 
@@ -49,44 +48,25 @@ public class OpenAiService {
             messages.add(createSystemMap("이전 질문이야: " + s));
         }
         saveToRedis(prompt);
-        messages.add(createSystemMap(PROMPT_LANGUAGE));
         String gameName = "루미큐브";
+
+        messages.add(createSystemMap(PROMPT_LANGUAGE));
         userMessage.put("role", "user");
         userMessage.put("content", PROMPT_PREFIX + gameName + PROMPT_SUFFIX + prompt);
         messages.add(userMessage);
-
         requestBody.put("messages", messages);
-        requestBody.put("model", "gpt-4");
-        requestBody.put("temperature", 0.8);
-        requestBody.put("max_tokens", 1024);
-        requestBody.put("top_p", 1);
-        requestBody.put("frequency_penalty", 0.5);
-        requestBody.put("presence_penalty", 0.5);
 
 
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
 
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(url, request,
-                String.class);
+                    String.class);
             return response.getBody();
         } catch (Exception e) {
             log.info(e.getMessage());
             throw new RuntimeException("OpenAI 에러");
         }
-    }
-
-    public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
-
-        List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
-        interceptors.add((request, body, execution) -> {
-            request.getHeaders().setContentType(MediaType.APPLICATION_JSON);
-            request.getHeaders().setBearerAuth(OPEN_AI_KEY);
-            return execution.execute(request, body);
-        });
-        restTemplate.setInterceptors(interceptors);
-        return restTemplate;
     }
 
     public void saveToRedis(String prompt) {
@@ -107,6 +87,20 @@ public class OpenAiService {
         system.put("role", "system");
         system.put("content", content);
         return system;
+    }
+
+    private Map<String, Object> createBody() {
+
+        Map<String, Object> requestBody = new HashMap<>();
+
+        requestBody.put("model", "gpt-4");
+        requestBody.put("temperature", 0.8);
+        requestBody.put("max_tokens", 1024);
+        requestBody.put("top_p", 1);
+        requestBody.put("frequency_penalty", 0.5);
+        requestBody.put("presence_penalty", 0.5);
+
+        return requestBody;
     }
 
 }
