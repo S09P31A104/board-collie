@@ -14,7 +14,7 @@ const SelectPage: React.FC = () => {
 
   const handleYoutubeSearch = () => {
     const gameName = encodeURIComponent(name || "게임 이름 없음"); // 게임 이름을 URL 인코딩합니다.
-    window.open(`https://www.youtube.com/results?search_query=${gameName} 튜토리얼`, '_blank');
+    window.open(`https://www.youtube.com/results?search_query=${gameName} 게임방법`, '_blank');
   };
   
 
@@ -23,7 +23,7 @@ const SelectPage: React.FC = () => {
       <IconButton onClick={goBack} aria-label="뒤로 가기" sx={{ alignSelf: 'flex-start', mb: 2 }}>
         <ArrowBackIcon />
       </IconButton>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, mb: 2 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 30, mb: 2, mt: 20 }}>
         <Card sx={{ width: 300 }}>
           <CardMedia component="img" height="140" image={gameimg} alt={name} />
         </Card>
@@ -31,9 +31,14 @@ const SelectPage: React.FC = () => {
           유튜브 검색
         </Button>
       </Box>
-      <Typography variant="body1" textAlign="center">
-        게임의 튜토리얼을 체험해보거나 유튜브 영상을 감상하실 수 있습니다.
+      <Typography 
+        variant="body1" 
+        textAlign="center"
+        sx={{ fontSize: '2rem', fontFamily: 'Jua, sans-serif' }} 
+      >
+        게임의 튜토리얼을 체험해보시거나 유튜브 영상을 감상하실 수 있습니다.
       </Typography>
+
     </Box>
   );
 };

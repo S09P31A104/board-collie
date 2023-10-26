@@ -125,75 +125,55 @@ const dummyDataFromServer: GameFromServer[] = [
   },
   {
     game_id: 11,
-    game_title: '시타델2',
+    game_title: '제왕의 깃발',
     game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '4-7명' },
-      { tag_id: 3, tag_name_kor: '60분' },
+      { tag_id: 1, tag_name_kor: '보통' },
+      { tag_id: 2, tag_name_kor: '3-4명' },
+      { tag_id: 3, tag_name_kor: '20분' },
       { tag_id: 4, tag_name_kor: '전략' }
     ]
   },
   {
     game_id: 12,
-    game_title: '시타델3',
+    game_title: '마피아 데 쿠바',
     game_tag: [
       { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '4-7명' },
+      { tag_id: 2, tag_name_kor: '6-12명' },
       { tag_id: 3, tag_name_kor: '60분' },
       { tag_id: 4, tag_name_kor: '전략' }
     ]
   },
   {
     game_id: 13,
-    game_title: '시타델4',
+    game_title: '아발론',
     game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '4-7명' },
-      { tag_id: 3, tag_name_kor: '60분' },
+      { tag_id: 1, tag_name_kor: '쉬움' },
+      { tag_id: 2, tag_name_kor: '2명' },
+      { tag_id: 3, tag_name_kor: '20분' },
       { tag_id: 4, tag_name_kor: '전략' }
     ]
   },
   {
     game_id: 14,
-    game_title: '시타델5',
+    game_title: '루미큐브',
     game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '4-7명' },
-      { tag_id: 3, tag_name_kor: '60분' },
-      { tag_id: 4, tag_name_kor: '전략' }
+      { tag_id: 1, tag_name_kor: '보통' },
+      { tag_id: 2, tag_name_kor: '2-6명' },
+      { tag_id: 3, tag_name_kor: '30분' },
+      { tag_id: 4, tag_name_kor: '타일조합' }
     ]
   },
   {
     game_id: 15,
-    game_title: '시타델6',
+    game_title: '로스트시티',
     game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '4-7명' },
-      { tag_id: 3, tag_name_kor: '60분' },
+      { tag_id: 1, tag_name_kor: '보통' },
+      { tag_id: 2, tag_name_kor: '2명' },
+      { tag_id: 3, tag_name_kor: '20분' },
       { tag_id: 4, tag_name_kor: '전략' }
     ]
   },
-  {
-    game_id: 16,
-    game_title: '테스트1',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '4-7명' },
-      { tag_id: 3, tag_name_kor: '60분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 17,
-    game_title: '테스트2',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '4-7명' },
-      { tag_id: 3, tag_name_kor: '60분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
- 
+
  
 ];
 const transformData = (dataFromServer: GameFromServer[]): Game[] => {
