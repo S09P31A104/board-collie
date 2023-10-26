@@ -7,6 +7,7 @@ import SearchResultPage from './pages/searchresult/SearchResultPage'
 import GameDetailPage from './pages/gamedetail/GameDetailPage';
 import GameRecommendPage from './pages/gamerecommend/GameRecommendPage';
 import TutorialPage from './pages/tutorialPage/TutorialPage';
+import SelectPage from './pages/select/SelectPage'
 
 const App: React.FC = () => {
   const [players, setPlayers] = useState(2);
@@ -24,6 +25,7 @@ const App: React.FC = () => {
           <Route path="/game/:name" element={<GameDetailPage />} />
           <Route path="/gamerecommend" element={<GameRecommendPage />} />
           <Route path="/tutorial/:title" element={<TutorialPage />} />
+          <Route path="/select/:name" element={<SelectPage />} />
         </Route>  
       </Routes>
     </Router>
