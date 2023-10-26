@@ -1,5 +1,8 @@
 package com.ssafy.boardcollie.domain.chatbot.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.boardcollie.global.exception.GlobalRuntimeException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,8 +11,6 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.ListOperations;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class OpenAiService {
+public class OpenAiServiceImpl implements OpenAIService {
 
     @Value("${openai.url}/chat/")
     private String API_ENDPOINT;
@@ -43,11 +44,11 @@ public class OpenAiService {
         List<Map<String, Object>> messages = new ArrayList<>();
         Map<String, Object> userMessage = new HashMap<>();
 
-        ArrayList<String> prevPrompt = redisService.getPrevPrompt();
-        for (String s : prevPrompt) {
-            messages.add(createSystemMap("이전 질문이야: " + s));
-        }
-        redisService.saveToRedis(prompt);
+        String prevPrompt = createPrevPrompt(redisService.getPrevPrompt(), redisService.getPrevAnswer());
+        messages.add(createSystemMap(prevPrompt));
+        redisService.saveQuestionToRedis(prompt);
+        
+        //추후에 gameID로 보드게임 이름 받아올 예정
         String gameName = "루미큐브";
 
         messages.add(createSystemMap(PROMPT_LANGUAGE));
@@ -62,10 +63,40 @@ public class OpenAiService {
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(url, request,
                     String.class);
-            return response.getBody();
+
+            String answer = extractContent(response.getBody());
+            redisService.saveAnswerToRedis(answer);
+            return answer;
+
         } catch (Exception e) {
             log.info(e.getMessage());
             throw new GlobalRuntimeException("OpenAI 에러", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private String createPrevPrompt(ArrayList<String> prevPrompts, ArrayList<String> prevAnswers) {
+        StringBuilder prevPrompt = new StringBuilder();
+        for(int i=0;i<prevPrompts.size();i++) {
+            prevPrompt.append("user: 이전 질문 ").append(i).append(" ").append(prevPrompts.get(i))
+                      .append("\n assistant: 답변 ").append(i).append(" ").append(prevAnswers.get(i)).append("\n");
+        }
+        return prevPrompt.toString();
+    }
+
+    private String extractContent(String responseBody) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            JsonNode responseNode = objectMapper.readTree(responseBody);
+
+            if (responseNode.has("choices") && responseNode.get("choices").isArray()) {
+                JsonNode choice = responseNode.get("choices").get(0);
+                if (choice.has("message") && choice.get("message").has("content")) {
+                    return choice.get("message").get("content").asText();
+                }
+            }
+            throw new GlobalRuntimeException("OpenAI 에러 : 답변을 생성하지 못함.", HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (JsonProcessingException e) {
+            throw new GlobalRuntimeException("OpenAI 에러 : 답변을 생성하지 못함.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
