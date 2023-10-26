@@ -28,9 +28,7 @@ public class OpenAiService {
     @Value("${openai.key}")
     private String OPEN_AI_KEY;
     private final RestTemplate restTemplate;
-    private final RedisTemplate<String, String> redisTemplate;
-    private static final String QUEUE_KEY = "prevQuestion";
-    private static final int QUEUE_SIZE = 3;
+    private final RedisService redisService;
     private static final String PROMPT_PREFIX = "보드게임 ";
     private static final String PROMPT_SUFFIX = "의 플레이 룰에 관한 질문이야: ";
     private static final String PROMPT_LANGUAGE = "부드러운 말투로 '해요'체로 대답해줘";
@@ -45,11 +43,11 @@ public class OpenAiService {
         List<Map<String, Object>> messages = new ArrayList<>();
         Map<String, Object> userMessage = new HashMap<>();
 
-        ArrayList<String> prevPrompt = getPrevPrompt();
+        ArrayList<String> prevPrompt = redisService.getPrevPrompt();
         for (String s : prevPrompt) {
             messages.add(createSystemMap("이전 질문이야: " + s));
         }
-        saveToRedis(prompt);
+        redisService.saveToRedis(prompt);
         String gameName = "루미큐브";
 
         messages.add(createSystemMap(PROMPT_LANGUAGE));
@@ -69,19 +67,6 @@ public class OpenAiService {
             log.info(e.getMessage());
             throw new GlobalRuntimeException("OpenAI 에러", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    private void saveToRedis(String prompt) {
-        ListOperations<String, String> listOps = redisTemplate.opsForList();
-        listOps.leftPush(QUEUE_KEY, prompt);
-        if (listOps.size(QUEUE_KEY) > QUEUE_SIZE) {
-            listOps.rightPop(QUEUE_KEY);
-        }
-    }
-
-    private ArrayList<String> getPrevPrompt() {
-        ListOperations<String, String> listOps = redisTemplate.opsForList();
-        return new ArrayList<>(listOps.range(QUEUE_KEY, 0, -1));
     }
 
     private Map<String, Object> createSystemMap(String content) {
@@ -104,5 +89,7 @@ public class OpenAiService {
 
         return requestBody;
     }
+
+
 
 }
