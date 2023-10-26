@@ -104,7 +104,7 @@ function TutorialPage() {
         if(params.title === 'splender') {
             setBackgroundImage('/Tutorial/Splendor/background.jpg');
         }
-    }, [])
+    }, [params.title])
 
     return (
         <TutorialContainer
