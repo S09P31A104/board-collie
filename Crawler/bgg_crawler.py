@@ -20,31 +20,20 @@ pd.set_option('display.max_colwidth', None)  # 열의 최대 너비를 무제한
 def fetch_game_data(driver, game_url):
     driver.get(game_url)
 
-    # WebDriverWait(driver, 5).until(
-    #     EC.presence_of_element_located((By.CSS_SELECTOR, 'span.ng-binding.gameplay-weight-light')))
     soup = BeautifulSoup(driver.page_source, 'html.parser')
-    #
-    # # weight 값을 가져옵니다.
-    # weight_span = soup.find('span', class_='ng-binding gameplay-weight-light')
-    # weight = float(weight_span.get_text(strip=True)) if weight_span else None
-    #
-    # print(f"weight : {weight}")
 
-    # tags 값을 가져옵니다.
     ul = soup.find('ul', class_='outline outline-col-xs-block outline-border')
     if ul:
         lis = ul.find_all('li', recursive=False)
         if len(lis) >= 15:  # 14번째와 15번째 li가 존재하는지 확인합니다.
             divs_14 = lis[13].find_all('div', class_='ng-scope')
             divs_15 = lis[14].find_all('div', class_='ng-scope')
-            #print(divs_15)
             tags = {a.get_text(strip=True) for div in divs_14 + divs_15 for a in div.find_all('a')}
         else:
             tags = set()
     else:
         tags = set()
 
-    # return {'weight': weight, 'tags': tags}
     return {'tags': list(tags)}
 
 
@@ -103,11 +92,3 @@ def fetch_boardgames(search_terms):
     df = pd.DataFrame(results)
     return df
 
-# # 검색할 게임 이름의 리스트
-# search_terms = ['7 Wonders Duel']
-#
-# # 데이터 프레임 생성
-# df = fetch_boardgames(search_terms)
-#
-# # 결과 출력
-# print(df)
