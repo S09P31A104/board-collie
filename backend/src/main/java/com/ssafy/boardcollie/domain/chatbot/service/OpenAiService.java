@@ -1,5 +1,6 @@
 package com.ssafy.boardcollie.domain.chatbot.service;
 
+import com.ssafy.boardcollie.global.exception.GlobalRuntimeException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,7 @@ import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -65,11 +67,11 @@ public class OpenAiService {
             return response.getBody();
         } catch (Exception e) {
             log.info(e.getMessage());
-            throw new RuntimeException("OpenAI 에러");
+            throw new GlobalRuntimeException("OpenAI 에러", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public void saveToRedis(String prompt) {
+    private void saveToRedis(String prompt) {
         ListOperations<String, String> listOps = redisTemplate.opsForList();
         listOps.leftPush(QUEUE_KEY, prompt);
         if (listOps.size(QUEUE_KEY) > QUEUE_SIZE) {
@@ -77,7 +79,7 @@ public class OpenAiService {
         }
     }
 
-    public ArrayList<String> getPrevPrompt() {
+    private ArrayList<String> getPrevPrompt() {
         ListOperations<String, String> listOps = redisTemplate.opsForList();
         return new ArrayList<>(listOps.range(QUEUE_KEY, 0, -1));
     }

@@ -27,8 +27,4 @@ public class ChatBotController {
         return JsonResponse.ok("챗봇 질문하기 완료", openAiService.getCompletion(requestDto.getPrompt()));
     }
 
-    @GetMapping("/exception")
-    public void exceptionTest() {
-        throw new GlobalRuntimeException("Exception Test", HttpStatus.BAD_REQUEST);
-    }
 }
