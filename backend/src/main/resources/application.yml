@@ -3,7 +3,15 @@ spring:
     include: secret
     active: develop
 
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus  # Prometheus 엔드포인트 노출
+  metrics:
+    export:
+      prometheus:
+        enabled: true
 ---
 spring:
   config:

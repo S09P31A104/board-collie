@@ -35,7 +35,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.15.2'
-
+	
+	// 모니터링 관련 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'io.micrometer:micrometer-registry-prometheus'
 }
 
 tasks.named('test') {
