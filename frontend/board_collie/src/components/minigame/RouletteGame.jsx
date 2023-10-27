@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useState, useEffect, useRef } from 'react';
 import { Select, MenuItem, FormControl, InputLabel, Button } from '@mui/material';
-import './RouletteGame.css';
+import styles from './RouletteGame.module.css';
 
 function Roulette() {
   const [players, setPlayers] = useState(2);
@@ -63,8 +63,8 @@ function Roulette() {
   };
 
   return (
-    <div className="container">
-      <FormControl style={{ minWidth: 120, marginBottom: '20px' }}>
+    <div className={styles.container}>
+      <FormControl className={styles.formControl}>
         <InputLabel id="players-select-label">인원수</InputLabel>
         <Select
           labelId="players-select-label"
@@ -80,13 +80,14 @@ function Roulette() {
           ))}
         </Select>
       </FormControl>
-      
-      <canvas ref={canvasRef} width="380" height="380" />
-      
-      <Button variant="contained" color="primary" onClick={rotate} style={{ marginTop: '20px' }}>룰렛 돌리기</Button>
-      
-      {selected && <div style={{ marginTop: '20px', fontSize: '24px', fontWeight: 'bold' }}>선공 플레이어: {selected}</div>}
+
+       <div className={styles.rouletteContainer}>
+      <canvas ref={canvasRef} width="380" height="380" className={styles.canvas} />
+      <div className={styles.triangle}></div>
     </div>
+    <Button variant="contained" color="primary" onClick={rotate} className={styles.button}>룰렛 돌리기</Button>
+    {selected && <div  className={styles.result}>선공 플레이어: {selected}</div>}
+  </div>
   );
 }
 
