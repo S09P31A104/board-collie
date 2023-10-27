@@ -112,6 +112,9 @@ function Splender({players, setBackgroundImage}) {
             1, // 이전 페이지 flow 번호
             3 // 다음 페이지 flow 번호
         ],
+        [ // 3: 
+
+        ],
     ];
 
     /* 배경사진 관련 */
