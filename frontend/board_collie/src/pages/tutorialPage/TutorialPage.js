@@ -23,6 +23,8 @@ const TutorialContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    font-family: 'Jua', sans-serif;
 `;
 const BackgroundLayer = styled.div`
     position: absolute;
@@ -30,13 +32,12 @@ const BackgroundLayer = styled.div`
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba(247, 238, 246, 0.2);
+    background-color: rgba(247, 238, 246, 0.4);
 `;
 const BackButton = styled.div`
     position: absolute;
     top: 3vh;
     left: 3vw;
-    font-family: 'Jua', sans-serif;
     font-size: 2vw;
     color: #F7EEF6;
     z-index: 9999;
@@ -66,7 +67,6 @@ const modalStyle = {
 const BackModalMessage = styled.h2`
     display: flex;
     justify-content: center;
-    font-family: 'Jua', sans-serif;
     font-size: 2vw;
     letter-spacing: 0.05em;
 `;
@@ -75,7 +75,6 @@ const BackModalButton = styled.div`
     justify-content: space-between;
 `;
 const BackModalButtonStyle = {
-    fontFamily: 'Jua',
     fontSize: '1.5vw'
 };
 
@@ -133,7 +132,7 @@ function TutorialPage({players}) {
             {
                 (params.title === '스플렌더') ?
                     <Splendor players={players} setBackgroundImage={setBackgroundImage}/>
-                    :
+                :
                     null
             }
             </MainContent>

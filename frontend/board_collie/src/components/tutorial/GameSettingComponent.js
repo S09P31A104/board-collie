@@ -15,7 +15,6 @@ const GameSettingContent = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
-    font-family: 'Jua', sans-serif;
     position: relative;
 `;
 const Title = styled.div`
@@ -99,9 +98,9 @@ const MoveButtonIconStyle = {
 };
 
 
-function GameSettingComponent({settingList, infoList, setPage, nextPage}) {
+function GameSettingComponent({settingList, infoList, startStep, setSettingStartPage, setPage, nextPage}) {
     
-    const [step, setStep] = useState(0);
+    const [step, setStep] = useState(startStep);
 
     /* 단계 이동 메소드 */
     function moveBack () {
@@ -110,6 +109,7 @@ function GameSettingComponent({settingList, infoList, setPage, nextPage}) {
     };
     function moveForward () {
         if(step === settingList.length - 1) {
+            setSettingStartPage(step);
             setPage(nextPage);
         }
         else {
@@ -119,6 +119,7 @@ function GameSettingComponent({settingList, infoList, setPage, nextPage}) {
 
     /* 스킵 */
     function skip() {
+        setSettingStartPage(step);
         setPage(nextPage);
     };
 
@@ -144,7 +145,11 @@ function GameSettingComponent({settingList, infoList, setPage, nextPage}) {
                 </Title>
                 <StepImage src={process.env.PUBLIC_URL + settingList[step][0]}></StepImage>
                 <StepTextBox><StepText>{settingList[step][1]}</StepText></StepTextBox>
-                <SkipButtonBox><SkipButton onClick={() => skip()}>Skip</SkipButton></SkipButtonBox>
+                {
+                    step !== settingList.length - 1
+                    &&
+                    <SkipButtonBox><SkipButton onClick={() => skip()}>Skip</SkipButton></SkipButtonBox>
+                }
             </GameSettingContent>
             {/* 앞으로 가기 버튼 */}
             <ForwardButtonBox>

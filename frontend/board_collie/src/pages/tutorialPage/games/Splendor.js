@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import { useState, useEffect } from "react";
-import TutorialStartComponent from "../../../components/tutorial/TutorialStartComponent";
+
 import GameSettingComponent from "../../../components/tutorial/GameSettingComponent";
+import TitleComponent from '../../../components/tutorial/TitleComponent';
+import TutorialStartComponent from "../../../components/tutorial/TutorialStartComponent";
 
 /* 스타일 */
 const SplenderContainer = styled.div`
@@ -12,10 +14,8 @@ function Splender({players, setBackgroundImage}) {
 
     const settingIndex = players > 4 ? 2 : players - 2;
     const [page, setPage] = useState(0);
-    // const info = [
 
-    // ];
-
+    /* 세팅 관련 */
     const settingImage = '/tutorial/splendor/setting';
     const setting = [
         [ // 0: 2명 세팅
@@ -72,7 +72,10 @@ function Splender({players, setBackgroundImage}) {
                 '마지막으로 집기 좋은 위치에 토큰을 색깔별로 분류하여 쌓아 놓아주세요.' // 4번 세팅 설명
             ]
         ]
-    ]
+    ];
+    const [settingStartPage, setSettingStartPage] = useState(0);
+
+    /* 세팅 정보 관련 */
     const settingInfoImage = '/tutorial/splendor/info';
     const settingInfo = [
         [
@@ -87,7 +90,9 @@ function Splender({players, setBackgroundImage}) {
             settingInfoImage + '1.png',
             '귀족 타일 총 10개'
         ],
-]
+    ];
+
+    /* 튜토리얼 플로우 관련 */
     const flow = [
         [ // 0: 튜토리얼 시작 페이지
             'TutorialStartComponent', // 템플릿
@@ -100,15 +105,25 @@ function Splender({players, setBackgroundImage}) {
             'GameSettingComponent', // 템플릿
             setting, // 세팅 플로우 전달
             2 // 다음 페이지 flow 번호
-        ]
+        ],
+        [ // 2: 튜토리얼 시작 페이지
+            'TitleComponent', // 템플릿
+            '모든 준비가 완료되었습니다!\n이제부터 게임을 시작해봅시다.', // 타이틀 내용
+            1, // 이전 페이지 flow 번호
+            3 // 다음 페이지 flow 번호
+        ],
     ];
 
+    /* 배경사진 관련 */
     useEffect(() => {
         if(page === 0) {
             setBackgroundImage(process.env.PUBLIC_URL + '/tutorial/splendor/background1.jpg');
         }
-        else {
+        else if(page === 1) {
             setBackgroundImage(process.env.PUBLIC_URL + '/tutorial/splendor/background2.jpg');
+        }
+        else {
+            setBackgroundImage(process.env.PUBLIC_URL + '/tutorial/splendor/background3.jpg');
         }
     }, [page, setBackgroundImage])
 
@@ -128,9 +143,19 @@ function Splender({players, setBackgroundImage}) {
                 (flow[page] && flow[page][0] === 'GameSettingComponent') ?
                     <GameSettingComponent
                         settingList={flow[page][1][settingIndex]}
+                        infoList={settingInfo}
+                        startStep={settingStartPage}
+                        setSettingStartPage={setSettingStartPage}
                         setPage={setPage}
                         nextPage={flow[page][2]}
-                        infoList={settingInfo}
+                    />
+                :
+                (flow[page] && flow[page][0] === 'TitleComponent') ?
+                    <TitleComponent
+                        title={flow[page][1]}
+                        setPage={setPage}
+                        prePage={flow[page][2]}
+                        nextPage={flow[page][3]}
                     />
                 :
                 null

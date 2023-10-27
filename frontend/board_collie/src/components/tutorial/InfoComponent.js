@@ -27,7 +27,6 @@ const StyledBox = styled(Box)`
     padding-right: 4px;
     padding-bottom: 3px;
     border-radius: 8px;
-    font-family: 'Jua', sans-serif;
     overflow: auto;
     
     /* 스크롤바 스타일 설정 */

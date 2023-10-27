@@ -15,7 +15,6 @@ const TitleImage = styled.img`
     margin-bottom: 2vh;
 `;
 const Title = styled.div`
-    font-family: 'Jua', sans-serif;
     font-size: 5vw;
     margin-bottom: 3vh;
 `;
@@ -26,7 +25,6 @@ const Message = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Jua', sans-serif;
     font-size: 2vw;
     color: #F7EEF6;
     border-radius: 8px;
