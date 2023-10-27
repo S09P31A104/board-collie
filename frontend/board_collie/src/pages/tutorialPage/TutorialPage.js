@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import Splendor from "./Splendor";
+import Splendor from "./games/Splendor";
 import { Box, Modal, Button } from '@mui/material';
 
 

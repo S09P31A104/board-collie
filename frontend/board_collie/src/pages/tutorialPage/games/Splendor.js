@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useState, useEffect } from "react";
-import TutorialStartComponent from "../../components/tutorial/TutorialStartComponent";
-import GameSettingComponent from "../../components/tutorial/GameSettingComponent";
+import TutorialStartComponent from "../../../components/tutorial/TutorialStartComponent";
+import GameSettingComponent from "../../../components/tutorial/GameSettingComponent";
 
 /* 스타일 */
 const SplenderContainer = styled.div`
@@ -73,6 +73,21 @@ function Splender({players, setBackgroundImage}) {
             ]
         ]
     ]
+    const settingInfoImage = '/tutorial/splendor/info';
+    const settingInfo = [
+        [
+            settingInfoImage + '1.png',
+            '토큰 총 40장'
+        ],
+        [
+            settingInfoImage + '1.png',
+            '개발 카드 총 90장'
+        ],
+        [
+            settingInfoImage + '1.png',
+            '귀족 타일 총 10개'
+        ],
+]
     const flow = [
         [ // 0: 튜토리얼 시작 페이지
             'TutorialStartComponent', // 템플릿
@@ -115,6 +130,7 @@ function Splender({players, setBackgroundImage}) {
                         settingList={flow[page][1][settingIndex]}
                         setPage={setPage}
                         nextPage={flow[page][2]}
+                        infoList={settingInfo}
                     />
                 :
                 null

@@ -23,6 +23,7 @@ const Title = styled.div`
     display: flex;
     justify-content: center;
     width: 100%;
+    height: 8vh;
     margin-top: 7vh;
     position: relative;
 `;
@@ -33,9 +34,9 @@ const TitleWrapper = styled.div`
     width: 100%;
 `;
 const TitleText = styled.span`
-position: absolute;
-left: 50%;
-transform: translateX(-50%);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 `;
 const StepImage = styled.img`
     width: 70vw;
@@ -98,16 +99,16 @@ const MoveButtonIconStyle = {
 };
 
 
-function GameSettingComponent({settingList, setPage, nextPage}) {
+function GameSettingComponent({settingList, infoList, setPage, nextPage}) {
     
     const [step, setStep] = useState(0);
 
     /* 단계 이동 메소드 */
     function moveBack () {
         if(step !== 0) setStep(step - 1);
+        console.log(infoList);
     };
     function moveForward () {
-        console.log(step);
         if(step === settingList.length - 1) {
             setPage(nextPage);
         }
@@ -115,6 +116,7 @@ function GameSettingComponent({settingList, setPage, nextPage}) {
             setStep(step + 1);
         }
     };
+
     /* 스킵 */
     function skip() {
         setPage(nextPage);
@@ -138,7 +140,7 @@ function GameSettingComponent({settingList, setPage, nextPage}) {
             <GameSettingContent>
                 <Title>
                     <TitleWrapper><TitleText>게임 시작 전 세팅</TitleText></TitleWrapper>
-                    <InfoComponent/>
+                    {infoList !== null && <InfoComponent info={infoList}/>}
                 </Title>
                 <StepImage src={process.env.PUBLIC_URL + settingList[step][0]}></StepImage>
                 <StepTextBox><StepText>{settingList[step][1]}</StepText></StepTextBox>
