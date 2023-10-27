@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useState, useEffect } from "react";
 
 import GameSettingComponent from "../../../components/tutorial/GameSettingComponent";
+import TitleAndContentAndFourButtonComponent from '../../../components/tutorial/TitleAndContentAndFourButtonComponent';
 import TitleComponent from '../../../components/tutorial/TitleComponent';
 import TutorialStartComponent from "../../../components/tutorial/TutorialStartComponent";
 
@@ -98,7 +99,7 @@ function Splender({players, setBackgroundImage}) {
             'TutorialStartComponent', // 템플릿
             '/tutorial/splendor/title.png', // 타이틀 이미지
             '스플렌더', // 타이틀
-            '인원 수별 세팅 방법이 달라집니다.\n인원수를 다시 한번 확인해 주세요.', // 추가 메시지
+            '인원수별 세팅 방법이 달라집니다.\n인원수를 다시 한번 확인해 주세요.', // 추가 메시지
             'START', 1 // 버튼, 이동 페이지 flow 번호
         ],
         [ // 1: 게임 세팅 페이지
@@ -112,8 +113,17 @@ function Splender({players, setBackgroundImage}) {
             1, // 이전 페이지 flow 번호
             3 // 다음 페이지 flow 번호
         ],
-        [ // 3: 
-
+        [ // 3: 액션 수행
+            'TitleAndContentAndFourButtonComponent', // 템플릿
+            '가장 어린 플레이어부터 시작합니다!', // title
+            '다음 4가지 액션 중\n하나를 선택하여 수행할 수 있습니다.', // content
+            [ // 버튼 내용
+                [4, '각기 다른 색깔의 보석 토큰 3개 가져가기'],
+                [5, '같은 색깔의 보석 2개 가져가기'],
+                [6, '개발 카드 찜하기'],
+                [7, '개발 카드 1장 구매하기']
+            ],
+            2 // 이전 페이지 flow 번호
         ],
     ];
 
@@ -159,6 +169,15 @@ function Splender({players, setBackgroundImage}) {
                         setPage={setPage}
                         prePage={flow[page][2]}
                         nextPage={flow[page][3]}
+                    />
+                :
+                (flow[page] && flow[page][0] === 'TitleAndContentAndFourButtonComponent') ?
+                    <TitleAndContentAndFourButtonComponent
+                        title={flow[page][1]}
+                        content={flow[page][2]}
+                        buttonInfo={flow[page][3]}
+                        setPage={setPage}
+                        prePage={flow[page][4]}
                     />
                 :
                 null

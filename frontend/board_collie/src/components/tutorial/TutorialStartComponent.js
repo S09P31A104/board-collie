@@ -30,6 +30,7 @@ const Message = styled.div`
     border-radius: 8px;
     line-height: 1.5;
     margin-bottom: 3vh;
+    text-align: center;
 `;
 
 /* 페이지 이동 함수 */
