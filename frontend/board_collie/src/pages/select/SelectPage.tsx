@@ -13,6 +13,10 @@ const SelectPage: React.FC = () => {
     navigate(-1);
   };
 
+  const handleGameImageClick = () => {
+    navigate(`/tutorial/${encodeURIComponent(name || "")}`);
+  };
+
   const handleYoutubeSearch = () => {
     const gameName = encodeURIComponent(name || "게임 이름 없음");
     window.open(`https://www.youtube.com/results?search_query=${gameName} 게임방법`, '_blank');
@@ -24,9 +28,11 @@ const SelectPage: React.FC = () => {
         <ArrowBackIcon />
       </IconButton>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 30, mb: 2, mt: 20 }}>
-        <Card sx={{ width: 300 }}>
-          <CardMedia component="img" height="140" image={gameimg} alt={name} />
-        </Card>
+      <Box component="button" onClick={handleGameImageClick} sx={{ border: 'none', padding: 0, background: 'none' }}>
+    <Card sx={{ width: 300 }}>
+      <CardMedia component="img" height="140" image={gameimg} alt={name} />
+    </Card>
+  </Box>
         <Box
           component="button"
           onClick={handleYoutubeSearch}
