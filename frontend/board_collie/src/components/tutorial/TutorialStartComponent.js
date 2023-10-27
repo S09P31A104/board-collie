@@ -9,12 +9,12 @@ const TutorialStartContainer = styled.div`
     flex-direction: column;
 `;
 const TitleImage = styled.img`
-    width: 40%;
-    height: auto;
+    width: 32vw;
+    height: 32vw;
+    margin-top: 7vh;
     margin-bottom: 2vh;
 `;
 const Title = styled.div`
-    font-family: 'Jua', sans-serif;
     font-size: 5vw;
     margin-bottom: 3vh;
 `;
@@ -25,7 +25,6 @@ const Message = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Jua', sans-serif;
     font-size: 2vw;
     color: #F7EEF6;
     border-radius: 8px;
@@ -42,7 +41,7 @@ function TutorialStartComponent({title_image, title, message, button1, movePage1
     
     return (
         <TutorialStartContainer>
-            <TitleImage src={title_image}></TitleImage>
+            <TitleImage src={process.env.PUBLIC_URL + title_image}></TitleImage>
             <Title className='animate__animated animate__jackInTheBox'>{title} 튜토리얼 시작하기</Title>
             <Message>{message}</Message>
             <Button

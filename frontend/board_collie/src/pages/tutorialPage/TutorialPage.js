@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Splendor from "./Splendor";
+import { useState } from "react";
+import Splendor from "./games/Splendor";
 import { Box, Modal, Button } from '@mui/material';
 
 
@@ -23,6 +23,8 @@ const TutorialContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    font-family: 'Jua', sans-serif;
 `;
 const BackgroundLayer = styled.div`
     position: absolute;
@@ -30,21 +32,21 @@ const BackgroundLayer = styled.div`
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba(247, 238, 246, 0.2);
+    background-color: rgba(247, 238, 246, 0.4);
 `;
 const BackButton = styled.div`
     position: absolute;
     top: 3vh;
     left: 3vw;
-    font-family: 'Jua', sans-serif;
     font-size: 2vw;
     color: #F7EEF6;
+    z-index: 9999;
 `;
 const MainContent = styled.div`
     position: absolute;
     z-index: 1;
-    width: 80%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
 `;
 const modalStyle = {
     position: 'absolute',
@@ -65,8 +67,7 @@ const modalStyle = {
 const BackModalMessage = styled.h2`
     display: flex;
     justify-content: center;
-    font-family: 'Jua', sans-serif;
-    font-size: 2.5vw;
+    font-size: 2vw;
     letter-spacing: 0.05em;
 `;
 const BackModalButton = styled.div`
@@ -74,8 +75,7 @@ const BackModalButton = styled.div`
     justify-content: space-between;
 `;
 const BackModalButtonStyle = {
-    fontFamily: 'Jua',
-    fontSize: '1.8vw'
+    fontSize: '1.5vw'
 };
 
 /* 튜토리얼 나가기 */
@@ -84,7 +84,7 @@ function exitTutorial() {
     window.history.back();
 }
 
-function TutorialPage() {
+function TutorialPage({players}) {
 
     const params = useParams();
 
@@ -99,12 +99,6 @@ function TutorialPage() {
     const handleBackModalClose = () => {
         setBackModalOpen(false);
     };
-
-    useEffect(() => {
-        if(params.title === 'splendor') {
-            setBackgroundImage(process.env.PUBLIC_URL + '/tutorial/splendor/background.jpg');
-        }
-    }, [params.title])
 
     return (
         <TutorialContainer
@@ -136,9 +130,9 @@ function TutorialPage() {
             </Modal>
             <MainContent>
             {
-                (params.title === 'splendor') ?
-                    <Splendor/>
-                    :
+                (params.title === '스플렌더') ?
+                    <Splendor players={players} setBackgroundImage={setBackgroundImage}/>
+                :
                     null
             }
             </MainContent>
