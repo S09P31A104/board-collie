@@ -1,12 +1,16 @@
 /* eslint-disable */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { TypeAnimation } from 'react-type-animation';
+import 'animate.css';
 
 // images
 import chatIcon from '../../assets/chat_icon.png';
 
 // styles
 import styled from 'styled-components';
+
+import ChatBubble from '../../components/chatbubble/ChatBubble';
 
 /**
  * Game Recommend Page
@@ -15,63 +19,79 @@ import styled from 'styled-components';
  * @todo 
  */
 
+const Padding = styled.div`
+  height: 12vh;
+`;
+
 const ChatIcon = styled.div`
-    background-image: url(${chatIcon});
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 10vw;
-    height: 15vh;
-    display: block;
-    position: absolute;
-    top: 20vh;
-    left: 10vw;
+  background-image: url(${chatIcon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 18vw;
+  height: 20vh;
+  display: block;
+
+  position: absolute;
+  top: 20vh;
+  left: 10vw;
 `;
 
-const ChatBubble = styled.div`
-  padding: 20px;
-  justify-self: center;
-  align-self: center;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  width: 450px;
+const PositionedChatBubble = styled.div`
+  position: absolute;
+  top: 23vh;
+  left: 28vw;
 `;
 
-const TextBubble = styled.p<{ $toMe?: boolean }>`
-  font-size: 16px;
-  line-height: 1.4;
-  margin: 1px 0;
-  padding: 8px 17px 6px 13px;
-  max-width: 380px;
-  position: relative;
-  border-radius: 18px;
-  color: ${props => (props.$toMe ? 'black' : 'initial')};
-  align-self: ${props => (props.$toMe ? 'flex-start' : 'initial')};
-  background-color: ${props => (props.$toMe ? '#E5E5EA' : 'initial')};
+const SelectButton = styled.div`
 
-  &:after {
-    position: absolute;
-    content: "";
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    z-index: -1;
-    background: ${props => props.$toMe ? 'url("data:image/svg+xml;charset=utf-8,<svg xmlns=\'http://www.w3.org/2000/svg\' x=\'0px\' y=\'0px\' width=\'15.515px\' height=\'17.5px\' viewBox=\'32.484 17.5 15.515 17.5\' enable-background=\'new 32.484 17.5 15.515 17.5\'><path fill=\'#E5E5EA\' d=\'M38.484,17.5c0,8.75,1,13.5-6,17.5C51.484,35,52.484,17.5,38.484,17.5z\'/></svg>") left bottom no-repeat' : 'none'};
-    left: -6px;
-  }
 `;
-
 
 const GameRecommendPage: React.FC = () => {
+  const [zoomInDone, setZoomInDone] = useState(false);
+  const [fadeInDone, setFadeInDone] = useState(false);
+  const [startType, setStartType] = useState(false);
 
+  useEffect(() => {
+    // ZoomIn 애니메이션이 끝난 후
+    const zoomInTimer = setTimeout(() => {
+      setZoomInDone(true);
+    }, 1000);  // ZoomIn 애니메이션의 길이
+
+    // FadeIn 애니메이션이 끝난 후
+    if (zoomInDone) {
+      const fadeInTimer = setTimeout(() => {
+        setFadeInDone(true);
+      }, 1000);  // FadeIn 애니메이션의 길이
+
+      return () => clearTimeout(fadeInTimer);
+    }
+
+    return () => clearTimeout(zoomInTimer);
+  }, [zoomInDone]);
+
+  useEffect(() => {
+    if (fadeInDone) {
+      setStartType(true);
+    }
+  }, [fadeInDone]);
 
   return (
     <>
-      <ChatIcon />
-      <ChatBubble>
-        <TextBubble $toMe> Fuck </TextBubble>  
-      </ChatBubble>    
+      <Padding />
+      <ChatIcon className={`animate__animated ${zoomInDone ? '' : 'animate__zoomIn'}`}/>
+      <PositionedChatBubble className={`animate__animated ${zoomInDone ? 'animate__fadeIn' : ''}`}>
+        {startType && (
+          <ChatBubble position='left'>
+            <TypeAnimation 
+              sequence={[
+                '안녕하세요! AI 집사, 보드콜리 집사입니다. 사용자님께 맞는 최적의 게임을 추천해드리기 위해 간단한 질문 몇 개만 하겠습니다.',
+                1000,
+              ]}
+              speed={50}
+            />
+          </ChatBubble>
+        )}
+      </PositionedChatBubble>
     </>
   );
 };
