@@ -21,12 +21,21 @@ const GameSettingContent = styled.div`
 const Title = styled.div`
     font-size: 5vw;
     display: flex;
-    align-items: center;
     justify-content: center;
+    width: 100%;
     margin-top: 7vh;
+    position: relative;
+`;
+const TitleWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 `;
 const TitleText = styled.span`
-    margin-right: 0.5rem;
+position: absolute;
+left: 50%;
+transform: translateX(-50%);
 `;
 const StepImage = styled.img`
     width: 70vw;
@@ -51,11 +60,20 @@ const SkipButtonBox = styled.div`
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
+    margin-top: 1.5vh;
 `;
 const SkipButton = styled.span`
-    color: #EDFFD0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000000;
+    background-color: #CCF38C;
     margin: 0.5vw;
-    font-size: 1.5vw;
+    width: 8vw;
+    height: 4vh;
+    font-size: 1.7vw;
+    border-radius: 10px;
+    font-family: 'Jolly Lodger', cursive;
 `;
 
 const BackButtonBox = styled.div`
@@ -97,6 +115,10 @@ function GameSettingComponent({settingList, setPage, nextPage}) {
             setStep(step + 1);
         }
     };
+    /* 스킵 */
+    function skip() {
+        setPage(nextPage);
+    };
 
     return (
         <GameSettingContainer>
@@ -115,12 +137,12 @@ function GameSettingComponent({settingList, setPage, nextPage}) {
             {/* 세팅 정보 */}
             <GameSettingContent>
                 <Title>
-                    <TitleText>게임 시작 전 세팅</TitleText>
+                    <TitleWrapper><TitleText>게임 시작 전 세팅</TitleText></TitleWrapper>
                     <InfoComponent/>
                 </Title>
                 <StepImage src={process.env.PUBLIC_URL + settingList[step][0]}></StepImage>
                 <StepTextBox><StepText>{settingList[step][1]}</StepText></StepTextBox>
-                <SkipButtonBox><SkipButton>세팅 건너뛰기</SkipButton></SkipButtonBox>
+                <SkipButtonBox><SkipButton onClick={() => skip()}>Skip</SkipButton></SkipButtonBox>
             </GameSettingContent>
             {/* 앞으로 가기 버튼 */}
             <ForwardButtonBox>
