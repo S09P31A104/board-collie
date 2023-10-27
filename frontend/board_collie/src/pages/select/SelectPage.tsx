@@ -9,12 +9,19 @@ const SelectPage: React.FC = () => {
   const { name } = useParams<{ name: string }>();
   const navigate = useNavigate();
 
+  const validTitles = ['스플렌더', ];
+
   const goBack = () => {
     navigate(-1);
   };
 
   const handleGameImageClick = () => {
-    navigate(`/tutorial/${encodeURIComponent(name || "")}`);
+    // 게임 이름이 유효한지 확인
+    if (name && validTitles.includes(name)) {
+      navigate(`/tutorial/${encodeURIComponent(name)}`);
+    } else {
+      navigate('/notfound2');
+    }
   };
 
   const handleYoutubeSearch = () => {
