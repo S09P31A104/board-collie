@@ -47,13 +47,13 @@ const Triangle = styled.div<{ position: string }>`
         case 'left':
           return `
             left: -25px;
-            top: 38px;
+            top: 30px;
             border-color: #E9E9EB #E9E9EB transparent transparent;
           `;
         case 'right':
           return `
-            right: -20px;
-            top: 38px;
+            right: -25px;
+            top: 30px;
             border-color: #E9E9EB transparent transparent #E9E9EB;
           `;
         default:
