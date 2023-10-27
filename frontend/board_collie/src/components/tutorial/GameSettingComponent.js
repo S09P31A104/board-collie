@@ -15,18 +15,27 @@ const GameSettingContent = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
-    font-family: 'Jua', sans-serif;
     position: relative;
 `;
 const Title = styled.div`
     font-size: 5vw;
     display: flex;
-    align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 8vh;
     margin-top: 7vh;
+    position: relative;
+`;
+const TitleWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 `;
 const TitleText = styled.span`
-    margin-right: 0.5rem;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 `;
 const StepImage = styled.img`
     width: 70vw;
@@ -51,11 +60,20 @@ const SkipButtonBox = styled.div`
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
+    margin-top: 1.5vh;
 `;
 const SkipButton = styled.span`
-    color: #EDFFD0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000000;
+    background-color: #CCF38C;
     margin: 0.5vw;
-    font-size: 1.5vw;
+    width: 8vw;
+    height: 4vh;
+    font-size: 1.7vw;
+    border-radius: 10px;
+    font-family: 'Jolly Lodger', cursive;
 `;
 
 const BackButtonBox = styled.div`
@@ -80,22 +98,29 @@ const MoveButtonIconStyle = {
 };
 
 
-function GameSettingComponent({settingList, setPage, nextPage}) {
+function GameSettingComponent({settingList, infoList, startStep, setSettingStartPage, setPage, nextPage}) {
     
-    const [step, setStep] = useState(0);
+    const [step, setStep] = useState(startStep);
 
     /* 단계 이동 메소드 */
     function moveBack () {
         if(step !== 0) setStep(step - 1);
+        console.log(infoList);
     };
     function moveForward () {
-        console.log(step);
         if(step === settingList.length - 1) {
+            setSettingStartPage(step);
             setPage(nextPage);
         }
         else {
             setStep(step + 1);
         }
+    };
+
+    /* 스킵 */
+    function skip() {
+        setSettingStartPage(step);
+        setPage(nextPage);
     };
 
     return (
@@ -115,12 +140,16 @@ function GameSettingComponent({settingList, setPage, nextPage}) {
             {/* 세팅 정보 */}
             <GameSettingContent>
                 <Title>
-                    <TitleText>게임 시작 전 세팅</TitleText>
-                    <InfoComponent/>
+                    <TitleWrapper><TitleText>게임 시작 전 세팅</TitleText></TitleWrapper>
+                    {infoList !== null && <InfoComponent info={infoList}/>}
                 </Title>
                 <StepImage src={process.env.PUBLIC_URL + settingList[step][0]}></StepImage>
                 <StepTextBox><StepText>{settingList[step][1]}</StepText></StepTextBox>
-                <SkipButtonBox><SkipButton>세팅 건너뛰기</SkipButton></SkipButtonBox>
+                {
+                    step !== settingList.length - 1
+                    &&
+                    <SkipButtonBox><SkipButton onClick={() => skip()}>Skip</SkipButton></SkipButtonBox>
+                }
             </GameSettingContent>
             {/* 앞으로 가기 버튼 */}
             <ForwardButtonBox>
