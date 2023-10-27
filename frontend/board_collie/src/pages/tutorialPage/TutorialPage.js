@@ -69,13 +69,15 @@ const BackModalMessage = styled.h2`
     justify-content: center;
     font-size: 2vw;
     letter-spacing: 0.05em;
+    font-family: 'Jua', sans-serif;
 `;
 const BackModalButton = styled.div`
     display: flex;
     justify-content: space-between;
 `;
 const BackModalButtonStyle = {
-    fontSize: '1.5vw'
+    fontSize: '1.5vw',
+    fontFamily: 'Jua, sans-serif'
 };
 
 /* 튜토리얼 나가기 */
