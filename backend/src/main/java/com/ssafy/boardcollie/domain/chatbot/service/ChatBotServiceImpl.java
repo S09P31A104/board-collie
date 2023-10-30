@@ -3,8 +3,13 @@ package com.ssafy.boardcollie.domain.chatbot.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
 import com.ssafy.boardcollie.domain.chatbot.dto.QuestionRequestDto;
 import com.ssafy.boardcollie.global.exception.GlobalRuntimeException;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -127,6 +132,23 @@ public class ChatBotServiceImpl implements ChatBotService {
     @Override
     public String getUUID() {
         return UUID.randomUUID().toString();
+    }
+
+    @Override
+    public byte[] createQR(Long gameId) {
+        int width = 200;
+        int height = 200;
+        String url = "https://www.boardcollie.com/chatbot/" + gameId;
+        try {
+            BitMatrix encode = new MultiFormatWriter().encode(url, BarcodeFormat.QR_CODE, width,
+                    height);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            MatrixToImageWriter.writeToStream(encode, "PNG", outputStream);
+
+            return outputStream.toByteArray();
+        } catch (Exception e) {
+            throw new GlobalRuntimeException("QR 생성 오류", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

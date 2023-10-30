@@ -39,6 +39,10 @@ dependencies {
 	// 모니터링 관련 의존성
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'io.micrometer:micrometer-registry-prometheus'
+
+	// QR Code - zxing
+	implementation group: 'com.google.zxing', name: 'javase', version: '3.5.0'
+	implementation group: 'com.google.zxing', name: 'core', version: '3.5.0'
 }
 
 tasks.named('test') {

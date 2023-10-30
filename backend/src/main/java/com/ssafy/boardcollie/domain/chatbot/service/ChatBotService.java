@@ -8,4 +8,6 @@ public interface ChatBotService {
 
     public String getUUID();
 
+    public byte[] createQR(Long gameId);
+
 }
