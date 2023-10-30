@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useState, useEffect } from "react";
 
+import ChatbotQRComponent from '../../../components/tutorial/ChatbotQRComponent';
 import GameSettingComponent from "../../../components/tutorial/GameSettingComponent";
 import TitleAndContentAndFourButtonComponent from '../../../components/tutorial/TitleAndContentAndFourButtonComponent';
 import TitleAndContentAndOneButtonComponent from '../../../components/tutorial/TitleAndContentAndOneButtonComponent';
@@ -271,6 +272,11 @@ function Splender({players, setBackgroundImage}) {
             ],
             15 // 이전 페이지 flow 번호
         ],
+        [ // 17: 챗봇
+            'ChatbotQRComponent', // 템플릿
+            '/tutorial/splendor/chatbot.png', // qr url
+            16
+        ],
     ];
 
     /* 배경사진 관련 */
@@ -352,6 +358,13 @@ function Splender({players, setBackgroundImage}) {
                         buttonInfo={flow[page][2]}
                         setPage={setPage}
                         prePage={flow[page][3]}
+                    />
+                :
+                (flow[page] && flow[page][0] === 'ChatbotQRComponent') ?
+                    <ChatbotQRComponent
+                        qrImg={flow[page][1]}
+                        setPage={setPage}
+                        prePage={flow[page][2]}
                     />
                 :
                 null
