@@ -37,6 +37,7 @@ public class ChatBotController {
 
     @GetMapping("/QR")
     public ResponseEntity<?> createQR(@RequestParam("gameId") @NotNull Long gameId) {
-        return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(chatBotService.createQR(gameId));
+        return JsonResponse.ok("챗봇 QR 생성 완료", chatBotService.createQR(gameId));
     }
+
 }
