@@ -14,4 +14,11 @@ public interface GameRepository extends JpaRepository<Game, Long> {
             "(:numberOfPeople IS NULL OR (g.min_people <= :numberOfPeople AND g.max_people >= :numberOfPeople))")
     List<Game> findGamesBySearchCriteria(@Param("searchKeyword") String searchKeyword,
             @Param("numberOfPeople") Integer numberOfPeople);
+
+    @Query("SELECT DISTINCT g FROM Game g " +
+            "JOIN FETCH g.gameTags gt " +
+            "JOIN FETCH gt.tag t " +
+            "WHERE t.tag_name_kor = :tagName")
+    List<Game> findGamesByTagName(@Param("tagName") String tagName);
+
 }
