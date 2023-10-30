@@ -73,7 +73,7 @@ const StyledBox = styled(Box)`
     transform: translate(-50%, -50%);
     width: 50%;
     height: 50%;
-    background-color: #FFFFFF;
+    background-color: #000000;
     border-radius: 8px;
     font-family: 'Jua', sans-serif;
     overflow: auto;
@@ -100,6 +100,7 @@ const ModalContent = styled.div`
     margin: 3%;
 
     font-size: 2.5vw;
+    color: #ffffff;
 `;
 const Buttons = styled.div`
     height: 30%;
