@@ -34,7 +34,12 @@ const SelectPage: React.FC = () => {
       <IconButton onClick={goBack} aria-label="뒤로 가기" sx={{ alignSelf: 'flex-start', mb: 2 }}>
         <ArrowBackIcon />
       </IconButton>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 30, mb: 2, mt: 20 }}>
+      
+      <Typography variant="h4" sx={{ mb: 2, mt: 2, fontWeight: 'bold', fontFamily: 'Jua, sans-serif' }}>
+        {name || '게임 이름'}
+      </Typography>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 30, mb: 10, mt: 15 }}>
       <Box component="button" onClick={handleGameImageClick} sx={{ border: 'none', padding: 0, background: 'none' }}>
     <Card sx={{ width: 300 }}>
       <CardMedia component="img" height="140" image={gameimg} alt={name} />
