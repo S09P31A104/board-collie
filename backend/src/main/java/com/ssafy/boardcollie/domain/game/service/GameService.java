@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface GameService {
 
-    List<GameResponseDto> getGames(String searchKeyword, Integer numberOfPeople);
+    List<GameResponseDto> getGamesByGameTitle(String searchKeyword, Integer numberOfPeople);
 
     Game getDetail(Long id);
 

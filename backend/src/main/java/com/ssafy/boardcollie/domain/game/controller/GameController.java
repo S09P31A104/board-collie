@@ -17,11 +17,11 @@ public class GameController {
     private final GameService gameService;
 
     @GetMapping()
-    public ResponseEntity<?> getGameList(
+    public ResponseEntity<?> getGameListByGameTitle(
             @RequestParam(name = "q", required = false) String searchKeyword,
             @RequestParam(name = "people", required = false) Integer numberOfPeople) {
         return JsonResponse.ok("Game List 반환 성공",
-                gameService.getGames(searchKeyword, numberOfPeople));
+                gameService.getGamesByGameTitle(searchKeyword, numberOfPeople));
     }
 
 }

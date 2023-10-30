@@ -18,12 +18,14 @@ public class Game {
     @Id @Column(name = "game_id")
     private Long id;
     private String game_title;
-    private Integer min_people;
-    private Integer max_people;
-    private Integer play_time;
+    private Integer minPeople;
+    private Integer maxPeople;
+    private Integer playTime;
     private Integer age;
-    private String game_image;
-    private String qr_image;
+    private String gameImage;
+    private String qrImage;
+    private String gameDetail;
+    private String gameEvaluation;
 
     @OneToMany(mappedBy = "game", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<GameTag> gameTags;

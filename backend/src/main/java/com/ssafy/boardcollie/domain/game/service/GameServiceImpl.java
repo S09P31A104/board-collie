@@ -16,7 +16,7 @@ public class GameServiceImpl implements GameService {
 
 
     @Override
-    public List<GameResponseDto> getGames(String searchKeyword, Integer numberOfPeople) {
+    public List<GameResponseDto> getGamesByGameTitle(String searchKeyword, Integer numberOfPeople) {
         List<Game> games = gameRepository.findGamesBySearchCriteria(searchKeyword, numberOfPeople);
 
         List<GameResponseDto> gameResponseDtos = games.stream()
