@@ -38,6 +38,7 @@ const Title = styled.div`
     align-items: center;
     justify-content: center;
 
+    text-align: center;
     font-size: 5vw;
 `;
 const Content = styled.div`
@@ -81,7 +82,6 @@ function TitleAndContentAndFourButtonComponent({title, content, buttonInfo, setP
 
     /* 선택에 맞게 페이지 이동 */
     function moveNextFlow(nextFlow) {
-        console.log(nextFlow);
         setPage(nextFlow);
     }
 
