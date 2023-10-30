@@ -1,6 +1,7 @@
 import React, { useState, CSSProperties } from 'react';
 import { TextField, Grid, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   onSearch: (query: string) => void;
@@ -25,8 +26,27 @@ const SearchBar: React.FC<Props> = ({ onSearch, style }) => {
     }
   };
 
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    navigate('/main');
+  };
+
   return (
+    
     <Grid container justifyContent="center" alignItems="center" spacing={2} style={{ marginTop: '15px', ...style }}>
+      <div
+        onClick={handleLogoClick}
+        style={{
+          position: 'absolute', 
+          top: 0, 
+          left: 0, 
+          width: '110px', 
+          height: '100px', 
+          cursor: 'pointer',
+          opacity: 0,
+        }}
+      />
       <Grid item xs={4}>
         <TextField
           fullWidth

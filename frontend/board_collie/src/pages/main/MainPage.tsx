@@ -4,7 +4,6 @@ import searchLogo from '../../assets/searchLogo.png';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { Link } from 'react-router-dom';
-import mainQr from '../../assets/qr 1.png';
 
 const MainPage: React.FC = () => {
   const boxStyle: React.CSSProperties = {
@@ -29,27 +28,6 @@ const MainPage: React.FC = () => {
     marginBottom: '20px',
   };
 
-  const qrContainerStyle: React.CSSProperties = {
-    position: 'fixed',
-    bottom: '80px',
-    right: '20px',
-    width: '100px',
-    height: '100px',
-    borderRadius: '50%', // 원 형태로 만들기
-    backgroundColor: '#CCF38C', 
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: '20px',
-  };
-
-  const textStyle: React.CSSProperties = {
-    fontFamily: 'Jolly Lodger, cursive',
-    textAlign: 'center',
-    color: '#333',
-    fontSize: '2.5rem',
-    marginTop: '10px',
-  };
 
   return (
     <div>
@@ -71,12 +49,7 @@ const MainPage: React.FC = () => {
           </Link>
         </Grid>
       </Grid>
-      <div style={{ position: 'fixed', bottom: '20px', right: '20px', textAlign: 'center' }}>
-        <div style={qrContainerStyle}>
-          <img src={mainQr} alt="QR Code" style={{ width: '80%', height: '80%' }} />
-        </div>
-        <p style={textStyle}>chat bot</p>
-      </div>
+    
     </div>
   );
 };
