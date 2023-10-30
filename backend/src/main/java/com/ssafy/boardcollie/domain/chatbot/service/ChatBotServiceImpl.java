@@ -3,11 +3,13 @@ package com.ssafy.boardcollie.domain.chatbot.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.boardcollie.domain.chatbot.dto.QuestionRequestDto;
 import com.ssafy.boardcollie.global.exception.GlobalRuntimeException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +24,7 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class OpenAiServiceImpl implements OpenAIService {
+public class ChatBotServiceImpl implements ChatBotService {
 
     @Value("${openai.url}/chat/")
     private String API_ENDPOINT;
@@ -34,7 +36,10 @@ public class OpenAiServiceImpl implements OpenAIService {
     private static final String PROMPT_SUFFIX = "의 플레이 룰에 관한 질문이야: ";
     private static final String PROMPT_LANGUAGE = "부드러운 말투로 '해요'체로 대답해줘";
 
-    public String getCompletion(String prompt) {
+    public String getCompletion(QuestionRequestDto requestDto) {
+        String prompt = requestDto.getPrompt();
+        String gameName = requestDto.getGameName();
+        String uuid = requestDto.getUuid();
         String url = API_ENDPOINT + "completions";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -44,12 +49,10 @@ public class OpenAiServiceImpl implements OpenAIService {
         List<Map<String, Object>> messages = new ArrayList<>();
         Map<String, Object> userMessage = new HashMap<>();
 
-        String prevPrompt = createPrevPrompt(redisService.getPrevPrompt(), redisService.getPrevAnswer());
+        String prevPrompt = createPrevPrompt(redisService.getPrevPrompt(uuid), redisService.getPrevAnswer(uuid));
         messages.add(createSystemMap(prevPrompt));
-        redisService.saveQuestionToRedis(prompt);
-        
-        //추후에 gameID로 보드게임 이름 받아올 예정
-        String gameName = "루미큐브";
+        redisService.saveQuestionToRedis(prompt, uuid);
+
 
         messages.add(createSystemMap(PROMPT_LANGUAGE));
         userMessage.put("role", "user");
@@ -65,7 +68,7 @@ public class OpenAiServiceImpl implements OpenAIService {
                     String.class);
 
             String answer = extractContent(response.getBody());
-            redisService.saveAnswerToRedis(answer);
+            redisService.saveAnswerToRedis(answer, uuid);
             return answer;
 
         } catch (Exception e) {
@@ -121,6 +124,9 @@ public class OpenAiServiceImpl implements OpenAIService {
         return requestBody;
     }
 
-
+    @Override
+    public String getUUID() {
+        return UUID.randomUUID().toString();
+    }
 
 }

@@ -10,7 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class QuestionRequestDto {
 
-    private int gameId;
+    @NotNull
+    private String gameName;
     @NotNull
     private String prompt;
+    @NotNull
+    private String uuid;
 }
