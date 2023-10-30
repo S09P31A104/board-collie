@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 
 import GameSettingComponent from "../../../components/tutorial/GameSettingComponent";
 import TitleAndContentAndFourButtonComponent from '../../../components/tutorial/TitleAndContentAndFourButtonComponent';
+import TitleAndContenAndTwoButtonComponent from '../../../components/tutorial/TitleAndContentAndTwoButtonComponent';
 import TitleComponent from '../../../components/tutorial/TitleComponent';
 import TutorialStartComponent from "../../../components/tutorial/TutorialStartComponent";
 
@@ -84,11 +85,11 @@ function Splender({players, setBackgroundImage}) {
             '토큰 총 40장'
         ],
         [
-            settingInfoImage + '1.png',
+            settingInfoImage + '2.png',
             '개발 카드 총 90장'
         ],
         [
-            settingInfoImage + '1.png',
+            settingInfoImage + '3.png',
             '귀족 타일 총 10개'
         ],
     ];
@@ -125,6 +126,55 @@ function Splender({players, setBackgroundImage}) {
             ],
             2 // 이전 페이지 flow 번호
         ],
+        [ // 4: 선택 액션 설명
+            'TitleAndContenAndTwoButtonComponent', // 템플릿
+            '각기 다른 색깔의 보석 토큰\n3개를 가져가시겠습니까?', // title
+            '보석을 가져가 잘 보이도록 앞에 놓아주세요.', // content
+            null, // additional information
+            [ // 버튼 내용
+                [8, '예, 가져갈래요.'],
+                [3, '다른 액션 선택할래요.']
+            ],
+            3 // 이전 페이지 flow 번호
+        ],
+        [ // 5: 선택 액션 설명
+            'TitleAndContenAndTwoButtonComponent', // 템플릿
+            '같은 색깔의 보석을\n2개 가져가시겠습니까?', // title
+            '같은 보석을 2개 가져가기 위해서는 가져가려는\n<RedText>보석 토큰이 4개 이상</RedText> 테이블 위에 쌓여 있어야 합니다.', // content
+            null, // additional information
+            [ // 버튼 내용
+                [8, '예, 가져갈래요.'],
+                [3, '다른 액션 선택할래요.']
+            ],
+            3 // 이전 페이지 flow 번호
+        ],
+        [ // 6: 선택 액션 설명
+            'TitleAndContenAndTwoButtonComponent', // 템플릿
+            '개발 카드를 찜하시겠습니까?', // title
+            '테이블에 펼쳐진 개발 카드나\n개발 카드 더미의 맨 위 카드 1장을 골라 손에 들고\n황금 조커 토큰을 하나 가져오세요.\n찜한 카드는 다른 카드와 헷갈리지 않게 손에 들어주세요.\n손에는 <RedText>3장까지만</RedText> 들 수 있습니다.', // content
+            [
+                '💡 개발 카드 더미에서 카드를 가져올 때는 다른 플레이어에게 내용을 보여주지 않아도 됩니다.',
+                '💡 한번 손에 든 카드는 게임 중에 버릴 수 없으며, 구매하는 것 말고는 없앨 방법이 없습니다.',
+                '💡 카드를 찜하는 것은 황금 조커 토큰을 가져오는 유일한 방법이기도 합니다.',
+                '💡 황금 조커 토큰이 남아있지 않더라도 카드를 손에 들 수 있지만, 이때는 황금을 가져갈 수 없습니다.'
+            ], // additional information
+            [ // 버튼 내용
+                [8, '예, 찜 할래요.'],
+                [3, '다른 액션 선택할래요.']
+            ],
+            3 // 이전 페이지 flow 번호
+        ],
+        [ // 7: 선택 액션 설명
+            'TitleAndContenAndTwoButtonComponent', // 템플릿
+            '개발 카드 1장을 구매하시겠습니까?', // title
+            '타드를 구매하려면 카드에 표시된 만큼의 토큰을 내야합니다. 사용한 토큰은 테이블 중앙에 돌려 놓습니다.', // content
+            null, // additional information
+            [ // 버튼 내용
+                [8, '예, 구매할래요.'],
+                [3, '다른 액션 선택할래요.']
+            ],
+            3 // 이전 페이지 flow 번호
+    ],
     ];
 
     /* 배경사진 관련 */
@@ -178,6 +228,16 @@ function Splender({players, setBackgroundImage}) {
                         buttonInfo={flow[page][3]}
                         setPage={setPage}
                         prePage={flow[page][4]}
+                    />
+                :
+                (flow[page] && flow[page][0] === 'TitleAndContenAndTwoButtonComponent') ?
+                    <TitleAndContenAndTwoButtonComponent
+                        title={flow[page][1]}
+                        content={flow[page][2]}
+                        addInfo={flow[page][3]}
+                        buttonInfo={flow[page][4]}
+                        setPage={setPage}
+                        prePage={flow[page][5]}
                     />
                 :
                 null

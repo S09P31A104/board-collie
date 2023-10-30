@@ -32,7 +32,7 @@ const BackgroundLayer = styled.div`
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba(247, 238, 246, 0.4);
+    background-color: rgba(247, 238, 246, 0.55);
 `;
 const BackButton = styled.div`
     position: absolute;
