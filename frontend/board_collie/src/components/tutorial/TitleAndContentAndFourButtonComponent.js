@@ -38,6 +38,7 @@ const Title = styled.div`
     align-items: center;
     justify-content: center;
 
+    text-align: center;
     font-size: 5vw;
 `;
 const Content = styled.div`
