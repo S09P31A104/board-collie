@@ -32,7 +32,7 @@ const MainContainer = styled.div`
     width: 70%;
 `;
 const Title = styled.div`
-    margin-top: 10%;
+    margin-top: 5%;
     height: 20%;
     width: 100%;
 
@@ -44,7 +44,7 @@ const Title = styled.div`
     font-size: 5vw;
 `;
 const Content = styled.div`
-    height: 30%;
+    height: 37%;
     margin-top: 5%;
     margin-bottom: 5%;
     width: 100%;
@@ -103,12 +103,12 @@ const ModalContent = styled.div`
     color: #ffffff;
 `;
 const Buttons = styled.div`
-    height: 30%;
+    height: 28%;
     width: 100%;
 `;
 const ChoiceButton = styled.div`
     height: 10vh;
-    margin-bottom: 5vh;
+    margin-bottom: 4vh;
 
     display: flex;
     align-items: center;
@@ -127,7 +127,6 @@ function TitleAndContenAndTwoButtonComponent ({title, content, addInfo, buttonIn
 
     // content 강조 부분
     useEffect(() => {
-        console.log('react string replace');
         const parsedContent = reactStringReplace(content, /<RedText>(.*?)<\/RedText>/g, (match, i) => (
             <RedTextContent key={i}>{match}</RedTextContent>
         ));

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 
 import GameSettingComponent from "../../../components/tutorial/GameSettingComponent";
 import TitleAndContentAndFourButtonComponent from '../../../components/tutorial/TitleAndContentAndFourButtonComponent';
+import TitleAndContentAndOneButtonComponent from '../../../components/tutorial/TitleAndContentAndOneButtonComponent';
 import TitleAndContenAndTwoButtonComponent from '../../../components/tutorial/TitleAndContentAndTwoButtonComponent';
 import TitleComponent from '../../../components/tutorial/TitleComponent';
 import TutorialStartComponent from "../../../components/tutorial/TutorialStartComponent";
@@ -174,7 +175,14 @@ function Splender({players, setBackgroundImage}) {
                 [3, '다른 액션 선택할래요.']
             ],
             3 // 이전 페이지 flow 번호
-    ],
+        ],
+        [ // 8:  액션 선택 이후 정보 전달
+            'TitleAndContentAndOneButtonComponent', // 템플릿
+            '좋습니다!\n액션이 끝날 때마다\n귀족이 방문할 수 있는지 확인해주세요.', // title
+            '귀족 카드에 적혀있는 보석 수만큼 개발 카드를 가지고 있다면, 귀족 카드를 가지고 와 개발 카드와 함께 놓아주세요.\n귀족 카드에 적혀있는 수는 점수에 포함됩니다!', // content
+            9, '확인했어요.', // 버튼 내용
+            3 // 이전 페이지 flow 번호
+        ],
     ];
 
     /* 배경사진 관련 */
@@ -236,6 +244,16 @@ function Splender({players, setBackgroundImage}) {
                         content={flow[page][2]}
                         addInfo={flow[page][3]}
                         buttonInfo={flow[page][4]}
+                        setPage={setPage}
+                        prePage={flow[page][5]}
+                    />
+                :
+                (flow[page] && flow[page][0] === 'TitleAndContentAndOneButtonComponent') ?
+                    <TitleAndContentAndOneButtonComponent
+                        title={flow[page][1]}
+                        content={flow[page][2]}
+                        buttonPageInfo={flow[page][3]}
+                        buttonTextInfo={flow[page][4]}
                         setPage={setPage}
                         prePage={flow[page][5]}
                     />
