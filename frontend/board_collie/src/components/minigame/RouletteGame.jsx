@@ -5,7 +5,6 @@ import styles from './RouletteGame.module.css';
 
 function Roulette() {
   const [players, setPlayers] = useState(2);
-  const [selected, setSelected] = useState(null);
   const canvasRef = useRef(null);
 
   const products = ["토끼", '거북이', "고양이", "강아지", "앵무새", "돌고래", '백조', "코끼리", "너구리"];
@@ -49,12 +48,10 @@ function Roulette() {
     setTimeout(() => {
       const ran = Math.floor(Math.random() * players);
       const arc = 360 / players;
-      const rotate = (ran * arc) + 3600 + (arc * 3) - (arc / 4);
+      const extraDegrees = Math.random() * arc; // 0 ~ arc 사이의 랜덤한 각도 추가
+      const rotate = (ran * arc) + 3600 + extraDegrees;
       canvas.style.transform = `rotate(-${rotate}deg)`;
       canvas.style.transition = `2s`;
-      setTimeout(() => {
-        setSelected(products[ran]);
-      }, 2000);
     }, 1);
   };
 
@@ -81,13 +78,13 @@ function Roulette() {
         </Select>
       </FormControl>
 
-       <div className={styles.rouletteContainer}>
-      <canvas ref={canvasRef} width="380" height="380" className={styles.canvas} />
-      <div className={styles.triangle}></div>
+      <div className={styles.rouletteContainer}>
+        <canvas ref={canvasRef} width="380" height="380" className={styles.canvas} />
+        <div className={styles.triangle}></div>
+      </div>
+      
+      <Button variant="contained" color="primary" onClick={rotate} className={styles.button}>룰렛 돌리기</Button>
     </div>
-    <Button variant="contained" color="primary" onClick={rotate} className={styles.button}>룰렛 돌리기</Button>
-    {selected && <div  className={styles.result}>선공 플레이어: {selected}</div>}
-  </div>
   );
 }
 

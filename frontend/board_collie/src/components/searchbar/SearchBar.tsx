@@ -1,11 +1,29 @@
 import React, { useState, CSSProperties } from 'react';
 import { TextField, Grid, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { useNavigate } from 'react-router-dom';
+import logo from '../../assets/logo.png' 
+import styled from 'styled-components';
 
 interface Props {
   onSearch: (query: string) => void;
   style?: CSSProperties; 
 }
+
+
+const Logo = styled.div`
+  background-image: url(${logo});
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 12vw;
+  height: 12vh;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 5; 
+`;
 
 const SearchBar: React.FC<Props> = ({ onSearch, style }) => {
   const [inputValue, setInputValue] = useState("");
@@ -25,9 +43,20 @@ const SearchBar: React.FC<Props> = ({ onSearch, style }) => {
     }
   };
 
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    navigate('/main');
+  };
+
   return (
+    <div style={{ position: 'relative' }}>
+    <Logo onClick={handleLogoClick} />
     <Grid container justifyContent="center" alignItems="center" spacing={2} style={{ marginTop: '15px', ...style }}>
+      
       <Grid item xs={4}>
+      
+
         <TextField
           fullWidth
           variant="outlined"
@@ -72,6 +101,7 @@ const SearchBar: React.FC<Props> = ({ onSearch, style }) => {
         </Button>
       </Grid>
     </Grid>
+    </div>
   );
 };
 

@@ -11,6 +11,7 @@
 .rouletteContainer {
   position: relative;
   display: inline-block; /* 캔버스와 삼각형을 한 줄에 배치 */
+  margin-bottom: 60px;
 }
 
 .canvas {
@@ -22,9 +23,9 @@
 .triangle {
   width: 0;
   height: 0;
-  border-left: 20px solid transparent;
-  border-right: 20px solid transparent;
-  border-bottom: 30px solid #3CB371;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 30px solid black;
   position: absolute;
   top: -15px;
   left: 50%;
@@ -36,7 +37,7 @@
 }
 
 .button {
-  margin-top: 20px;
+  margin-top: 60px;
 }
 
 .result {
