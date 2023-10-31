@@ -6,9 +6,9 @@ import gameimg from '../../assets/splendor.png';
 import yt_logo from '../../assets/yt_logo_rgb_light.png';
 
 const SelectPage: React.FC = () => {
-  const { name } = useParams<{ name: string }>();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-
+  const gameName = sessionStorage.getItem(`gameName-${id}`) || '게임 이름';
   const validTitles = ['스플렌더', ];
 
   const goBack = () => {
@@ -17,16 +17,16 @@ const SelectPage: React.FC = () => {
 
   const handleGameImageClick = () => {
     // 게임 이름이 유효한지 확인
-    if (name && validTitles.includes(name)) {
-      navigate(`/tutorial/${encodeURIComponent(name)}`);
+    if (gameName && validTitles.includes(gameName)) {
+      navigate(`/tutorial/${encodeURIComponent(gameName)}`);
     } else {
       navigate('/notfound2');
     }
   };
 
   const handleYoutubeSearch = () => {
-    const gameName = encodeURIComponent(name || "게임 이름 없음");
-    window.open(`https://www.youtube.com/results?search_query=${gameName} 게임방법`, '_blank');
+    const encodedGameName = encodeURIComponent(gameName);
+    window.open(`https://www.youtube.com/results?search_query=${encodedGameName} 게임방법`, '_blank');
   };
 
   return (
@@ -36,13 +36,13 @@ const SelectPage: React.FC = () => {
       </IconButton>
       
       <Typography variant="h4" sx={{ mb: 2, mt: 2, fontWeight: 'bold', fontFamily: 'Jua, sans-serif' }}>
-        {name || '게임 이름'}
+        {gameName || '게임 이름'}
       </Typography>
 
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 30, mb: 10, mt: 15 }}>
       <Box component="button" onClick={handleGameImageClick} sx={{ border: 'none', padding: 0, background: 'none' }}>
     <Card sx={{ width: 300 }}>
-      <CardMedia component="img" height="140" image={gameimg} alt={name} />
+      <CardMedia component="img" height="140" image={gameimg} alt={gameName} />
     </Card>
   </Box>
         <Box

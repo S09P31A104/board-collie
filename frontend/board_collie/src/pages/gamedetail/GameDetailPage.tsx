@@ -6,10 +6,11 @@ import gameimg from '../../assets/splendor.png'
 import gameQr from '../../assets/qr2.png';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
-interface Game {
+type Game = {
   name: string;
   tags: string[];
-}
+  id: number;
+};
 type GameFromServer = {
   game_id: number;
   game_title: string;
@@ -50,126 +51,7 @@ const dummyDataFromServer: GameFromServer[] = [
       { tag_id: 4, tag_name_kor: '추리' }
     ]
   },
-  {
-    game_id: 4,
-    game_title: '장미전쟁',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '2명' },
-      { tag_id: 3, tag_name_kor: '25분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 5,
-    game_title: '센추리: 향신료의 길',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '2-5명' },
-      { tag_id: 3, tag_name_kor: '40분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 6,
-    game_title: '마헤',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '4-7명' },
-      { tag_id: 3, tag_name_kor: '30분' },
-      { tag_id: 4, tag_name_kor: '경주' }
-    ]
-  },
-  {
-    game_id: 7,
-    game_title: '부루마불',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '2-4명' },
-      { tag_id: 3, tag_name_kor: '60분' },
-      { tag_id: 4, tag_name_kor: '경영' }
-    ]
-  },
-  {
-    game_id: 8,
-    game_title: '테라포밍마스',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '2-5명' },
-      { tag_id: 3, tag_name_kor: '120분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 9,
-    game_title: '인코그니토',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '4명' },
-      { tag_id: 3, tag_name_kor: '60분' },
-      { tag_id: 4, tag_name_kor: '추리' }
-    ]
-  },
-  {
-    game_id: 10,
-    game_title: '시타델',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '4-7명' },
-      { tag_id: 3, tag_name_kor: '60분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 11,
-    game_title: '제왕의 깃발',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '3-4명' },
-      { tag_id: 3, tag_name_kor: '20분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 12,
-    game_title: '마피아 데 쿠바',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '6-12명' },
-      { tag_id: 3, tag_name_kor: '60분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 13,
-    game_title: '아발론',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '쉬움' },
-      { tag_id: 2, tag_name_kor: '2명' },
-      { tag_id: 3, tag_name_kor: '20분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 14,
-    game_title: '루미큐브',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '2-6명' },
-      { tag_id: 3, tag_name_kor: '30분' },
-      { tag_id: 4, tag_name_kor: '타일조합' }
-    ]
-  },
-  {
-    game_id: 15,
-    game_title: '로스트시티',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '2명' },
-      { tag_id: 3, tag_name_kor: '20분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
+ 
 
  
 ];
@@ -184,9 +66,10 @@ const transformData = (dataFromServer: GameFromServer[]): Game[] => {
 const dummyData = transformData(dummyDataFromServer);
 
 const GameDetailPage: React.FC = () => {
-  const { name } = useParams<{ name: string }>();
+  const { id } = useParams<{ id: string }>();
+  const gameId = parseInt(id ?? "0"); // useParams로 받은 id를 정수로 변환
   const navigate = useNavigate();
-  const game = dummyData.find(game => game.name === name);
+  const game = dummyData.find(game => game.id === gameId);
 
   const goBack = () => {
     navigate(-1);
@@ -195,9 +78,11 @@ const GameDetailPage: React.FC = () => {
   // 재생버튼 클릭 시 선택페이지로 이동
   const handlePlayButtonClick = () => {
     if (game) {
-      navigate(`/select/${game.name}`);
+      sessionStorage.setItem(`gameName-${game.id}`, game.name);
+      navigate(`/select/${game.id}`);
     }
   };
+  
 
   return (
     <Box sx={{ padding: '20px', display: 'flex', flexDirection: 'row', marginTop: '90px' }}>
@@ -205,10 +90,10 @@ const GameDetailPage: React.FC = () => {
   <IconButton onClick={goBack} aria-label="뒤로 가기" sx={{ alignSelf: 'flex-start', mb: 2 }}>
     <ArrowBackIcon />
   </IconButton>
-  <img src={gameimg} alt={name} style={{ maxWidth: '100%', maxHeight: '200px', marginBottom: '32px' }} />
+  <img src={gameimg} alt={gameimg} style={{ maxWidth: '100%', maxHeight: '200px', marginBottom: '32px' }} />
   <Typography variant="h3" gutterBottom sx={{ fontFamily: 'Jua, sans-serif', textAlign: 'center', mb: 3 }}>
-    {name}
-  </Typography>
+      {game?.name} 
+    </Typography>
   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
     {game ? (
       game.tags.map(tag => (
