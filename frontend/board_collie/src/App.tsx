@@ -10,6 +10,8 @@ import TutorialPage from './pages/tutorialPage/TutorialPage';
 import SelectPage from './pages/select/SelectPage';
 import NotFound from './components/common/notfound/NotFound'
 import NotFound2 from './components/common/notfound/NotFound2';
+import RecommendResult from './pages/gamerecommend/RecommendResult';
+
 
 const AppContent: React.FC<{ players: number }> = ({ players }) => {
   const location = useLocation();
@@ -27,6 +29,7 @@ const AppContent: React.FC<{ players: number }> = ({ players }) => {
         <Route path="/select/:name" element={<SelectPage />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/notfound2" element={<NotFound2 />} />
+        <Route path="/recommendresult" element={<RecommendResult />} />
       </Routes>
     </>
   );
