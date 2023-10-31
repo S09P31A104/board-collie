@@ -104,11 +104,12 @@ function Splender({players, setBackgroundImage}) {
             '/tutorial/splendor/title.png', // 타이틀 이미지
             '스플렌더', // 타이틀
             '인원수별 세팅 방법이 달라집니다.\n인원수를 다시 한번 확인해 주세요.', // 추가 메시지
-            'START', 1 // 버튼, 이동 페이지 flow 번호
+            'START', 18 // 버튼, 이동 페이지 flow 번호
         ],
         [ // 1: 게임 세팅 페이지
             'GameSettingComponent', // 템플릿
             setting, // 세팅 플로우 전달
+            19, // 이전 페이지 flow 번호
             2 // 다음 페이지 flow 번호
         ],
         [ // 2: 튜토리얼 시작 페이지
@@ -156,10 +157,10 @@ function Splender({players, setBackgroundImage}) {
             '개발 카드를 찜하시겠습니까?', // title
             '테이블에 펼쳐진 개발 카드나\n개발 카드 더미의 맨 위 카드 1장을 골라 손에 들고\n황금 조커 토큰을 하나 가져오세요.\n찜한 카드는 다른 카드와 헷갈리지 않게 손에 들어주세요.\n손에는 <RedText>3장까지만</RedText> 들 수 있습니다.', // content
             [
-                '💡 개발 카드 더미에서 카드를 가져올 때는 다른 플레이어에게 내용을 보여주지 않아도 됩니다.',
-                '💡 한번 손에 든 카드는 게임 중에 버릴 수 없으며, 구매하는 것 말고는 없앨 방법이 없습니다.',
-                '💡 카드를 찜하는 것은 황금 조커 토큰을 가져오는 유일한 방법이기도 합니다.',
-                '💡 황금 조커 토큰이 남아있지 않더라도 카드를 손에 들 수 있지만, 이때는 황금을 가져갈 수 없습니다.'
+                '💎 개발 카드 더미에서 카드를 가져올 때는 다른 플레이어에게 내용을 보여주지 않아도 됩니다.',
+                '💎 한번 손에 든 카드는 게임 중에 버릴 수 없으며, 구매하는 것 말고는 없앨 방법이 없습니다.',
+                '💎 카드를 찜하는 것은 황금 조커 토큰을 가져오는 유일한 방법이기도 합니다.',
+                '💎 황금 조커 토큰이 남아있지 않더라도 카드를 손에 들 수 있지만, 이때는 황금을 가져갈 수 없습니다.'
             ], // additional information
             [ // 버튼 내용
                 [8, '예, 찜 할래요.'],
@@ -235,10 +236,10 @@ function Splender({players, setBackgroundImage}) {
             '개발 카드를 찜하시겠습니까?', // title
             '테이블에 펼쳐진 개발 카드나\n개발 카드 더미의 맨 위 카드 1장을 골라 손에 들고\n황금 조커 토큰을 하나 가져오세요.\n찜한 카드는 다른 카드와 헷갈리지 않게 손에 들어주세요.\n손에는 <RedText>3장까지만</RedText> 들 수 있습니다.', // content
             [
-                '💡 개발 카드 더미에서 카드를 가져올 때는 다른 플레이어에게 내용을 보여주지 않아도 됩니다.',
-                '💡 한번 손에 든 카드는 게임 중에 버릴 수 없으며, 구매하는 것 말고는 없앨 방법이 없습니다.',
-                '💡 카드를 찜하는 것은 황금 조커 토큰을 가져오는 유일한 방법이기도 합니다.',
-                '💡 황금 조커 토큰이 남아있지 않더라도 카드를 손에 들 수 있지만, 이때는 황금을 가져갈 수 없습니다.'
+                '💎 개발 카드 더미에서 카드를 가져올 때는 다른 플레이어에게 내용을 보여주지 않아도 됩니다.',
+                '💎 한번 손에 든 카드는 게임 중에 버릴 수 없으며, 구매하는 것 말고는 없앨 방법이 없습니다.',
+                '💎 카드를 찜하는 것은 황금 조커 토큰을 가져오는 유일한 방법이기도 합니다.',
+                '💎 황금 조커 토큰이 남아있지 않더라도 카드를 손에 들 수 있지만, 이때는 황금을 가져갈 수 없습니다.'
             ], // additional information
             [ // 버튼 내용
                 [10, '다른 액션 설명도 보기'],
@@ -249,7 +250,7 @@ function Splender({players, setBackgroundImage}) {
         [ // 14: 선택 액션 설명
             'TitleAndContenAndTwoButtonComponent', // 템플릿
             '개발 카드 1장을 구매하시겠습니까?', // title
-            '타드를 구매하려면 카드에 표시된 만큼의 토큰을 내야합니다. 사용한 토큰은 테이블 중앙에 돌려 놓습니다.', // content
+            '카드를 구매하려면 카드에 표시된 만큼의 토큰을 내야합니다. 사용한 토큰은 테이블 중앙에 돌려 놓습니다.', // content
             null, // additional information
             [ // 버튼 내용
                 [10, '다른 액션 설명도 보기'],
@@ -276,6 +277,18 @@ function Splender({players, setBackgroundImage}) {
             'ChatbotQRComponent', // 템플릿
             '/tutorial/splendor/chatbot.png', // qr url
             16
+        ],
+        [ // 18: 인트로(1)
+            'TitleComponent', // 템플릿
+            '<TypeIt>스플렌더에서 플레이어들은<br/>르네상스 시기의 부유한 상인 역할을 맡습니다.</TypeIt>', // 타이틀 내용
+            0, // 이전 페이지 flow 번호
+            19 // 다음 페이지 flow 번호
+        ],
+        [ // 19: 인트로(2)
+            'TitleComponent', // 템플릿
+            '<TypeIt>플레이어는 자신의 자원을 사용하여<br/>광산이나, 교통 수단을 얻고,<br/>당신의 원석을 아름다운 보석으로 바꿔줄<br/>장인을 고용할 수 있습니다.</TypeIt>', // 타이틀 내용
+            18, // 이전 페이지 flow 번호
+            1 // 다음 페이지 flow 번호
         ],
     ];
 
@@ -312,7 +325,8 @@ function Splender({players, setBackgroundImage}) {
                         startStep={settingStartPage}
                         setSettingStartPage={setSettingStartPage}
                         setPage={setPage}
-                        nextPage={flow[page][2]}
+                        prePage={flow[page][2]}
+                        nextPage={flow[page][3]}
                     />
                 :
                 (flow[page] && flow[page][0] === 'TitleComponent') ?
