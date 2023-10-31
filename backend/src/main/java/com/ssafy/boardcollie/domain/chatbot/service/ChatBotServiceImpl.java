@@ -144,7 +144,7 @@ public class ChatBotServiceImpl implements ChatBotService {
     public String createQR(Long gameId) {
         int width = 200;
         int height = 200;
-        String url = "https://www.boardcollie.com/chatbot/" + gameId;
+        String url = "http://www.boardcollie.com/chatbot/" + gameId;
         String directory = "chatbot/qr/";
         String prefix = "QR";
         try {
