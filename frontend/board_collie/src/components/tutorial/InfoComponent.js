@@ -1,5 +1,4 @@
-import { IconButton, Box, Modal } from '@mui/material';
-import { Info } from '@mui/icons-material';
+import { Box, Modal } from '@mui/material';
 import styled from 'styled-components';
 import { useState } from "react";
 
@@ -8,10 +7,6 @@ const InfoContainer = styled.div`
     display: flex;
     align-items: center;
 `;
-const infoIconStyle = {
-    fontSize: '3.5vw',
-    color: '#CCF38C'
-};
 const StyledBox = styled(Box)`
     position: absolute;
     display: flex;
@@ -79,9 +74,9 @@ function InfoComponent({info}) {
 
     return (
         <InfoContainer>
-            <IconButton onClick={handlekModalOpen}>
-                <Info sx={{...infoIconStyle}}/>
-            </IconButton>
+            <div onClick={handlekModalOpen}>
+                📦
+            </div>
             <Modal
                 open={modalOpen}
                 onClose={handleModalClose}
