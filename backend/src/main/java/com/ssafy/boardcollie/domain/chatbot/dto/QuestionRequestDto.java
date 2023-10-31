@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class QuestionRequestDto {
 
     @NotNull
-    private String gameName;
+    private Long gameId;
     @NotNull
     private String prompt;
     @NotNull

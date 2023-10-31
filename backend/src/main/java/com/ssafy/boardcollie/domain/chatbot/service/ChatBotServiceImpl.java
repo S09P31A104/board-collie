@@ -8,6 +8,8 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.ssafy.boardcollie.domain.chatbot.dto.QuestionRequestDto;
+import com.ssafy.boardcollie.domain.chatbot.entity.Question;
+import com.ssafy.boardcollie.domain.chatbot.repository.QuestionRepository;
 import com.ssafy.boardcollie.global.aws.S3Uploader;
 import com.ssafy.boardcollie.global.exception.GlobalRuntimeException;
 import java.awt.image.BufferedImage;
@@ -41,13 +43,15 @@ public class ChatBotServiceImpl implements ChatBotService {
     private final RestTemplate restTemplate;
     private final RedisService redisService;
     private final S3Uploader s3Uploader;
+    private final QuestionRepository questionRepository;
     private static final String PROMPT_PREFIX = "보드게임 ";
     private static final String PROMPT_SUFFIX = "의 플레이 룰에 관한 질문이야: ";
     private static final String PROMPT_LANGUAGE = "부드러운 말투로 '해요'체로 대답해줘";
 
     public String getCompletion(QuestionRequestDto requestDto) {
         String prompt = requestDto.getPrompt();
-        String gameName = requestDto.getGameName();
+        // 추후 게임 API와 연동 예정        
+        String gameName = "스플렌더";
         String uuid = requestDto.getUuid();
         String url = API_ENDPOINT + "completions";
         HttpHeaders headers = new HttpHeaders();
@@ -77,6 +81,10 @@ public class ChatBotServiceImpl implements ChatBotService {
 
             String answer = extractContent(response.getBody());
             redisService.saveAnswerToRedis(answer, uuid);
+
+            saveQuestion(Question.createQuestion(requestDto.getPrompt(),
+                    requestDto.getGameId()));
+
             return answer;
 
         } catch (Exception e) {
@@ -163,6 +171,10 @@ public class ChatBotServiceImpl implements ChatBotService {
 
     private String saveQR(File qrCode, String fileName) {
         return s3Uploader.upload(fileName, qrCode);
+    }
+
+    private void saveQuestion(Question question) {
+        questionRepository.save(question);
     }
 
 }
