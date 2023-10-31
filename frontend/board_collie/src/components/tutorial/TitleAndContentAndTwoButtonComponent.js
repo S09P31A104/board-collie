@@ -1,5 +1,5 @@
 import { IconButton, Box, Modal } from '@mui/material';
-import { KeyboardArrowLeft, Info } from '@mui/icons-material';
+import { KeyboardArrowLeft } from '@mui/icons-material';
 import styled from 'styled-components';
 import { useState, useEffect } from "react";
 import reactStringReplace from 'react-string-replace';
@@ -60,10 +60,6 @@ const Content = styled.div`
 const RedTextContent = styled.span`
     color: red;
 `;
-const infoIconStyle = {
-    fontSize: '2.5vw',
-    color: '#000000'
-};
 const StyledBox = styled(Box)`
     position: absolute;
     display: flex;
@@ -73,7 +69,7 @@ const StyledBox = styled(Box)`
     transform: translate(-50%, -50%);
     width: 50%;
     height: 50%;
-    background-color: #000000;
+    background-color: #ffffff;
     border-radius: 8px;
     font-family: 'Jua', sans-serif;
     overflow: auto;
@@ -100,7 +96,7 @@ const ModalContent = styled.div`
     margin: 3%;
 
     font-size: 2.5vw;
-    color: #ffffff;
+    color: #000000;
 `;
 const Buttons = styled.div`
     height: 28%;
@@ -171,9 +167,9 @@ function TitleAndContenAndTwoButtonComponent ({title, content, addInfo, buttonIn
                     <p>
                         {highlightedContent}
                         {addInfo !== null &&
-                                <IconButton onClick={handlekModalOpen}>
-                                    <Info sx={{...infoIconStyle}}/>
-                                </IconButton>
+                                <span onClick={handlekModalOpen}>
+                                    &nbsp;&nbsp;🔍
+                                </span>
                         }
                     </p>
                     {addInfo !== null &&

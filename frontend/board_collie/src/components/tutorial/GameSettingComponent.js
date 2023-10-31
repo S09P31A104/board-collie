@@ -98,14 +98,19 @@ const MoveButtonIconStyle = {
 };
 
 
-function GameSettingComponent({settingList, infoList, startStep, setSettingStartPage, setPage, nextPage}) {
+function GameSettingComponent({settingList, infoList, startStep, setSettingStartPage, setPage, prePage, nextPage}) {
     
     const [step, setStep] = useState(startStep);
 
     /* 단계 이동 메소드 */
     function moveBack () {
-        if(step !== 0) setStep(step - 1);
-        console.log(infoList);
+        if(step === 0) {
+            setSettingStartPage(0);
+            setPage(prePage);
+        }
+        else {
+            setStep(step - 1);
+        }
     };
     function moveForward () {
         if(step === settingList.length - 1) {
@@ -127,15 +132,12 @@ function GameSettingComponent({settingList, infoList, startStep, setSettingStart
         <GameSettingContainer>
             {/* 뒤로 가기 버튼 */}
             <BackButtonBox>
-                {
-                    step !== 0 &&
-                    <IconButton
-                        sx={{...MoveButtonStyle}}
-                        onClick={() => moveBack()}
-                    >
-                        <KeyboardArrowLeft sx={{...MoveButtonIconStyle}}/>
-                    </IconButton>
-                }
+                <IconButton
+                    sx={{...MoveButtonStyle}}
+                    onClick={() => moveBack()}
+                >
+                    <KeyboardArrowLeft sx={{...MoveButtonIconStyle}}/>
+                </IconButton>
             </BackButtonBox>
             {/* 세팅 정보 */}
             <GameSettingContent>
