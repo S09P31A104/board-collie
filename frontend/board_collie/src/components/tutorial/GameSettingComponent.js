@@ -105,6 +105,7 @@ function GameSettingComponent({settingList, infoList, startStep, setSettingStart
     /* 단계 이동 메소드 */
     function moveBack () {
         if(step === 0) {
+            setSettingStartPage(0);
             setPage(prePage);
         }
         else {

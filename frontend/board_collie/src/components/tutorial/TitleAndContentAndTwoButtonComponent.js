@@ -168,7 +168,7 @@ function TitleAndContenAndTwoButtonComponent ({title, content, addInfo, buttonIn
                         {highlightedContent}
                         {addInfo !== null &&
                                 <span onClick={handlekModalOpen}>
-                                    &nbsp;&nbsp;📑
+                                    &nbsp;&nbsp;🔍
                                 </span>
                         }
                     </p>
