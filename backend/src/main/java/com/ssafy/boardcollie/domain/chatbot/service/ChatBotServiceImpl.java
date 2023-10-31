@@ -3,13 +3,21 @@ package com.ssafy.boardcollie.domain.chatbot.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import com.ssafy.boardcollie.domain.chatbot.dto.QuestionRequestDto;
+import com.ssafy.boardcollie.global.aws.S3Uploader;
 import com.ssafy.boardcollie.global.exception.GlobalRuntimeException;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import javax.imageio.ImageIO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +40,7 @@ public class ChatBotServiceImpl implements ChatBotService {
     private String OPEN_AI_KEY;
     private final RestTemplate restTemplate;
     private final RedisService redisService;
+    private final S3Uploader s3Uploader;
     private static final String PROMPT_PREFIX = "보드게임 ";
     private static final String PROMPT_SUFFIX = "의 플레이 룰에 관한 질문이야: ";
     private static final String PROMPT_LANGUAGE = "부드러운 말투로 '해요'체로 대답해줘";
@@ -49,17 +58,16 @@ public class ChatBotServiceImpl implements ChatBotService {
         List<Map<String, Object>> messages = new ArrayList<>();
         Map<String, Object> userMessage = new HashMap<>();
 
-        String prevPrompt = createPrevPrompt(redisService.getPrevPrompt(uuid), redisService.getPrevAnswer(uuid));
+        String prevPrompt = createPrevPrompt(redisService.getPrevPrompt(uuid),
+                redisService.getPrevAnswer(uuid));
         messages.add(createSystemMap(prevPrompt));
         redisService.saveQuestionToRedis(prompt, uuid);
-
 
         messages.add(createSystemMap(PROMPT_LANGUAGE));
         userMessage.put("role", "user");
         userMessage.put("content", PROMPT_PREFIX + gameName + PROMPT_SUFFIX + prompt);
         messages.add(userMessage);
         requestBody.put("messages", messages);
-
 
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
 
@@ -79,9 +87,10 @@ public class ChatBotServiceImpl implements ChatBotService {
 
     private String createPrevPrompt(ArrayList<String> prevPrompts, ArrayList<String> prevAnswers) {
         StringBuilder prevPrompt = new StringBuilder();
-        for(int i=0;i<prevPrompts.size();i++) {
+        for (int i = 0; i < prevPrompts.size(); i++) {
             prevPrompt.append("user: 이전 질문 ").append(i).append(" ").append(prevPrompts.get(i))
-                      .append("\n assistant: 답변 ").append(i).append(" ").append(prevAnswers.get(i)).append("\n");
+                      .append("\n assistant: 답변 ").append(i).append(" ").append(prevAnswers.get(i))
+                      .append("\n");
         }
         return prevPrompt.toString();
     }
@@ -97,9 +106,11 @@ public class ChatBotServiceImpl implements ChatBotService {
                     return choice.get("message").get("content").asText();
                 }
             }
-            throw new GlobalRuntimeException("OpenAI 에러 : 답변을 생성하지 못함.", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new GlobalRuntimeException("OpenAI 에러 : 답변을 생성하지 못함.",
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (JsonProcessingException e) {
-            throw new GlobalRuntimeException("OpenAI 에러 : 답변을 생성하지 못함.", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new GlobalRuntimeException("OpenAI 에러 : 답변을 생성하지 못함.",
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -127,6 +138,31 @@ public class ChatBotServiceImpl implements ChatBotService {
     @Override
     public String getUUID() {
         return UUID.randomUUID().toString();
+    }
+
+    @Override
+    public String createQR(Long gameId) {
+        int width = 200;
+        int height = 200;
+        String url = "http://www.boardcollie.com/chatbot/" + gameId;
+        String directory = "chatbot/qr/";
+        String prefix = "QR";
+        try {
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            BitMatrix bitMatrix = qrCodeWriter.encode(url, BarcodeFormat.QR_CODE, width, height);
+            BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
+            File file = new File(prefix + gameId + ".jpg");
+            String fileName = directory + prefix + gameId + ".jpg";
+            ImageIO.write(bufferedImage, "jpg", file);
+
+            return saveQR(file, fileName);
+        } catch (Exception e) {
+            throw new GlobalRuntimeException("QR 생성 오류", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private String saveQR(File qrCode, String fileName) {
+        return s3Uploader.upload(fileName, qrCode);
     }
 
 }
