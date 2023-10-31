@@ -60,7 +60,7 @@ function ImageAndContentComponent({image, content, setPage, prePage, nextPage}) 
                 key={match}
                 options={{
                     strings: [match],
-                    speed: 50,
+                    speed: 30,
                     waitUntilVisible: true,
                     cursor: false,
                 }}
