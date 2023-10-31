@@ -15,13 +15,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Game {
 
-    @Id @Column(name = "game_id")
+    @Id
+    @Column(name = "game_id")
     private Long id;
-    private String game_title;
-    private Integer minPeople;
-    private Integer maxPeople;
+    @Column(name = "game_title_kor")
+    private String gameTitleKor;
+    @Column(name = "game_title_eng")
+    private String gameTitleEng;
+    @Column(name = "game_min_player")
+    private Integer minPlayer;
+    @Column(name = "game_max_player")
+    private Integer maxPlayer;
+    @Column(name = "game_time")
     private Integer playTime;
-    private Integer age;
     private String gameImage;
     private String qrImage;
     private String gameDetail;

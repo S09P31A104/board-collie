@@ -28,8 +28,8 @@ public class GameResponseDto {
 
         return GameResponseDto.builder()
                 .gameId(game.getId())
-                .gameTitle(game.getGame_title())
-                .gameImage(game.getGame_image())
+                .gameTitle(game.getGameTitleKor())
+                .gameImage(game.getGameImage())
                 .gameTag(tagDtos)
                 .build();
     }

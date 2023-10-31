@@ -10,8 +10,8 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     @Query("SELECT DISTINCT g FROM Game g " +
             "LEFT JOIN FETCH g.gameTags gt " +
             "LEFT JOIN FETCH gt.tag t " +
-            "WHERE (:searchKeyword IS NULL OR g.game_title LIKE %:searchKeyword%) AND " +
-            "(:numberOfPeople IS NULL OR (g.min_people <= :numberOfPeople AND g.max_people >= :numberOfPeople))")
+            "WHERE (:searchKeyword IS NULL OR g.gameTitleKor LIKE %:searchKeyword%) AND " +
+            "(:numberOfPeople IS NULL OR (g.minPlayer <= :numberOfPeople AND g.maxPlayer >= :numberOfPeople))")
     List<Game> findGamesBySearchCriteria(@Param("searchKeyword") String searchKeyword,
             @Param("numberOfPeople") Integer numberOfPeople);
 
