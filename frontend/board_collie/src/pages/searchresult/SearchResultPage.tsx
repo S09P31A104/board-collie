@@ -54,7 +54,126 @@ const dummyDataFromServer: GameFromServer[] = [
       { tag_id: 4, tag_name_kor: '추리' }
     ]
   },
- 
+  {
+    game_id: 4,
+    game_title: '장미전쟁',
+    game_tag: [
+      { tag_id: 1, tag_name_kor: '보통' },
+      { tag_id: 2, tag_name_kor: '2명' },
+      { tag_id: 3, tag_name_kor: '25분' },
+      { tag_id: 4, tag_name_kor: '전략' }
+    ]
+  },
+  {
+    game_id: 5,
+    game_title: '센추리: 향신료의 길',
+    game_tag: [
+      { tag_id: 1, tag_name_kor: '어려움' },
+      { tag_id: 2, tag_name_kor: '2-5명' },
+      { tag_id: 3, tag_name_kor: '40분' },
+      { tag_id: 4, tag_name_kor: '전략' }
+    ]
+  },
+  {
+    game_id: 6,
+    game_title: '마헤',
+    game_tag: [
+      { tag_id: 1, tag_name_kor: '보통' },
+      { tag_id: 2, tag_name_kor: '4-7명' },
+      { tag_id: 3, tag_name_kor: '30분' },
+      { tag_id: 4, tag_name_kor: '경주' }
+    ]
+  },
+  {
+    game_id: 7,
+    game_title: '부루마불',
+    game_tag: [
+      { tag_id: 1, tag_name_kor: '보통' },
+      { tag_id: 2, tag_name_kor: '2-4명' },
+      { tag_id: 3, tag_name_kor: '60분' },
+      { tag_id: 4, tag_name_kor: '경영' }
+    ]
+  },
+  {
+    game_id: 8,
+    game_title: '테라포밍마스',
+    game_tag: [
+      { tag_id: 1, tag_name_kor: '어려움' },
+      { tag_id: 2, tag_name_kor: '2-5명' },
+      { tag_id: 3, tag_name_kor: '120분' },
+      { tag_id: 4, tag_name_kor: '전략' }
+    ]
+  },
+  {
+    game_id: 9,
+    game_title: '인코그니토',
+    game_tag: [
+      { tag_id: 1, tag_name_kor: '어려움' },
+      { tag_id: 2, tag_name_kor: '4명' },
+      { tag_id: 3, tag_name_kor: '60분' },
+      { tag_id: 4, tag_name_kor: '추리' }
+    ]
+  },
+  {
+    game_id: 10,
+    game_title: '시타델',
+    game_tag: [
+      { tag_id: 1, tag_name_kor: '어려움' },
+      { tag_id: 2, tag_name_kor: '4-7명' },
+      { tag_id: 3, tag_name_kor: '60분' },
+      { tag_id: 4, tag_name_kor: '전략' }
+    ]
+  },
+  {
+    game_id: 11,
+    game_title: '제왕의 깃발',
+    game_tag: [
+      { tag_id: 1, tag_name_kor: '보통' },
+      { tag_id: 2, tag_name_kor: '3-4명' },
+      { tag_id: 3, tag_name_kor: '20분' },
+      { tag_id: 4, tag_name_kor: '전략' }
+    ]
+  },
+  {
+    game_id: 12,
+    game_title: '마피아 데 쿠바',
+    game_tag: [
+      { tag_id: 1, tag_name_kor: '어려움' },
+      { tag_id: 2, tag_name_kor: '6-12명' },
+      { tag_id: 3, tag_name_kor: '60분' },
+      { tag_id: 4, tag_name_kor: '전략' }
+    ]
+  },
+  {
+    game_id: 13,
+    game_title: '아발론',
+    game_tag: [
+      { tag_id: 1, tag_name_kor: '쉬움' },
+      { tag_id: 2, tag_name_kor: '2명' },
+      { tag_id: 3, tag_name_kor: '20분' },
+      { tag_id: 4, tag_name_kor: '전략' }
+    ]
+  },
+  {
+    game_id: 14,
+    game_title: '루미큐브',
+    game_tag: [
+      { tag_id: 1, tag_name_kor: '보통' },
+      { tag_id: 2, tag_name_kor: '2-6명' },
+      { tag_id: 3, tag_name_kor: '30분' },
+      { tag_id: 4, tag_name_kor: '타일조합' }
+    ]
+  },
+  {
+    game_id: 15,
+    game_title: '로스트시티',
+    game_tag: [
+      { tag_id: 1, tag_name_kor: '보통' },
+      { tag_id: 2, tag_name_kor: '2명' },
+      { tag_id: 3, tag_name_kor: '20분' },
+      { tag_id: 4, tag_name_kor: '전략' }
+    ]
+  },
 
  
 ];
