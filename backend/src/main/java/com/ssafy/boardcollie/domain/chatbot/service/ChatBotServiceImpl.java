@@ -10,6 +10,8 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.ssafy.boardcollie.domain.chatbot.dto.QuestionRequestDto;
 import com.ssafy.boardcollie.domain.chatbot.entity.Question;
 import com.ssafy.boardcollie.domain.chatbot.repository.QuestionRepository;
+import com.ssafy.boardcollie.domain.game.entity.Game;
+import com.ssafy.boardcollie.domain.game.repository.GameRepository;
 import com.ssafy.boardcollie.global.aws.S3Uploader;
 import com.ssafy.boardcollie.global.exception.GlobalRuntimeException;
 import java.awt.image.BufferedImage;
@@ -44,14 +46,17 @@ public class ChatBotServiceImpl implements ChatBotService {
     private final RedisService redisService;
     private final S3Uploader s3Uploader;
     private final QuestionRepository questionRepository;
+    private final GameRepository gameRepository;
     private static final String PROMPT_PREFIX = "보드게임 ";
     private static final String PROMPT_SUFFIX = "의 플레이 룰에 관한 질문이야: ";
     private static final String PROMPT_LANGUAGE = "부드러운 말투로 '해요'체로 대답해줘";
 
     public String getCompletion(QuestionRequestDto requestDto) {
         String prompt = requestDto.getPrompt();
-        // 추후 게임 API와 연동 예정        
-        String gameName = "스플렌더";
+        // 추후 게임 API와 연동 예정
+        Game game = gameRepository.findById(requestDto.getGameId())
+                                  .orElseThrow(() -> new GlobalRuntimeException("해당하는 게임이 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
+        String gameName = game.getGameTitleKor();
         String uuid = requestDto.getUuid();
         String url = API_ENDPOINT + "completions";
         HttpHeaders headers = new HttpHeaders();
