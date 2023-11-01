@@ -23,7 +23,7 @@ const AppContent: React.FC<{ players: number }> = ({ players }) => {
         <Route path="/searchresult" element={<SearchResultPage />} />
         <Route path="/game/:id" element={<GameDetailPage />} />
         <Route path="/gamerecommend" element={<GameRecommendPage />} />
-        <Route path="/tutorial/:title" element={<TutorialPage players={players}/>} />
+        <Route path="/tutorial/:title" element={<TutorialPage/>} />
         <Route path="/select/:id" element={<SelectPage />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/notfound2" element={<NotFound2 />} />
