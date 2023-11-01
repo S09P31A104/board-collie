@@ -12,6 +12,7 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -22,6 +23,7 @@ public class Game {
 
     @Id
     @Column(name = "game_id")
+    @Setter
     private Long id;
     @Column(name = "game_title_kor")
     private String gameTitleKor;
