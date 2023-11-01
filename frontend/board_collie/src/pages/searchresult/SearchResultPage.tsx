@@ -27,8 +27,8 @@ type GameFromServer = {
   }>;
 };
 
-// const SERVER_API_URL = `${process.env.REACT_APP_API_SERVER_URL}`;
-const SERVER_API_URL = 'https://boardcollie.com/api/s1';
+const SERVER_API_URL = `${process.env.REACT_APP_API_SERVER_URL}`;
+// const SERVER_API_URL = 'https://boardcollie.com/api/s1';
  
 
 const transformData = (dataFromServer: GameFromServer[]): Game[] => {
