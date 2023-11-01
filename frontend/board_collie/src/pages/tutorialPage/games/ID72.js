@@ -15,24 +15,24 @@ import TutorialEndComponent from '../../../components/tutorial/TutorialEndCompon
 import TutorialStartComponent from "../../../components/tutorial/TutorialStartComponent";
 
 /* 이미지 */
-const title = process.env.PUBLIC_URL + '/tutorial/splendor/title.png';
-const background1 = process.env.PUBLIC_URL + '/tutorial/splendor/background1.jpg';
-const background2 = process.env.PUBLIC_URL + '/tutorial/splendor/background2.jpg';
-const background3 = process.env.PUBLIC_URL + '/tutorial/splendor/background3.jpg';
+const title = 'http://boardcollie.com.s3.ap-northeast-2.amazonaws.com/tutorial/72/title.png';
+const background1 = 'http://boardcollie.com.s3.ap-northeast-2.amazonaws.com/tutorial/72/background1.jpg';
+const background2 = 'http://boardcollie.com.s3.ap-northeast-2.amazonaws.com/tutorial/72/background2.jpg';
+const background3 = 'http://boardcollie.com.s3.ap-northeast-2.amazonaws.com/tutorial/72/background3.jpg';
 const chatbot = 'http://boardcollie.com.s3-website.ap-northeast-2.amazonaws.com/chatbot/qr/QR72.jpg';
-const info1 = process.env.PUBLIC_URL + '/tutorial/splendor/info1.png';
-const info2 = process.env.PUBLIC_URL + '/tutorial/splendor/info2.png';
-const info3 = process.env.PUBLIC_URL + '/tutorial/splendor/info3.png';
-const setting1 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png';
-const setting2 = process.env.PUBLIC_URL + '/tutorial/splendor/setting2.png';
-const setting3_2 = process.env.PUBLIC_URL + '/tutorial/splendor/setting3-2.png';
-const setting3_3 = process.env.PUBLIC_URL + '/tutorial/splendor/setting3-3.png';
-const setting3_4 = process.env.PUBLIC_URL + '/tutorial/splendor/setting3-4.png';
-const setting4 = process.env.PUBLIC_URL + '/tutorial/splendor/setting4.png';
-const summary1 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png';
-const summary2 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png';
-const summary3 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png';
-const summary4 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png';
+const info1 = 'http://boardcollie.com.s3.ap-northeast-2.amazonaws.com/tutorial/72/info1.png';
+const info2 = 'http://boardcollie.com.s3.ap-northeast-2.amazonaws.com/tutorial/72/info2.png';
+const info3 = process.env.PUBLIC_URL + '/tutorial/splendor/info3.png'; // 임시 사진
+const setting1 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png'; // 임시 사진
+const setting2 = process.env.PUBLIC_URL + '/tutorial/splendor/setting2.png'; // 임시 사진
+const setting3_2 = process.env.PUBLIC_URL + '/tutorial/splendor/setting3-2.png'; // 임시 사진
+const setting3_3 = process.env.PUBLIC_URL + '/tutorial/splendor/setting3-3.png'; // 임시 사진
+const setting3_4 = process.env.PUBLIC_URL + '/tutorial/splendor/setting3-4.png'; // 임시 사진
+const setting4 = process.env.PUBLIC_URL + '/tutorial/splendor/setting4.png'; // 임시 사진
+const summary1 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png'; // 임시 사진
+const summary2 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png'; // 임시 사진
+const summary3 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png'; // 임시 사진
+const summary4 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png'; // 임시 사진
 
 /* 스타일 */
 const SplenderContainer = styled.div`
