@@ -143,7 +143,7 @@ function GameSettingComponent({settingList, infoList, startStep, setSettingStart
             <GameSettingContent>
                 <Title>
                     <TitleWrapper><TitleText>게임 시작 전 세팅</TitleText></TitleWrapper>
-                    {infoList !== null && <InfoComponent info={infoList}/>}
+                    {infoList !== null && <InfoComponent type='setting' info={infoList}/>}
                 </Title>
                 <StepImage src={process.env.PUBLIC_URL + settingList[step][0]}></StepImage>
                 <StepTextBox><StepText>{settingList[step][1]}</StepText></StepTextBox>

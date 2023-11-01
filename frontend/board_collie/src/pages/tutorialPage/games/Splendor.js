@@ -9,6 +9,7 @@ import TitleAndContentAndOneButtonComponent from '../../../components/tutorial/T
 import TitleAndContenAndTwoButtonComponent from '../../../components/tutorial/TitleAndContentAndTwoButtonComponent';
 import TitleAndTwoButtonComponent from '../../../components/tutorial/TitleAndTwoButtonComponent';
 import TitleComponent from '../../../components/tutorial/TitleComponent';
+import TutorialEndComponent from '../../../components/tutorial/TutorialEndComponent';
 import TutorialStartComponent from "../../../components/tutorial/TutorialStartComponent";
 
 /* 스타일 */
@@ -346,7 +347,7 @@ function Splender({players, setBackgroundImage}) {
         [ // 23: 개요(4)
             'ImageAndContentComponent', // 템플릿
             process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png', // image
-            '<TypeIt>보너스를 충분히 확보한 순간<br/>🤴귀족👸이 방문합니다!<br/><br/>귀족은 승점을 제공합니다.</TypeIt>', // content
+            '<TypeIt>보너스를 충분히 확보한 순간<br/>귀족👸이 방문합니다!<br/><br/>귀족은 승점을 제공합니다.</TypeIt>', // content
             22, // 이전 페이지 flow 번호
             24 // 다음 페이지 flow 번호
         ],
@@ -362,6 +363,23 @@ function Splender({players, setBackgroundImage}) {
             '모든 플레이어가\n같은 횟수의 액션을 수행할 수 있게\n차례를 마저 진행해주세요.', // 타이틀 내용
             16, // 이전 페이지 flow 번호
             26 // 다음 페이지 flow 번호
+        ],
+        [ // 26
+            'TitleComponent', // 템플릿
+            '모두 자신의 점수를 합산해주세요.\n\n🎯귀족 승점🎯을 잊지마세요!', // 타이틀 내용
+            25, // 이전 페이지 flow 번호
+            27 // 다음 페이지 flow 번호
+        ],
+        [ // 27
+            'TutorialEndComponent', // 템플릿
+            process.env.PUBLIC_URL + '/tutorial/splendor/title.png', // image
+            '승점이 가장 높은 플레이어가 🎉승자🎉입니다!', // content
+            [
+                '🎉 동점일 경우 귀족타일을 제외한 카드를 더 적게 가지고 있는 분이 승리합니다.',
+                '🎉 그것도 같다면, 귀족 타일을 더 많이 가지고 있는 분이 승리합니다.',
+                '🎉 그것도 같다면, 가지고 있는 보석칩 개수가 더 많은 분이 승리합니다.',
+            ], // additional information
+            26 // 이전 페이지 flow 번호
         ],
     ];
 
@@ -461,6 +479,15 @@ function Splender({players, setBackgroundImage}) {
                         setPage={setPage}
                         prePage={flow[page][3]}
                         nextPage={flow[page][4]}
+                    />
+                :
+                (flow[page] && flow[page][0] === 'TutorialEndComponent') ?
+                    <TutorialEndComponent
+                        image={flow[page][1]}
+                        content={flow[page][2]}
+                        addInfo={flow[page][3]}
+                        setPage={setPage}
+                        prePage={flow[page][4]}
                     />
                 :
                 null
