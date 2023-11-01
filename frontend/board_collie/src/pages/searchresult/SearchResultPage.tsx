@@ -81,7 +81,10 @@ const SearchResultsPage: React.FC = () => {
             people: numberOfPlayers,
           },
         });
-        
+        console.log(response.data, '#1')
+        console.log(response.data.message, '#2')
+        console.log(response.data.data, '#3')
+        console.log(response.data.data[0].gameId, '#4')
         // 받아온 데이터를 transformData 함수를 사용하여 변환합니다.
         const games = transformData(response.data);
         setResults(games);
