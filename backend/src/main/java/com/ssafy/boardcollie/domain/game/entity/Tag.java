@@ -13,15 +13,15 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class Tag {
+
     @Id
     @Column(name = "tag_id")
     private Long id;
 
-    private String tag_name_kor;
-    private String tag_name_eng;
-
+    private String tagNameKor;
+    private String tagNameEng;
     @Column(name = "tag_description", columnDefinition = "text")
-    private String tag_description;
+    private String tagDescription;
 
     @OneToMany(mappedBy = "tag", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<GameTag> gameTags;
