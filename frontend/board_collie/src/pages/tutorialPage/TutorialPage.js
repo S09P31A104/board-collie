@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useParams } from "react-router-dom";
-import { useState } from "react";
-import Splendor from "./games/Splendor";
+import { useState, useEffect } from "react";
+import ID72 from "./games/ID72";
 import { Box, Modal, Button } from '@mui/material';
 
 
@@ -86,7 +86,9 @@ function exitTutorial() {
     window.history.back();
 }
 
-function TutorialPage({players}) {
+function TutorialPage() {
+
+    const players = localStorage.getItem('players');
 
     const params = useParams();
 
@@ -101,6 +103,19 @@ function TutorialPage({players}) {
     const handleBackModalClose = () => {
         setBackModalOpen(false);
     };
+
+    // 로컬 스토리지 타이머 계속 가게 설정
+    const [time, setTime] = useState(Number(localStorage.getItem('time')) || 0);
+    useEffect(() => {
+        const timer = setInterval(() => {
+          setTime(prevTime => prevTime + 1); // time 값을 1 증가
+        }, 1000); // 1초에 한 번씩 실행
+    
+        return () => {
+          clearInterval(timer); // 컴포넌트 unmount시 타이머 해제
+          localStorage.setItem('time', time); // 컴포넌트 unmount시 time 값을 localStorage에 저장
+        };
+    }, [time]);
 
     return (
         <TutorialContainer
@@ -132,8 +147,8 @@ function TutorialPage({players}) {
             </Modal>
             <MainContent>
             {
-                (params.title === '스플렌더') ?
-                    <Splendor players={players} setBackgroundImage={setBackgroundImage}/>
+                (params.title === '스플렌더') ? // Splendor 스플렌더
+                    <ID72 players={players} setBackgroundImage={setBackgroundImage}/>
                 :
                     null
             }

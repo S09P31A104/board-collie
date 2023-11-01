@@ -62,7 +62,7 @@ const InfoText = styled.div`
     font-size: 2vw;
 `;
 
-function InfoComponent({info}) {
+function InfoComponent({type, info}) {
 
     const [modalOpen, setModalOpen] = useState(false);
     const handlekModalOpen = () => {
@@ -75,7 +75,15 @@ function InfoComponent({info}) {
     return (
         <InfoContainer>
             <div onClick={handlekModalOpen}>
-                📦
+                {
+                    (type === 'setting') ?
+                        <span>📦</span>
+                    :
+                    (type === 'ending') ?
+                        <span>🙋‍♂️</span>
+                    :
+                    null
+                }
             </div>
             <Modal
                 open={modalOpen}
