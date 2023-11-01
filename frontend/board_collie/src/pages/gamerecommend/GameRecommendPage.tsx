@@ -5,13 +5,14 @@ import { TypeAnimation } from 'react-type-animation';
 import 'animate.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from 'react-router-dom';
+// import axios from 'axios';
 
 
 // images
 import chatIcon from '../../assets/chat_icon.png';
 
 // styles
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 // icon
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
@@ -24,8 +25,9 @@ import ChatBubble from '../../components/chatbubble/ChatBubble';
  *
  * @author 허주혁
  * @todo 
- * 2. 버튼을 backOutDown animation 효과 부여, 3개가 한 개처럼 이동하다가 각자 정해진 위치에 멈추는 형식으로
- * 6. 뒤로가기 버튼의 불일치 문제
+ * 1. 애니메이션 간의 time delay 조절 문제 (속도 조절이 안 됨)
+ * 2. 버튼이 선택되면 배경색이 바뀌는데, 문제는 이게 문제마다 다시 원래 색으로 초기화가 되어야하는데, 계속 바뀐 색이 다음 질문에서도 유지되는 경우
+ * 3. 뒤로가기 버튼을 눌렀을 때, 그대로 선택된 버튼을 버튼이 눌려 색깔이 변경된 처리를 해주고, 다른 선택지를 고르면 그 index로 교체가 되도록 코드 수정
  */
 
 const Padding = styled.div`
@@ -49,6 +51,14 @@ const PositionedChatBubble = styled.div`
   position: absolute;
   top: 26vh;
   left: 28vw;
+`;
+
+const AdvisorText = styled.div`
+  position: absolute;
+  top: 22vh; 
+  left: 28vw;
+  font-size: 1.3rem;
+  font-weight: 800;
 `;
 
 const SelectButtonContainer = styled.div`
@@ -116,10 +126,34 @@ const BackButton = styled.div`
   left: 7%;
 `;
 
+// 버튼 애니메이션 정의
+const buttonInAnimation = keyframes`
+  0% { transform: translateY(100vh); visibility: visible; }
+  100% { transform: translateY(0); }
+`;
+
+const buttonOutAnimation = keyframes`
+  0% { transform: translateY(0); visibility: visible; }
+  100% { transform: translateY(100vh); }
+`;
+
+// SingleButton 스타일을 상속받아 새로운 AnimatedButton 컴포넌트를 생성합니다.
+const AnimatedButton = styled(SingleButton).withConfig({
+  shouldForwardProp: (prop) => !['animateIn', 'index'].includes(prop),
+})<{ animateIn: boolean; index: number }>`
+  animation: ${({ animateIn }) => (animateIn ? buttonInAnimation : buttonOutAnimation)} 1s both;
+  animation-delay: ${({ index }) => index * 0.1}s;
+`;
+
+type ButtonContents = {
+  [key: number]: string[];
+};
+
 const GameRecommendPage: React.FC = () => {
   const [selectedButtons, setSelectedButtons] = useState<number[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [handleButtonClicked, setHandleButtonClicked] = useState(false);
+  const [animateButtonsIn, setAnimateButtonsIn] = useState(true);
 
   // 질문의 대답을 저장하는 리스트 로그
   useEffect(() => {
@@ -150,36 +184,44 @@ const GameRecommendPage: React.FC = () => {
     '사용자님 마음에 들 게임들이 있습니다!\n후보들을 보여드릴테니, 천천히 둘러보시길 바랍니다.',
   ]);
 
-  type ButtonContents = {
-    [key: number]: string[];
-  };
-
   // 버튼 내용을 저장하는 상태
   const buttonContents: ButtonContents = {
-    1: ['플레이 타임 길어도 상관 없어요! (1시간 이상)', '플레이 타임은 짧았으면 좋겠어요! (1시간 미만)', '상관 없음'],
+    1: ['플레이 타임이 길어도 상관 없어요! (1시간 이상)', '플레이 타임은 짧았으면 좋겠어요! (1시간 미만)', '상관 없음'],
     2: ['어려움', '보통', '쉬움'],
     4: ['경쟁', '협동', '상관 없음'],
     5: ['전략', '운빨', '상관 없음'],
     6: ['상호작용 존재 (중상모략의 세계로~)', '독립적 (내 할 것만 하자)', '상관 없음'],
   };
 
+  // 버튼 클릭(선택지 선택) 시 동작
   const handleClick = (buttonNumber?: number) => {
     console.log(currentQuestion);
     console.log(handleButtonClicked);
 
     setHandleButtonClicked(true);
 
-    // 버튼 번호가 제공된 경우에만 배열에 추가
-    if (buttonNumber !== undefined) {
-      setSelectedButtons([...selectedButtons, buttonNumber]);
-    }
+    // 버튼이 아래로 내려가는 애니메이션
+    setAnimateButtonsIn(false);
 
-    // 다음 질문으로 이동
-    setCurrentQuestion(currentQuestion + 1);
+    setTimeout(() => {
+      // 버튼 번호가 제공된 경우에만 배열에 추가
+      if (buttonNumber !== undefined) {
+        setSelectedButtons([...selectedButtons, buttonNumber]);
+      }
 
-    // 새로운 문구
+      // 다음 질문으로 이동
+      setCurrentQuestion(currentQuestion + 1);
+
+      // 버튼을 올라오게 하는 애니메이션
+      setAnimateButtonsIn(true);
+    }, 1000);
+  };
+
+  // 상태 업데이트를 감지하여 chatMessage 업데이트
+  useEffect(() => {
     const newChatMessage = [...chatMessage];
-    switch (currentQuestion + 1) {
+    const questionIndex = currentQuestion; // 현재 질문 인덱스 사용
+    switch (questionIndex) {
       case 0:
         newChatMessage[currentQuestion] = '안녕하세요! AI 집사, 보드콜리 집사입니다.\n사용자님께 맞는 최적의 게임을 추천해드리기 위해 간단한 질문 몇 개만 하겠습니다.';
         break;
@@ -209,15 +251,31 @@ const GameRecommendPage: React.FC = () => {
         break;
     }
     setChatMessage(newChatMessage);
-  };
+  }, [currentQuestion]); // currentQuestion 변경될 때마다 실행
 
+  // 이전 질문으로 이동하기
   const handleBack = () => {
     // 마지막 선택을 배열에서 제거
     setSelectedButtons(selectedButtons.slice(0, -1));
 
-    // 이전 질문으로 이동
-    setCurrentQuestion(currentQuestion - 1);
+    setHandleButtonClicked(false);
+
+    // 버튼이 아래로 내려가는 애니메이션
+    setAnimateButtonsIn(false);
+
+    setTimeout(() => {
+      // 이전 질문으로 이동
+      if (currentQuestion === 4) {
+        setCurrentQuestion(currentQuestion - 2);
+      } else {
+        setCurrentQuestion(currentQuestion - 1);
+      }
+
+      // 버튼을 올라오게 하는 애니메이션
+      setAnimateButtonsIn(true);
+    }, 1000);
   };
+  
 
   // 질문 페이지만 계산하여 페이지 번호를 표시하는 기능
   const getDisplayPageNumber = () => {
@@ -251,11 +309,32 @@ const GameRecommendPage: React.FC = () => {
   }, [zoomInDone]);
 
   useEffect(() => {
-    // TypeAnimation 시작
     if (fadeInDone) {
-      setStartType(true);
+      const starttypeTimer = setTimeout(() => {
+        setStartType(true);
+      }, 1000); 
+
+      return () => clearTimeout(starttypeTimer);
     }
   }, [fadeInDone]);
+
+  // useEffect(() => {
+  //   // TypeAnimation의 예상 실행 시간을 계산
+  //   const typeAnimationDuration = chatMessage[currentQuestion].length * 70 + 1000;
+  //   // 여기서 70은 각 글자를 타이핑하는 데 걸리는 시간(ms), 1000은 추가 지연 시간(ms)입니다.
+  
+  //   // FadeIn 애니메이션이 끝난 후 TypeAnimation이 시작됩니다.
+  //   if (fadeInDone) {
+  //     setStartType(true);
+  
+  //     // TypeAnimation이 끝나고 나서 버튼 애니메이션을 실행합니다.
+  //     const typeAnimationTimer = setTimeout(() => {
+  //       setAnimateButtonsIn(true);
+  //     }, typeAnimationDuration);
+  
+  //     return () => clearTimeout(typeAnimationTimer);
+  //   }
+  // }, [fadeInDone, chatMessage, currentQuestion]);
 
   // 마지막 페이지 도달 시 결과 페이지로 이동 & API 요청
   const navigate = useNavigate();
@@ -265,21 +344,11 @@ const GameRecommendPage: React.FC = () => {
       // API 요청을 보내는 함수
       const postData = async () => {
         try {
-          // const response = await fetch('YOUR_API_ENDPOINT', {
-          //   method: 'POST',
-          //   headers: {
-          //     'Content-Type': 'application/json',
-          //     // 필요한 경우 인증 토큰을 추가
-          //     // 'Authorization': 'Bearer YOUR_AUTH_TOKEN',
-          //   },
-          //   body: JSON.stringify({
-          //     // 여기에 POST 요청과 함께 보낼 데이터를 넣습니다.
-          //     data: 'Your data here',
-          //   }),
+          // const response = await axios.post('YOUR_API_ENDPOINT', {
+          //   selectedButtons,
           // });
 
-          // const responseData = await response.json();
-          // console.log(responseData);
+          // console.log(response.data);
 
           // 데이터를 성공적으로 전송한 후, 사용자를 다른 페이지로 리디렉션
           navigate('/recommendresult');
@@ -298,6 +367,7 @@ const GameRecommendPage: React.FC = () => {
       <Padding />
       <ChatIcon className={`animate__animated ${zoomInDone ? '' : 'animate__zoomIn'}`} />
 
+      <AdvisorText>보드콜리 집사</AdvisorText>
       <PositionedChatBubble className={`animate__animated ${fadeInDone ? '' : (zoomInDone ? 'animate__fadeIn' : '')}`}>
         {startType && (
           <ChatBubble position='left'>
@@ -308,7 +378,7 @@ const GameRecommendPage: React.FC = () => {
                 style={{whiteSpace: 'pre-line',}}
                 sequence={
                   [
-                    chatMessage[currentQuestion - 2],
+                    chatMessage[currentQuestion - 1],
                     1000,
                     ' ',
                     chatMessage[currentQuestion], 
@@ -322,12 +392,7 @@ const GameRecommendPage: React.FC = () => {
                 key={currentQuestion}
                 style={{whiteSpace: 'pre-line',}}
                 sequence={
-                  currentQuestion === 0 ? [
-                    chatMessage[currentQuestion],
-                    1000,
-                    ' ',
-                    1000,
-                  ] : [
+                  [
                     chatMessage[currentQuestion],
                     1000,
                   ]
@@ -343,8 +408,10 @@ const GameRecommendPage: React.FC = () => {
         <>
           <SelectButtonContainer>
             {buttonContents[currentQuestion]?.map((content, index) => (
-              <SingleButton 
+              <AnimatedButton 
                 key={index}
+                animateIn={animateButtonsIn}
+                index={index}
                 style={selectedButtons[currentQuestion] === index + 1 ? { backgroundColor: '#90B299' } : {}}
                 onClick={() => handleClick(index + 1)}
               >
@@ -358,7 +425,7 @@ const GameRecommendPage: React.FC = () => {
                   {content}
                 </TextContainer>
 
-              </SingleButton>
+              </AnimatedButton>
             ))}
           </SelectButtonContainer>
 
@@ -367,7 +434,9 @@ const GameRecommendPage: React.FC = () => {
           </PageNumber>
 
           <BackButton>
-            <ArrowBackIosNewIcon onClick={handleBack} />
+            {currentQuestion > 1 && ( // 1보다 클 때만 뒤로 가기 버튼 표시
+              <ArrowBackIosNewIcon onClick={handleBack} />
+            )}
           </BackButton>
         </>
       )}
