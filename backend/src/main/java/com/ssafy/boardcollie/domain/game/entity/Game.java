@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,7 +35,9 @@ public class Game {
     private Integer playTime;
     private String gameImage;
     private String qrImage;
+    @Column(name = "game_detail", columnDefinition = "text")
     private String gameDetail;
+    @Column(name = "game_evaluation", columnDefinition = "text")
     private String gameEvaluation;
 
     @OneToMany(mappedBy = "game", cascade = CascadeType.PERSIST)

@@ -9,10 +9,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "game_relations")
+@Table(name = "game_relation")
 @Getter
+@NoArgsConstructor
 public class GameRelation {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "game_relations_id")

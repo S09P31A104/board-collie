@@ -26,17 +26,21 @@ public class Question extends BaseEntity {
     private String question;
     @Column(name = "game_id")
     private Long gameId;
+    @Column(name = "answer")
+    private String answer;
 
     @Builder
-    private Question(String question, Long gameId) {
+    private Question(String question, Long gameId, String answer) {
         this.question = question;
         this.gameId = gameId;
+        this.answer = answer;
     }
 
-    public static Question createQuestion(String question, Long gameId) {
+    public static Question createQuestion(String question, Long gameId, String answer) {
         return Question.builder()
                        .question(question)
                        .gameId(gameId)
+                       .answer(answer)
                        .build();
     }
 }

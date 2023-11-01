@@ -20,6 +20,7 @@ public class Tag {
 
     private String tagNameKor;
     private String tagNameEng;
+    @Column(name = "tag_description", columnDefinition = "text")
     private String tagDescription;
 
     @OneToMany(mappedBy = "tag", cascade = CascadeType.PERSIST, orphanRemoval = true)
