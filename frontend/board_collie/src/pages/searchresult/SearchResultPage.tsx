@@ -6,186 +6,38 @@ import './SearchResultPage.css';
 import RecentGamesList from '../../components/recentgameslist/RecentGamesList';
 import FilterBar from '../../components/filterbar/FilterBar'
 import InfiniteScroll from 'react-infinite-scroll-component';
-import gameimg from '../../assets/splendor.png'
+import gameImg from '../../assets/splendor.png'
+import axios from 'axios';
 
 type Game = {
+  id: number;
   name: string;
   tags: string[];
-  id: number;
+  image: string;
 };
 
 type GameFromServer = {
-  game_id: number;
-  game_title: string;
-  game_tag: Array<{
-    tag_id: number;
-    tag_name_kor: string;
+  gameId: number;
+  gameTitle: string;
+  gameImage: string | null;
+  gameTag: Array<{
+    tagId: number;
+    tagName: string;
+    tagDescription: string;
   }>;
 };
 
-const dummyDataFromServer: GameFromServer[] = [
-  {
-    game_id: 1,
-    game_title: '스플렌더',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '2-4명' },
-      { tag_id: 3, tag_name_kor: '45분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 2,
-    game_title: '모노폴리',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '2-8명' },
-      { tag_id: 3, tag_name_kor: '180분' },
-      { tag_id: 4, tag_name_kor: '경영' }
-    ]
-  },
-  {
-    game_id: 3,
-    game_title: '다빈치코드',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '쉬움' },
-      { tag_id: 2, tag_name_kor: '2-4명' },
-      { tag_id: 3, tag_name_kor: '20분' },
-      { tag_id: 4, tag_name_kor: '추리' }
-    ]
-  },
-  {
-    game_id: 4,
-    game_title: '장미전쟁',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '2명' },
-      { tag_id: 3, tag_name_kor: '25분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 5,
-    game_title: '센추리: 향신료의 길',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '2-5명' },
-      { tag_id: 3, tag_name_kor: '40분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 6,
-    game_title: '마헤',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '4-7명' },
-      { tag_id: 3, tag_name_kor: '30분' },
-      { tag_id: 4, tag_name_kor: '경주' }
-    ]
-  },
-  {
-    game_id: 7,
-    game_title: '부루마불',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '2-4명' },
-      { tag_id: 3, tag_name_kor: '60분' },
-      { tag_id: 4, tag_name_kor: '경영' }
-    ]
-  },
-  {
-    game_id: 8,
-    game_title: '테라포밍마스',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '2-5명' },
-      { tag_id: 3, tag_name_kor: '120분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 9,
-    game_title: '인코그니토',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '4명' },
-      { tag_id: 3, tag_name_kor: '60분' },
-      { tag_id: 4, tag_name_kor: '추리' }
-    ]
-  },
-  {
-    game_id: 10,
-    game_title: '시타델',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '4-7명' },
-      { tag_id: 3, tag_name_kor: '60분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 11,
-    game_title: '제왕의 깃발',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '3-4명' },
-      { tag_id: 3, tag_name_kor: '20분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 12,
-    game_title: '마피아 데 쿠바',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '6-12명' },
-      { tag_id: 3, tag_name_kor: '60분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 13,
-    game_title: '아발론',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '쉬움' },
-      { tag_id: 2, tag_name_kor: '2명' },
-      { tag_id: 3, tag_name_kor: '20분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 14,
-    game_title: '루미큐브',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '2-6명' },
-      { tag_id: 3, tag_name_kor: '30분' },
-      { tag_id: 4, tag_name_kor: '타일조합' }
-    ]
-  },
-  {
-    game_id: 15,
-    game_title: '로스트시티',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '2명' },
-      { tag_id: 3, tag_name_kor: '20분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-
+const SERVER_API_URL = `${process.env.REACT_APP_API_SERVER_URL}`;
  
-];
+
 const transformData = (dataFromServer: GameFromServer[]): Game[] => {
   return dataFromServer.map(game => ({
-    id: game.game_id,
-    name: game.game_title,
-    tags: game.game_tag.map(tag => tag.tag_name_kor),
+    id: game.gameId,
+    name: game.gameTitle,
+    tags: game.gameTag.map(tag => tag.tagName),
+    image: game.gameImage || gameImg,
   }));
 };
-
-const dummyData = transformData(dummyDataFromServer);
 
 
 
@@ -193,7 +45,7 @@ const SearchResultsPage: React.FC = () => {
   
   const [results, setResults] = useState<Game[]>([]);
   const [numberOfPlayers, setNumberOfPlayers] = useState('');
-
+  const [query, setQuery] = useState('');
   const [visibleResults, setVisibleResults] = useState<Game[]>([]);
   const [hasMore, setHasMore] = useState(true);
 
@@ -219,6 +71,33 @@ const SearchResultsPage: React.FC = () => {
     setHasMore(true);
   }, [results]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // 서버에 GET 요청을 보냅니다.
+        const response = await axios.get(`${SERVER_API_URL}/game`, {
+          params: {
+            q: query,
+            people: numberOfPlayers,
+          },
+        });
+        
+        // 받아온 데이터를 transformData 함수를 사용하여 변환합니다.
+        const games = transformData(response.data);
+        setResults(games);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+        setResults([]);
+      }
+    };
+    fetchData();
+  }, [query, numberOfPlayers]);
+
+  const handleSearch = (query: string) => {
+    setQuery(query); // 입력받은 검색어를 state에 저장합니다.
+  };
+
+
   const centerStyle: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'center',
@@ -228,41 +107,9 @@ const SearchResultsPage: React.FC = () => {
     fontSize: '24px'
   };
 
-
-  const handleSearch = (query: string) => {
-    if (query.trim() === "") {
-      setResults([]);
-    } else {
-      let filteredGames = dummyData.filter(game =>
-        game.name.toLowerCase().includes(query.toLowerCase()) ||
-        game.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()))
-      );
-  
-      if (numberOfPlayers && numberOfPlayers !== "all") { // "all"일 때는 필터링하지 않습니다.
-        filteredGames = filteredGames.filter(game => {
-          return game.tags.some(tag => {
-            const playerMatch = tag.match(/(\d+)-?(\d+)?명/);
-            if (playerMatch) {
-              const [, min, max] = playerMatch;
-              const playerNum = parseInt(numberOfPlayers, 10);
-              if (max) {
-                return playerNum >= parseInt(min, 10) && playerNum <= parseInt(max, 10);
-              }
-              return playerNum === parseInt(min, 10);
-            }
-            return false;
-          });
-        });
-      }
-  
-      setResults(filteredGames);
-    }
-  };
-  
-
   const handleGameClick = (gameId: number) => {
     const recentGames = JSON.parse(localStorage.getItem('recentGames') || '[]');
-    const clickedGame = dummyData.find(game => game.id === gameId);
+    const clickedGame = results.find(game => game.id === gameId);
   
     if (!clickedGame) return;
   
@@ -275,7 +122,6 @@ const SearchResultsPage: React.FC = () => {
   
     localStorage.setItem('recentGames', JSON.stringify(newRecentGames));
   };
-  
   
 
   return (
@@ -299,7 +145,7 @@ const SearchResultsPage: React.FC = () => {
           {visibleResults.map((item, index) => (
             <div key={item.name} style={{ marginLeft: '10vw' }} >
               <div style={{ display: 'flex', alignItems: 'center', padding: '20px' }}>
-                <img src={gameimg} alt={item.name} style={{ width: '100px', height: '100px', marginRight: '20px' }} />
+                <img src={item.image} alt={item.image} style={{ width: '100px', height: '100px', marginRight: '20px' }} />
                 <div>
                   <h3>
                     <Link 
@@ -321,8 +167,6 @@ const SearchResultsPage: React.FC = () => {
             </div>
           ))}
         </InfiniteScroll>
-        
-
         
         )}
       </Grid>

@@ -268,7 +268,7 @@ const GameDetailPage: React.FC = () => {
             테마 및 진행방식
           </Typography>
           <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 15 }}>
-            게임별 요약
+            게임평 요약
           </Typography>
           <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif' }}>
             유사한 다른 게임
