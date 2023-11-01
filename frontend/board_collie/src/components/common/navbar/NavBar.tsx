@@ -126,19 +126,19 @@ function NavBar({ players } : NavBarProps) {
     }
 
     const openModal = () => {
-        // 스탑워치 정지
-        localStorage.setItem('isActive', 'false');
         setModalOpen(true);
     };
 
     const closeModal = () => {
-        // 스탑워치 resume
-        localStorage.setItem('isActive', 'true');
         setModalOpen(false);
     };
 
     // 게임 종료 및 이용시간 POST
     const endGame = async () => {
+
+        localStorage.removeItem('players');
+        localStorage.removeItem('isActive');
+        localStorage.removeItem('time');
 
         // // axios를 사용하여 이용시간 POST
         // try {

@@ -19,28 +19,24 @@ const Timer: React.FC = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       if (localStorage.getItem('isActive') === 'true') {
-        setTime((prevTime) => {
-          const newTime = prevTime + 1;
-          localStorage.setItem('time', newTime.toString());
-          return newTime;
-        });
+        setTime(prevTime => prevTime + 1); // time 값을 1 증가
       }
     }, 1000);
 
     return () => {
       clearInterval(timer);
+      localStorage.setItem('time', time.toString());
     };
-  }, []);
+  }, [time]);
 
   const hours = Math.floor(time / 3600);
   const minutes = Math.floor((time % 3600) / 60);
-  const seconds = time % 60;
 
   const formatTime = () => {
     if (hours >= 1) {
-      return `${hours}시간 ${minutes}분 ${seconds}초`;
+      return `${hours}시간 ${minutes}분`;
     } else {
-      return `${minutes}분 ${seconds}초`;
+      return `${minutes}분`;
     }
   };
 
