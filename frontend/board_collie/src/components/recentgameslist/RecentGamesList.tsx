@@ -3,16 +3,21 @@ import { Link } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
+type RecentGame = {
+  id: number;
+  name: string;
+};
+
 const RecentGamesList: React.FC = () => {
-  const [recentGames, setRecentGames] = useState<string[]>([]);
+  const [recentGames, setRecentGames] = useState<RecentGame[]>([]);
 
   useEffect(() => {
     const loadedRecentGames = JSON.parse(localStorage.getItem('recentGames') || '[]');
     setRecentGames(loadedRecentGames);
   }, []);
 
-  const handleRemoveGame = (gameName: string) => {
-    const updatedRecentGames = recentGames.filter(name => name !== gameName);
+  const handleRemoveGame = (gameId: number) => {
+    const updatedRecentGames = recentGames.filter(game => game.id !== gameId);
     localStorage.setItem('recentGames', JSON.stringify(updatedRecentGames));
     setRecentGames(updatedRecentGames);
   };
@@ -38,12 +43,12 @@ const RecentGamesList: React.FC = () => {
 
   return (
     <ul style={listStyle}>
-      {recentGames.map((gameName, index) => (
-        <li key={index} style={listItemStyle}>
-          <Link to={`/game/${gameName}`} style={linkStyle}>
-            {gameName}
+      {recentGames.map((game) => (
+        <li key={game.id} style={listItemStyle}>
+          <Link to={`/game/${game.id}`} style={linkStyle}>
+            {game.name}
           </Link>
-          <IconButton size="small" onClick={() => handleRemoveGame(gameName)}>
+          <IconButton size="small" onClick={() => handleRemoveGame(game.id)}>
             <CloseIcon fontSize="small" />
           </IconButton>
         </li>
