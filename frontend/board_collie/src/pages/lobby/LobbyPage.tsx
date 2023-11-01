@@ -67,7 +67,8 @@ const LobbyPage: React.FC<LobbyPageProps> = ({ players, setPlayers }) => {
             {char}
           </span>
         ))}
-      </Typography>
+       </Typography>
+
 
       <div className="player-adjust" style={{ marginBottom: '40px' }}>
         <IconButton 

@@ -6,10 +6,11 @@ import gameimg from '../../assets/splendor.png'
 import gameQr from '../../assets/qr2.png';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
-interface Game {
+type Game = {
   name: string;
   tags: string[];
-}
+  id: number;
+};
 type GameFromServer = {
   game_id: number;
   game_title: string;
@@ -183,10 +184,13 @@ const transformData = (dataFromServer: GameFromServer[]): Game[] => {
 
 const dummyData = transformData(dummyDataFromServer);
 
+// const SERVER_API_URL = `${process.env.REACT_APP_API_SERVER_URL}`;
+
 const GameDetailPage: React.FC = () => {
-  const { name } = useParams<{ name: string }>();
+  const { id } = useParams<{ id: string }>();
+  const gameId = parseInt(id ?? "0"); // useParams로 받은 id를 정수로 변환
   const navigate = useNavigate();
-  const game = dummyData.find(game => game.name === name);
+  const game = dummyData.find(game => game.id === gameId);
 
   const goBack = () => {
     navigate(-1);
@@ -195,9 +199,11 @@ const GameDetailPage: React.FC = () => {
   // 재생버튼 클릭 시 선택페이지로 이동
   const handlePlayButtonClick = () => {
     if (game) {
-      navigate(`/select/${game.name}`);
+      sessionStorage.setItem(`gameName-${game.id}`, game.name);
+      navigate(`/select/${game.id}`);
     }
   };
+  
 
   return (
     <Box sx={{ padding: '20px', display: 'flex', flexDirection: 'row', marginTop: '90px' }}>
@@ -205,10 +211,10 @@ const GameDetailPage: React.FC = () => {
   <IconButton onClick={goBack} aria-label="뒤로 가기" sx={{ alignSelf: 'flex-start', mb: 2 }}>
     <ArrowBackIcon />
   </IconButton>
-  <img src={gameimg} alt={name} style={{ maxWidth: '100%', maxHeight: '200px', marginBottom: '32px' }} />
+  <img src={gameimg} alt={gameimg} style={{ maxWidth: '100%', maxHeight: '200px', marginBottom: '32px' }} />
   <Typography variant="h3" gutterBottom sx={{ fontFamily: 'Jua, sans-serif', textAlign: 'center', mb: 3 }}>
-    {name}
-  </Typography>
+      {game?.name} 
+    </Typography>
   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
     {game ? (
       game.tags.map(tag => (
@@ -262,7 +268,7 @@ const GameDetailPage: React.FC = () => {
             테마 및 진행방식
           </Typography>
           <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 15 }}>
-            게임별 요약
+            게임평 요약
           </Typography>
           <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif' }}>
             유사한 다른 게임
