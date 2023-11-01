@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Splendor from "./games/Splendor";
+import ID72 from "./games/ID72";
 import { Box, Modal, Button } from '@mui/material';
 
 
@@ -147,8 +147,8 @@ function TutorialPage() {
             </Modal>
             <MainContent>
             {
-                (params.title === '스플렌더') ?
-                    <Splendor players={players} setBackgroundImage={setBackgroundImage}/>
+                (params.title === '스플렌더') ? // Splendor 스플렌더
+                    <ID72 players={players} setBackgroundImage={setBackgroundImage}/>
                 :
                     null
             }
