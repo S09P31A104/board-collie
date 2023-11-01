@@ -112,7 +112,11 @@ const GameDetailPage: React.FC = () => {
   <IconButton onClick={goBack} aria-label="뒤로 가기" sx={{ alignSelf: 'flex-start', mb: 2 }}>
     <ArrowBackIcon />
   </IconButton>
-  <img src={gameimg} alt={gameimg} style={{ maxWidth: '100%', maxHeight: '200px', marginBottom: '32px' }} />
+  <img 
+  src={game?.image || gameimg} 
+  alt={game?.name || '게임 이미지'} 
+  style={{ maxWidth: '100%', maxHeight: '200px', marginBottom: '32px' }} 
+/>
   <Typography variant="h3" gutterBottom sx={{ fontFamily: 'Jua, sans-serif', textAlign: 'center', mb: 3 }}>
       {game?.name} 
     </Typography>
@@ -129,7 +133,11 @@ const GameDetailPage: React.FC = () => {
   
   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
   <Box sx={{ textAlign: 'center' }}>
-    <img src={gameQr} alt="QR 코드" style={{ maxWidth: '100%', maxHeight: '180px' }} />
+  <img 
+  src={game?.qrImage || gameQr} 
+  alt="QR 코드" 
+  style={{ maxWidth: '100%', maxHeight: '180px' }} 
+/>
     <Typography sx={{ fontSize: '2rem', fontFamily: 'Jolly Lodger, cursive' }}>Chat Bot</Typography>
   </Box>
   
