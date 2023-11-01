@@ -30,15 +30,16 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        ddl-auto: update
 
-  cloud:
-    aws:
-      s3:
-        bucket: boardcollie.com
-      credentials:
-        access-key: AKIA4C5LB37747GR4BOE
-        secret-key: 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
-      region:
-        static: ap-northeast-2
-      stack:
-        auto: false
+cloud:
+  aws:
+    s3:
+      bucket: boardcollie.com
+    credentials:
+      access-key: AKIA4C5LB37747GR4BOE
+      secret-key: 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
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

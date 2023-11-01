@@ -4,6 +4,8 @@ import com.ssafy.boardcollie.domain.game.dto.GameDetailResponseDto;
 import com.ssafy.boardcollie.domain.game.dto.GameResponseDto;
 import com.ssafy.boardcollie.domain.game.dto.TagDto;
 import com.ssafy.boardcollie.domain.game.entity.Game;
+import com.ssafy.boardcollie.domain.game.entity.GameRelation;
+import com.ssafy.boardcollie.domain.game.entity.GameTag;
 import com.ssafy.boardcollie.domain.game.entity.Tag;
 import com.ssafy.boardcollie.domain.game.repository.GameRepository;
 import com.ssafy.boardcollie.global.exception.GlobalRuntimeException;
@@ -30,17 +32,19 @@ public class GameServiceImpl implements GameService {
                 .toList();
     }
 
-//    @Override
-//    public GameDetailResponseDto getGameDetail(Long id) {
-//        Game game = gameRepository.findById(id)
-//                .orElseThrow(() -> new GlobalRuntimeException("해당 ID의 게임이 존재하지 않습니다.",
-//                        HttpStatus.NOT_FOUND));
-//
-//        List<TagDto> tagDtos = game.getTags().stream()
-//                .map(TagDto::from)
-//                .toList();
-//
-//
-//
-//    }
+    @Override
+    public GameDetailResponseDto getGameDetail(Long id) {
+        Game game = gameRepository.findGameDetailWithTagsAndSimilarGames(id)
+                .orElseThrow(() -> new GlobalRuntimeException("해당 ID의 게임이 존재하지 않습니다.", HttpStatus.NOT_FOUND));
+
+        List<Tag> tags = game.getGameTags().stream()
+                .map(GameTag::getTag)
+                .toList();
+
+        List<Game> similarGames = game.getGameRelations().stream()
+                .map(GameRelation::getRelatedGame)
+                .toList();
+
+        return GameDetailResponseDto.from(game, tags, similarGames);
+    }
 }

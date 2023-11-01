@@ -38,7 +38,6 @@ public class Game {
     private String gameEvaluation;
 
     @OneToMany(mappedBy = "game", cascade = CascadeType.PERSIST)
-    @Fetch(FetchMode.JOIN)
     private List<GameTag> gameTags;
 
     public List<Tag> getTags() {

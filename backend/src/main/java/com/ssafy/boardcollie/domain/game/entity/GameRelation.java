@@ -8,9 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.Getter;
 
 @Entity
 @Table(name = "game_relations")
+@Getter
 public class GameRelation {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "game_relations_id")
