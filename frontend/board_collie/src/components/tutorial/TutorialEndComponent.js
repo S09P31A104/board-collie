@@ -137,8 +137,6 @@ const Exit = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    font-size: 3.5vw;
 `;
 const EndingButtonIconStyle = {
     fontSize: '3.5vw',

@@ -5,11 +5,13 @@ import Alarm from '@mui/icons-material/Alarm';
 import styled from 'styled-components';
 
 const ShowTime = styled.div`
-    align-items: center;    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     font-size: 1.5rem;
-    font-weight: bold;
     padding: 0 1vw;
-    fontFamily: 'Jolly Lodger, cursive',
+    font-family: 'Jua', sans-serif;
 `;
 
 const Timer: React.FC = () => {
@@ -43,7 +45,7 @@ const Timer: React.FC = () => {
   return (
     <div>
       <ShowTime>
-        <Alarm style={{ fontSize: 25 }}/> {formatTime()}
+        <Alarm style={{ fontSize: '1.5rem' }}/>&nbsp;{formatTime()}
       </ShowTime>
     </div>
   );
