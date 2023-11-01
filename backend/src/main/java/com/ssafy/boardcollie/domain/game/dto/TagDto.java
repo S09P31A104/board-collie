@@ -16,11 +16,13 @@ public class TagDto {
 
     private Long tagId;
     private String tagName;
+    private String tagDescription;
 
     public static TagDto from(Tag tag){
         return TagDto.builder()
                 .tagId(tag.getId())
-                .tagName(tag.getTag_name_kor())
+                .tagName(tag.getTagNameKor())
+                .tagDescription(tag.getTagDescription())
                 .build();
     }
 

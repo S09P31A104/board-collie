@@ -25,3 +25,20 @@ spring:
     username: ssafy
     password: ssafy
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  cloud:
+    aws:
+      s3:
+        bucket: boardcollie.com
+      credentials:
+        access-key: AKIA4C5LB37747GR4BOE
+        secret-key: 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
+      region:
+        static: ap-northeast-2
+      stack:
+        auto: false

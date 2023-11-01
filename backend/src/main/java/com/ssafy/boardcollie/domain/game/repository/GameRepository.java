@@ -18,7 +18,7 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     @Query("SELECT DISTINCT g FROM Game g " +
             "JOIN FETCH g.gameTags gt " +
             "JOIN FETCH gt.tag t " +
-            "WHERE t.tag_name_kor = :tagName")
+            "WHERE t.tagNameKor = :tagName")
     List<Game> findGamesByTagName(@Param("tagName") String tagName);
 
 }

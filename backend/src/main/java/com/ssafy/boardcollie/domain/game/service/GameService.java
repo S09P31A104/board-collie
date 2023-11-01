@@ -9,6 +9,6 @@ public interface GameService {
 
     List<GameResponseDto> getGamesByGameTitle(String searchKeyword, Integer numberOfPeople);
 
-    GameDetailResponseDto getGameDetail(Long id);
+    //GameDetailResponseDto getGameDetail(Long id);
 
 }

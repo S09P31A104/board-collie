@@ -28,12 +28,12 @@ public class GameController {
                 gameService.getGamesByGameTitle(searchKeyword, numberOfPeople));
     }
 
-    @GetMapping("/detail/{gameId}")
-    public ResponseEntity<?> getGameDetail(@PathVariable Long gameId) {
-
-        GameDetailResponseDto gameDetail = gameService.getGameDetail(gameId);
-        return JsonResponse.ok("게임 디테일 반환 성공!",gameDetail);
-
-    }
+//    @GetMapping("/detail/{gameId}")
+//    public ResponseEntity<?> getGameDetail(@PathVariable Long gameId) {
+//
+//        GameDetailResponseDto gameDetail = gameService.getGameDetail(gameId);
+//        return JsonResponse.ok("게임 디테일 반환 성공!",gameDetail);
+//
+//    }
 
 }

@@ -2,9 +2,12 @@ package com.ssafy.boardcollie.domain.game.service;
 
 import com.ssafy.boardcollie.domain.game.dto.GameDetailResponseDto;
 import com.ssafy.boardcollie.domain.game.dto.GameResponseDto;
+import com.ssafy.boardcollie.domain.game.dto.TagDto;
 import com.ssafy.boardcollie.domain.game.entity.Game;
+import com.ssafy.boardcollie.domain.game.entity.Tag;
 import com.ssafy.boardcollie.domain.game.repository.GameRepository;
 import com.ssafy.boardcollie.global.exception.GlobalRuntimeException;
+import io.micrometer.core.instrument.Tags;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -22,17 +25,22 @@ public class GameServiceImpl implements GameService {
     public List<GameResponseDto> getGamesByGameTitle(String searchKeyword, Integer numberOfPeople) {
         List<Game> games = gameRepository.findGamesBySearchCriteria(searchKeyword, numberOfPeople);
 
-        List<GameResponseDto> gameResponseDtos = games.stream()
+        return games.stream()
                 .map(GameResponseDto::from)
-                .collect(Collectors.toList());
-        return gameResponseDtos;
+                .toList();
     }
 
-    @Override
-    public GameDetailResponseDto getGameDetail(Long id) {
-        Game game = gameRepository.findById(id)
-                .orElseThrow(() -> new GlobalRuntimeException("해당 ID의 게임이 존재하지 않습니다.",
-                        HttpStatus.NOT_FOUND));
-
-    }
+//    @Override
+//    public GameDetailResponseDto getGameDetail(Long id) {
+//        Game game = gameRepository.findById(id)
+//                .orElseThrow(() -> new GlobalRuntimeException("해당 ID의 게임이 존재하지 않습니다.",
+//                        HttpStatus.NOT_FOUND));
+//
+//        List<TagDto> tagDtos = game.getTags().stream()
+//                .map(TagDto::from)
+//                .toList();
+//
+//
+//
+//    }
 }

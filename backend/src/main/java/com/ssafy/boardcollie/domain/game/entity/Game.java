@@ -1,6 +1,8 @@
 package com.ssafy.boardcollie.domain.game.entity;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Getter
@@ -33,10 +37,14 @@ public class Game {
     private String gameDetail;
     private String gameEvaluation;
 
-    @OneToMany(mappedBy = "game", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "game", cascade = CascadeType.PERSIST)
+    @Fetch(FetchMode.JOIN)
     private List<GameTag> gameTags;
 
     public List<Tag> getTags() {
         return gameTags.stream().map(GameTag::getTag).collect(Collectors.toList());
     }
+
+    @OneToMany(mappedBy = "game")
+    private Set<GameRelation> gameRelations = new HashSet<>();
 }
