@@ -83,7 +83,7 @@ public class ChatBotServiceImpl implements ChatBotService {
             redisService.saveAnswerToRedis(answer, uuid);
 
             saveQuestion(Question.createQuestion(requestDto.getPrompt(),
-                    requestDto.getGameId()));
+                    requestDto.getGameId(), answer));
 
             return answer;
 
