@@ -28,8 +28,6 @@ type GameFromServer = {
 };
 
 const SERVER_API_URL = `${process.env.REACT_APP_API_SERVER_URL}`;
-// const SERVER_API_URL = 'https://boardcollie.com/api/s1';
- 
 
 const transformData = (dataFromServer: GameFromServer[]): Game[] => {
   return dataFromServer.map(game => ({
@@ -83,8 +81,6 @@ const SearchResultsPage: React.FC = () => {
           },
         });
         
-        console.log(response.data.data, '#3')
-        console.log(response.data.data[1].gameId, '#4')
         // 받아온 데이터를 transformData 함수를 사용하여 변환합니다.
         const games = transformData(response.data.data);
         setResults(games);
@@ -159,10 +155,10 @@ const SearchResultsPage: React.FC = () => {
                       {item.name}
                     </Link>
                   </h3>
-                  <Stack direction="row" spacing={1} style={{ marginBottom: '20px' }}>
+                  <Stack direction="row" spacing={1} style={{ marginBottom: '20px', flexWrap: 'wrap' }}>
                     {item.tags.map(tag => (
-                      <Chip key={tag} label={tag} />
-                    ))}
+                    <Chip key={tag} label={tag} />
+                      ))}
                   </Stack>
                 </div>
               </div>

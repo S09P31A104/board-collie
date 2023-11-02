@@ -74,7 +74,7 @@ const GameDetailPage: React.FC = () => {
   useEffect(() => {
     const fetchGameDetail = async () => {
       try {
-        const response = await axios.get(`${SERVER_API_URL}/detail/${gameId}`);
+        const response = await axios.get(`${SERVER_API_URL}/game/detail/${gameId}`);
         console.log(response.data, '#1')
         console.log(response.data.message, '#2')
         console.log(response.data.data, '#3')
