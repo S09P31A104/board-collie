@@ -6,6 +6,7 @@ import gameimg from '../../assets/splendor.png'
 import gameQr from '../../assets/qr2.png';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import axios from 'axios';
+import Modal from '@mui/material/Modal';
 
 const SERVER_API_URL = `${process.env.REACT_APP_API_SERVER_URL}`;
 
@@ -43,9 +44,6 @@ type GameFromServer = {
   similarGame: any[]; // 여기서 'any'를 필요에 따라 적절한 타입으로 바꿔야 합니다.
 };
 
-
-
-
 const transformData = (dataFromServer: GameFromServer): Game => {
   return {
     id: dataFromServer.gameId,
@@ -64,21 +62,36 @@ const transformData = (dataFromServer: GameFromServer): Game => {
   };
 };
 
-
 const GameDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const gameId = parseInt(id ?? "0"); // useParams로 받은 id를 정수로 변환
   const navigate = useNavigate();
   const [game, setGame] = useState<Game | null>(null);
 
+  const [open, setOpen] = useState(false);
+  const [selectedTagDescription, setSelectedTagDescription] = useState("");
+  const handleOpen = (tagDescription: string) => {
+    setSelectedTagDescription(tagDescription);
+    setOpen(true);
+  };
+  
+  const handleClose = () => setOpen(false);
+  const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+
   useEffect(() => {
     const fetchGameDetail = async () => {
       try {
         const response = await axios.get(`${SERVER_API_URL}/game/detail/${gameId}`);
-        console.log(response.data, '#1')
-        console.log(response.data.message, '#2')
-        console.log(response.data.data, '#3')
-        console.log(response.data.data.gameId, '#4')
         if (response.data.success) {
           const transformedData = transformData(response.data.data);
           setGame(transformedData);
@@ -88,7 +101,6 @@ const GameDetailPage: React.FC = () => {
       }
     };
     
-  
     fetchGameDetail();
   }, [gameId]);
   
@@ -120,16 +132,19 @@ const GameDetailPage: React.FC = () => {
   <Typography variant="h3" gutterBottom sx={{ fontFamily: 'Jua, sans-serif', textAlign: 'center', mb: 3 }}>
       {game?.name} 
     </Typography>
-  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-  {game ? (
-  game.tags.map(tag => (
-    <Chip key={tag.id} label={tag.name} sx={{ fontSize: '1rem', fontFamily: 'Jua, sans-serif', mb: 2 }} />
-  ))
-) : (
-  <Typography style={{ fontFamily: 'Jua, sans-serif' }}>게임 정보를 찾을 수 없습니다.</Typography>
-)}
 
-  </Box>
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, justifyContent: 'center' }}>
+  {game ? (
+    <>
+      <Chip label={`최소 인원: ${game.minPlayer}명`} sx={{ fontSize: '1rem', fontFamily: 'Jua, sans-serif', mb: 2 }} />
+      <Chip label={`최대 인원: ${game.maxPlayer}명`} sx={{ fontSize: '1rem', fontFamily: 'Jua, sans-serif', mb: 2 }} />
+      <Chip label={`플레이 시간: ${game.playTime}분`} sx={{ fontSize: '1rem', fontFamily: 'Jua, sans-serif', mb: 2 }} />
+    </>
+  ) : (
+    <Typography style={{ fontFamily: 'Jua, sans-serif' }}>게임 정보를 찾을 수 없습니다.</Typography>
+  )}
+</Box>
+
   
   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
   <Box sx={{ textAlign: 'center' }}>
@@ -160,8 +175,8 @@ const GameDetailPage: React.FC = () => {
     >
       <PlayArrowIcon
         sx={{
-          fontSize: 90, // 아이콘의 크기
-          color: '#A1F38C', // 아이콘의 색상
+          fontSize: 90, 
+          color: '#A1F38C', 
         }}
       />
     </Box>
@@ -173,16 +188,55 @@ const GameDetailPage: React.FC = () => {
 
       <Divider orientation="vertical" flexItem />
       <Box sx={{ flex: 3, display: 'flex', flexDirection: 'column', justifyContent: 'start', pl: 14, mt: 7 }}>
-          <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 15 }}>
-            테마 및 진행방식
-          </Typography>
-          <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 15 }}>
+      
+      <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 5 }}>
+        테마 및 진행방식
+      </Typography>
+        <div>
+          {game ? (
+            game.tags.map((tag) => (
+          <Chip
+            key={tag.id}
+            label={tag.name}
+            onClick={() => handleOpen(tag.description)}
+            sx={{ backgroundColor: '#CCF38C', mr: 1, mb: 1 }}
+              />
+            ))
+            ) : (
+          <Typography style={{ fontFamily: 'Jua, sans-serif' }}>태그 정보를 찾을 수 없습니다.</Typography>
+             )}
+          </div>
+          
+          <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 5 }}>
             게임평 요약
           </Typography>
+            {game && (
+          <Typography sx={{ fontFamily: 'Jua, sans-serif', mb: 15 }}>
+            {game.evaluation}
+          </Typography>
+          )}
+
           <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif' }}>
             유사한 다른 게임
           </Typography>
         </Box>
+
+        <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            태그 설명
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            {selectedTagDescription}
+          </Typography>
+        </Box>
+      </Modal>
+
       </Box>
       );
     }

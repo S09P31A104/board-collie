@@ -155,9 +155,9 @@ const SearchResultsPage: React.FC = () => {
                       {item.name}
                     </Link>
                   </h3>
-                  <Stack direction="row" spacing={1} style={{ marginBottom: '20px', flexWrap: 'wrap' }}>
+                  <Stack direction="row" spacing={2} style={{ marginBottom: '20px', flexWrap: 'wrap' }}>
                     {item.tags.map(tag => (
-                    <Chip key={tag} label={tag} />
+                    <Chip key={tag} label={tag} style={{ marginBottom: '8px' }} />
                       ))}
                   </Stack>
                 </div>
