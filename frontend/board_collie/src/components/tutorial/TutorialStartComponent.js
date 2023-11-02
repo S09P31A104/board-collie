@@ -42,7 +42,7 @@ function TutorialStartComponent({title_image, title, message, button1, movePage1
     
     return (
         <TutorialStartContainer>
-            <TitleImage src={process.env.PUBLIC_URL + title_image}></TitleImage>
+            <TitleImage src={title_image}></TitleImage>
             <Title className='animate__animated animate__jackInTheBox'>{title} 튜토리얼 시작하기</Title>
             <Message>{message}</Message>
             <Button

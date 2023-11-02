@@ -44,13 +44,13 @@ const Title = styled.div`
 
 function TitleComponent({title, setPage, prePage, nextPage}) {
 
-    const [typeAniTitle, setTypeAniTitle] = useState(title);
+    const [customTitle, setCustomTitle] = useState(title);
 
     // 타이핑 애니메이션 적용
     useEffect(() => {
         let parsedTitle = reactStringReplace(title, /<TypeIt>(.*?)<\/TypeIt>/g, (match, i) => (
             <TypeIt
-                key={title}
+                key={match}
                 options={{
                     strings: [match],
                     speed: 50,
@@ -59,7 +59,7 @@ function TitleComponent({title, setPage, prePage, nextPage}) {
                 }}
             />
         ));
-        setTypeAniTitle(parsedTitle);
+        setCustomTitle(parsedTitle);
     }, [title]);
 
     /* 이전 페이지 이동 메소드 */
@@ -85,7 +85,7 @@ function TitleComponent({title, setPage, prePage, nextPage}) {
 
             {/* 본문 */}
             <TitleContent>
-                <Title>{typeAniTitle}</Title>
+                <Title>{customTitle}</Title>
             </TitleContent>
 
             {/* 앞으로 가기 버튼 */}

@@ -1,3 +1,5 @@
+/* Splendor 스플렌더 */
+
 import styled from 'styled-components';
 import { useState, useEffect } from "react";
 
@@ -9,7 +11,28 @@ import TitleAndContentAndOneButtonComponent from '../../../components/tutorial/T
 import TitleAndContenAndTwoButtonComponent from '../../../components/tutorial/TitleAndContentAndTwoButtonComponent';
 import TitleAndTwoButtonComponent from '../../../components/tutorial/TitleAndTwoButtonComponent';
 import TitleComponent from '../../../components/tutorial/TitleComponent';
+import TutorialEndComponent from '../../../components/tutorial/TutorialEndComponent';
 import TutorialStartComponent from "../../../components/tutorial/TutorialStartComponent";
+
+/* 이미지 */
+const title = 'http://boardcollie.com.s3.ap-northeast-2.amazonaws.com/tutorial/72/title.png';
+const background1 = 'http://boardcollie.com.s3.ap-northeast-2.amazonaws.com/tutorial/72/background1.jpg';
+const background2 = 'http://boardcollie.com.s3.ap-northeast-2.amazonaws.com/tutorial/72/background2.jpg';
+const background3 = 'http://boardcollie.com.s3.ap-northeast-2.amazonaws.com/tutorial/72/background3.jpg';
+const chatbot = 'http://boardcollie.com.s3-website.ap-northeast-2.amazonaws.com/chatbot/qr/QR72.jpg';
+const info1 = 'http://boardcollie.com.s3.ap-northeast-2.amazonaws.com/tutorial/72/info1.png';
+const info2 = 'http://boardcollie.com.s3.ap-northeast-2.amazonaws.com/tutorial/72/info2.png';
+const info3 = process.env.PUBLIC_URL + '/tutorial/splendor/info3.png'; // 임시 사진
+const setting1 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png'; // 임시 사진
+const setting2 = process.env.PUBLIC_URL + '/tutorial/splendor/setting2.png'; // 임시 사진
+const setting3_2 = process.env.PUBLIC_URL + '/tutorial/splendor/setting3-2.png'; // 임시 사진
+const setting3_3 = process.env.PUBLIC_URL + '/tutorial/splendor/setting3-3.png'; // 임시 사진
+const setting3_4 = process.env.PUBLIC_URL + '/tutorial/splendor/setting3-4.png'; // 임시 사진
+const setting4 = process.env.PUBLIC_URL + '/tutorial/splendor/setting4.png'; // 임시 사진
+const summary1 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png'; // 임시 사진
+const summary2 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png'; // 임시 사진
+const summary3 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png'; // 임시 사진
+const summary4 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png'; // 임시 사진
 
 /* 스타일 */
 const SplenderContainer = styled.div`
@@ -22,59 +45,58 @@ function Splender({players, setBackgroundImage}) {
     const [page, setPage] = useState(0);
 
     /* 세팅 관련 */
-    const settingImage = '/tutorial/splendor/setting';
     const setting = [
         [ // 0: 2명 세팅
             [
-                settingImage + '1.png', // 1번 세팅 이미지
+                setting1, // 1번 세팅 이미지
                 '개발 카드를 같은 단계별로 나눠서 섞어준 후,\n테이블 중앙에 위와 같은 순서로 세로 열을 이루게 놓아주세요.' // 1번 세팅 설명
             ],
             [
-                settingImage + '2.png', // 2번 세팅 이미지
+                setting2, // 2번 세팅 이미지
                 '각 단계별 개발 카드를 4장씩 펼쳐 놓아주세요.' // 2번 세팅 설명
             ],
             [
-                settingImage + '3-2.png', // 3번 세팅 이미지
+                setting3_2, // 3번 세팅 이미지
                 '귀족 타일을 섞은 다음 3개를 펼쳐 놓아주세요.\n남은 타일은 게임 중에 사용되지 않으므로 상자에 다시 넣어 둡시다.' // 3번 세팅 설명
             ],
             [
-                settingImage + '4.png', // 4번 세팅 이미지
+                setting4, // 4번 세팅 이미지
                 '마지막으로 집기 좋은 위치에 토큰을 색깔별로 분류하여 쌓아 놓아주세요.\n(황금 조커 토큰은 5개 모두 놓아주시고, 나머지 토큰들은 4개씩만 놓아주세요.)' // 4번 세팅 설명
             ]
         ],
         [ // 1: 3명 세팅
             [
-                settingImage + '1.png', // 1번 세팅 이미지
+                setting1, // 1번 세팅 이미지
                 '개발 카드를 같은 단계별로 나눠서 섞어준 후,\n테이블 중앙에 위와 같은 순서로 세로 열을 이루게 놓아주세요.' // 1번 세팅 설명
             ],
             [
-                settingImage + '2.png', // 2번 세팅 이미지
+                setting2, // 2번 세팅 이미지
                 '각 단계별 개발 카드를 4장씩 펼쳐 놓아주세요.' // 2번 세팅 설명
             ],
             [
-                settingImage + '3-3.png', // 3번 세팅 이미지
+                setting3_3, // 3번 세팅 이미지
                 '귀족 타일을 섞은 다음 4개를 펼쳐 놓아주세요.\n남은 타일은 게임 중에 사용되지 않으므로 상자에 다시 넣어 둡시다.' // 3번 세팅 설명
             ],
             [
-                settingImage + '4.png', // 4번 세팅 이미지
+                setting4, // 4번 세팅 이미지
                 '마지막으로 집기 좋은 위치에 토큰을 색깔별로 분류하여 쌓아 놓아주세요.\n(황금 조커 토큰은 5개 모두 놓아주시고, 나머지 토큰들은 5개씩만 놓아주세요.)' // 4번 세팅 설명
             ]
         ],
         [ // 2: 4명 세팅
             [
-                settingImage + '1.png', // 1번 세팅 이미지
+                setting1, // 1번 세팅 이미지
                 '개발 카드를 같은 단계별로 나눠서 섞어준 후,\n테이블 중앙에 위와 같은 순서로 세로 열을 이루게 놓아주세요.' // 1번 세팅 설명
             ],
             [
-                settingImage + '2.png', // 2번 세팅 이미지
+                setting2, // 2번 세팅 이미지
                 '각 단계별 개발 카드를 4장씩 펼쳐 놓아주세요.' // 2번 세팅 설명
             ],
             [
-                settingImage + '3-4.png', // 3번 세팅 이미지
+                setting3_4, // 3번 세팅 이미지
                 '귀족 타일을 섞은 다음 5개를 펼쳐 놓아주세요.\n남은 타일은 게임 중에 사용되지 않으므로 상자에 다시 넣어 둡시다.' // 3번 세팅 설명
             ],
             [
-                settingImage + '4.png', // 4번 세팅 이미지
+                setting4, // 4번 세팅 이미지
                 '마지막으로 집기 좋은 위치에 토큰을 색깔별로 분류하여 쌓아 놓아주세요.' // 4번 세팅 설명
             ]
         ]
@@ -82,18 +104,17 @@ function Splender({players, setBackgroundImage}) {
     const [settingStartPage, setSettingStartPage] = useState(0);
 
     /* 세팅 정보 관련 */
-    const settingInfoImage = '/tutorial/splendor/info';
     const settingInfo = [
         [
-            settingInfoImage + '1.png',
+            info1,
             '토큰 총 40장'
         ],
         [
-            settingInfoImage + '2.png',
+            info2,
             '개발 카드 총 90장'
         ],
         [
-            settingInfoImage + '3.png',
+            info3,
             '귀족 타일 총 10개'
         ],
     ];
@@ -102,7 +123,7 @@ function Splender({players, setBackgroundImage}) {
     const flow = [
         [ // 0: 튜토리얼 시작 페이지
             'TutorialStartComponent', // 템플릿
-            '/tutorial/splendor/title.png', // 타이틀 이미지
+            title, // 타이틀 이미지
             '스플렌더', // 타이틀
             '인원수별 세팅 방법이 달라집니다.\n인원수를 다시 한번 확인해 주세요.', // 추가 메시지
             'START', 18 // 버튼, 이동 페이지 flow 번호
@@ -308,7 +329,7 @@ function Splender({players, setBackgroundImage}) {
         ],
         [ // 17: 챗봇
             'ChatbotQRComponent', // 템플릿
-            '/tutorial/splendor/chatbot.png', // qr url
+            chatbot, // qr url
             16
         ],
         [ // 18: 인트로(1)
@@ -331,28 +352,28 @@ function Splender({players, setBackgroundImage}) {
         ],
         [ // 21: 개요(2)
             'ImageAndContentComponent', // 템플릿
-            process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png', // image
+            summary1, // image
             '<TypeIt>승점은<br/>보석 토큰으로 개발 카드를 구매하여<br/>얻을 수 있습니다.</TypeIt>', // content
             20, // 이전 페이지 flow 번호
             22 // 다음 페이지 flow 번호
         ],
         [ // 22: 개요(3)
             'ImageAndContentComponent', // 템플릿
-            process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png', // image
+            summary2, // image
             '<TypeIt>개발 카드를 구매하면<br/>승점과 보너스를 얻을 수 있습니다.</TypeIt>', // content
             21, // 이전 페이지 flow 번호
             23 // 다음 페이지 flow 번호
         ],
         [ // 23: 개요(4)
             'ImageAndContentComponent', // 템플릿
-            process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png', // image
-            '<TypeIt>보너스를 충분히 확보한 순간<br/>🤴귀족👸이 방문합니다!<br/><br/>귀족은 승점을 제공합니다.</TypeIt>', // content
+            summary3, // image
+            '<TypeIt>보너스를 충분히 확보한 순간<br/>귀족👸이 방문합니다!<br/><br/>귀족은 승점을 제공합니다.</TypeIt>', // content
             22, // 이전 페이지 flow 번호
             24 // 다음 페이지 flow 번호
         ],
         [ // 24: 개요(5)
             'ImageAndContentComponent', // 템플릿
-            process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png', // image
+            summary4, // image
             '<TypeIt>또한, 보너스는<br/>앞으로 구매할 개발 카드의 비용을 줄여줍니다.</TypeIt>', // content
             23, // 이전 페이지 flow 번호
             3 // 다음 페이지 flow 번호
@@ -363,18 +384,35 @@ function Splender({players, setBackgroundImage}) {
             16, // 이전 페이지 flow 번호
             26 // 다음 페이지 flow 번호
         ],
+        [ // 26
+            'TitleComponent', // 템플릿
+            '모두 자신의 점수를 합산해주세요.\n\n🎯귀족 승점🎯을 잊지마세요!', // 타이틀 내용
+            25, // 이전 페이지 flow 번호
+            27 // 다음 페이지 flow 번호
+        ],
+        [ // 27
+            'TutorialEndComponent', // 템플릿
+            title, // image
+            '승점이 가장 높은 플레이어가 🎉승자🎉입니다!', // content
+            [
+                '🎉 동점일 경우 귀족타일을 제외한 카드를 더 적게 가지고 있는 분이 승리합니다.',
+                '🎉 그것도 같다면, 귀족 타일을 더 많이 가지고 있는 분이 승리합니다.',
+                '🎉 그것도 같다면, 가지고 있는 보석칩 개수가 더 많은 분이 승리합니다.',
+            ], // additional information
+            26 // 이전 페이지 flow 번호
+        ],
     ];
 
     /* 배경사진 관련 */
     useEffect(() => {
         if(page === 0) {
-            setBackgroundImage(process.env.PUBLIC_URL + '/tutorial/splendor/background1.jpg');
+            setBackgroundImage(background1);
         }
         else if(page === 1) {
-            setBackgroundImage(process.env.PUBLIC_URL + '/tutorial/splendor/background2.jpg');
+            setBackgroundImage(background2);
         }
         else {
-            setBackgroundImage(process.env.PUBLIC_URL + '/tutorial/splendor/background3.jpg');
+            setBackgroundImage(background3);
         }
     }, [page, setBackgroundImage])
 
@@ -461,6 +499,15 @@ function Splender({players, setBackgroundImage}) {
                         setPage={setPage}
                         prePage={flow[page][3]}
                         nextPage={flow[page][4]}
+                    />
+                :
+                (flow[page] && flow[page][0] === 'TutorialEndComponent') ?
+                    <TutorialEndComponent
+                        image={flow[page][1]}
+                        content={flow[page][2]}
+                        addInfo={flow[page][3]}
+                        setPage={setPage}
+                        prePage={flow[page][4]}
                     />
                 :
                 null
