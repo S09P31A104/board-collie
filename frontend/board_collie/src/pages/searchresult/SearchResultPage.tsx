@@ -38,8 +38,6 @@ const transformData = (dataFromServer: GameFromServer[]): Game[] => {
   }));
 };
 
-
-
 const SearchResultsPage: React.FC = () => {
   
   const [results, setResults] = useState<Game[]>([]);
@@ -47,6 +45,7 @@ const SearchResultsPage: React.FC = () => {
   const [query, setQuery] = useState('');
   const [visibleResults, setVisibleResults] = useState<Game[]>([]);
   const [hasMore, setHasMore] = useState(true);
+  const [tagFilter, setTagFilter] = useState<string | null>(null);
 
   useEffect(() => {
     // 검색창이 비어있을 때 초기 상태로 설정
@@ -96,7 +95,6 @@ const SearchResultsPage: React.FC = () => {
     setQuery(query); // 입력받은 검색어를 state에 저장합니다.
   };
 
-
   const centerStyle: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'center',
@@ -121,12 +119,28 @@ const SearchResultsPage: React.FC = () => {
   
     localStorage.setItem('recentGames', JSON.stringify(newRecentGames));
   };
-  
+
+  useEffect(() => {
+    // 태그 필터가 변경되었을 때 실행됩니다.
+    if (tagFilter) {
+      const filteredResults = results.filter(game => game.tags.includes(tagFilter));
+      setVisibleResults(filteredResults.slice(0, 10));
+    } else {
+      setVisibleResults(results.slice(0, 10));
+    }
+  }, [tagFilter, results]);
 
   return (
     <div style={{ overflow: 'hidden', height: '100vh' }}>
     <SearchBar onSearch={handleSearch} style={{ position: 'relative' }}/>
-    <FilterBar numberOfPlayers={numberOfPlayers} setNumberOfPlayers={setNumberOfPlayers} style={{ marginTop: '2.1vh' }} />
+    <FilterBar
+      numberOfPlayers={numberOfPlayers}
+      setNumberOfPlayers={setNumberOfPlayers}
+      tagFilter={tagFilter}
+      setTagFilter={setTagFilter}
+      style={{ marginTop: '2.1vh' }}
+    />
+
     <Grid container spacing={2}>
       <Grid item xs={9} style={{ overflowY: 'auto', maxHeight: '90vh', scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="hide-scrollbar">
         {results.length === 0 ? (
