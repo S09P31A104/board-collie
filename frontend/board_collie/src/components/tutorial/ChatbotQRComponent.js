@@ -99,7 +99,7 @@ function ChatbotQRComponent ({qrImg, setPage, prePage}) {
             <MainContainer>
                 <OuterContainer/>
                 <InnerContainer>
-                    <QRImageWrapper><QRImage src={process.env.PUBLIC_URL + qrImg}/></QRImageWrapper>
+                    <QRImageWrapper><QRImage src={qrImg}/></QRImageWrapper>
                     <LogoImageWrapper><LogoImage src={process.env.PUBLIC_URL + "/logo1.png"}/></LogoImageWrapper>
                     <Text className='animate__animated animate__pulse animate__slow animate__infinite'>모바일로 챗봇에 접속하여 편하게 질문해보세요!</Text>
                 </InnerContainer>
