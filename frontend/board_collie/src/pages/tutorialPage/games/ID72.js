@@ -34,6 +34,9 @@ const summary2 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png'; // 
 const summary3 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png'; // 임시 사진
 const summary4 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png'; // 임시 사진
 
+/* bgm */
+const backgroundMusic = process.env.PUBLIC_URL + '/tutorial/splendor/background-music.mp3';
+
 /* 스타일 */
 const SplenderContainer = styled.div`
     height: 100%;
@@ -416,6 +419,9 @@ function Splender({players, setBackgroundImage}) {
         }
     }, [page, setBackgroundImage])
 
+    /* 배경음악 */
+    const [audio] = useState(new Audio(backgroundMusic));
+
     return (
         <SplenderContainer>
             {
@@ -425,6 +431,7 @@ function Splender({players, setBackgroundImage}) {
                         title={flow[page][2]}
                         message={flow[page][3]}
                         button1={flow[page][4]}
+                        audio={audio}
                         movePage1={flow[page][5]}
                         setPage={setPage}
                     />
