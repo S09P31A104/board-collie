@@ -187,9 +187,9 @@ const GameDetailPage: React.FC = () => {
 </Box>
 
       <Divider orientation="vertical" flexItem />
-      <Box sx={{ flex: 3, display: 'flex', flexDirection: 'column', justifyContent: 'start', pl: 14, mt: 7 }}>
+      <Box sx={{ flex: 3, display: 'flex', flexDirection: 'column', justifyContent: 'start', pl: 10, mt: 7 }}>
       
-      <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 5 }}>
+      <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 3 }}>
         테마 및 진행방식
       </Typography>
         <div>
@@ -199,7 +199,7 @@ const GameDetailPage: React.FC = () => {
             key={tag.id}
             label={tag.name}
             onClick={() => handleOpen(tag.description)}
-            sx={{ backgroundColor: '#CCF38C', mr: 1, mb: 1 }}
+            sx={{ backgroundColor: '#CCF38C', mr: 1, mb: 10 }}
               />
             ))
             ) : (
@@ -207,11 +207,11 @@ const GameDetailPage: React.FC = () => {
              )}
           </div>
           
-          <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 5 }}>
+          <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 3 }}>
             게임평 요약
           </Typography>
             {game && (
-          <Typography sx={{ fontFamily: 'Jua, sans-serif', mb: 15 }}>
+          <Typography sx={{ fontFamily: 'Jua, sans-serif', mb: 10 }}>
             {game.evaluation}
           </Typography>
           )}
