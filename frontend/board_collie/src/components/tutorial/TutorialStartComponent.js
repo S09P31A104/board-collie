@@ -33,11 +33,11 @@ const Message = styled.div`
     text-align: center;
 `;
 
-function TutorialStartComponent({title_image, title, message, button1, audio, movePage1, setPage}) {
+function TutorialStartComponent({title_image, title, message, button1, setBgmIsPlaying, movePage1, setPage}) {
     
+    /* 배경음악 시작 */
     const startMusic = () => {
-        audio.loop = true;
-        audio.play();
+        setBgmIsPlaying('on');
     }
 
     /* 페이지 이동 함수 */

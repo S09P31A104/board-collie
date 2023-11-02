@@ -42,7 +42,7 @@ const SplenderContainer = styled.div`
     height: 100%;
 `;
 
-function Splender({players, setBackgroundImage}) {
+function Splender({players, setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) {
 
     const settingIndex = players > 4 ? 2 : players - 2;
     const [page, setPage] = useState(0);
@@ -421,6 +421,21 @@ function Splender({players, setBackgroundImage}) {
 
     /* 배경음악 */
     const [audio] = useState(new Audio(backgroundMusic));
+    useEffect(() => {
+        audio.loop = true;
+
+        return () => {
+            audio.pause();
+        };
+    }, [audio])
+    useEffect(() =>{
+        if(bgmIsPlaying === 'on') {
+            audio.play();
+        }
+        else {
+            audio.pause();
+        }
+    }, [bgmIsPlaying, audio]);
 
     return (
         <SplenderContainer>
@@ -432,6 +447,7 @@ function Splender({players, setBackgroundImage}) {
                         message={flow[page][3]}
                         button1={flow[page][4]}
                         audio={audio}
+                        setBgmIsPlaying={setBgmIsPlaying}
                         movePage1={flow[page][5]}
                         setPage={setPage}
                     />
@@ -513,6 +529,7 @@ function Splender({players, setBackgroundImage}) {
                         image={flow[page][1]}
                         content={flow[page][2]}
                         addInfo={flow[page][3]}
+                        setBgmIsPlaying={setBgmIsPlaying}
                         setPage={setPage}
                         prePage={flow[page][4]}
                     />
