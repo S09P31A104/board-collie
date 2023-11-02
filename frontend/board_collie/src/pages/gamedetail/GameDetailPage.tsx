@@ -70,10 +70,13 @@ const GameDetailPage: React.FC = () => {
 
   const [open, setOpen] = useState(false);
   const [selectedTagDescription, setSelectedTagDescription] = useState("");
-  const handleOpen = (tagDescription: string) => {
+  const handleOpen = (tagName: string, tagDescription: string) => {
+    setSelectedTagName(tagName);
     setSelectedTagDescription(tagDescription);
     setOpen(true);
   };
+  
+  const [selectedTagName, setSelectedTagName] = useState("");
   
   const handleClose = () => setOpen(false);
   const style = {
@@ -104,7 +107,6 @@ const GameDetailPage: React.FC = () => {
     fetchGameDetail();
   }, [gameId]);
   
-
   const goBack = () => {
     navigate(-1);
   };
@@ -116,7 +118,6 @@ const GameDetailPage: React.FC = () => {
       navigate(`/select/${game.id}`);
     }
   };
-  
 
   return (
     <Box sx={{ padding: '20px', display: 'flex', flexDirection: 'row', marginTop: '90px' }}>
@@ -195,12 +196,13 @@ const GameDetailPage: React.FC = () => {
         <div>
           {game ? (
             game.tags.map((tag) => (
-          <Chip
-            key={tag.id}
-            label={tag.name}
-            onClick={() => handleOpen(tag.description)}
-            sx={{ backgroundColor: '#CCF38C', mr: 1, mb: 10 }}
-              />
+              <Chip
+              key={tag.id}
+              label={tag.name}
+              onClick={() => handleOpen(tag.name, tag.description)}
+              sx={{ backgroundColor: '#CCF38C', mr: 1, mb: 1 }}
+            />
+            
             ))
             ) : (
           <Typography style={{ fontFamily: 'Jua, sans-serif' }}>태그 정보를 찾을 수 없습니다.</Typography>
@@ -229,7 +231,7 @@ const GameDetailPage: React.FC = () => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            태그 설명
+           {selectedTagName}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {selectedTagDescription}
