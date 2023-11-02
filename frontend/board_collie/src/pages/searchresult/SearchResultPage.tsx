@@ -158,7 +158,14 @@ const SearchResultsPage: React.FC = () => {
           {visibleResults.map((item, index) => (
             <div key={item.name} style={{ marginLeft: '10vw' }} >
               <div style={{ display: 'flex', alignItems: 'center', padding: '20px' }}>
-                <img src={item.image} alt={item.image} style={{ width: '100px', height: '100px', marginRight: '20px' }} />
+              <Link 
+                to={`/game/${item.id}`} 
+                style={{ textDecoration: 'none', color: 'inherit' }}
+                onClick={() => handleGameClick(item.id)}
+                >
+                <img src={item.image} alt={item.name} style={{ width: '100px', height: '100px', marginRight: '20px' }} />
+              </Link>
+
                 <div>
                   <h3>
                     <Link 
