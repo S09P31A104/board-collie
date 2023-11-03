@@ -53,7 +53,7 @@ const Logo = styled.div`
     background-size: contain;
     background-repeat: no-repeat;
     width: 7vw;  
-    height: 12vh;
+    height: 11vh;
     padding: 0 1vw;
 `;
 
@@ -65,10 +65,7 @@ const PlayersNumber = styled.div`
 
 const RightSection = styled.div`
     display: flex;
-    // flex-direction: column;
     align-items: center;
-    // justify-content: space-between;
-    // width: 20%;
 `;
 
 const ColumnWrapper = styled.div`
@@ -83,18 +80,18 @@ const InnerWrapper = styled.div`
 `;
 
 const ModalContent = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 30vw;
-  height: 30vh;
-  padding: 20px;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 20px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30vw;
+    height: 30vh;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 20px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
 `;
 
 const ModalLogo = styled.div`
