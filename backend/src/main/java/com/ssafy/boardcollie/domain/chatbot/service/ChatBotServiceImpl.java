@@ -54,7 +54,6 @@ public class ChatBotServiceImpl implements ChatBotService {
 
     public String getCompletion(QuestionRequestDto requestDto) {
         String prompt = requestDto.getPrompt();
-        // 추후 게임 API와 연동 예정
         Game game = gameRepository.findById(requestDto.getGameId())
                                   .orElseThrow(() -> new GlobalRuntimeException("해당하는 게임이 없습니다.", HttpStatus.NOT_FOUND));
         String gameName = game.getGameTitleEng();
@@ -71,7 +70,6 @@ public class ChatBotServiceImpl implements ChatBotService {
         String prevPrompt = createPrevPrompt(redisService.getPrevPrompt(uuid),
                 redisService.getPrevAnswer(uuid));
         messages.add(createSystemMap(prevPrompt));
-        log.info(prevPrompt);
         redisService.saveQuestionToRedis(prompt, uuid);
 
         messages.add(createSystemMap(PROMPT_LANGUAGE));
