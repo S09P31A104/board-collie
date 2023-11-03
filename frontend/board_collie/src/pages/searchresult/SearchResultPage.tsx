@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar from '../../components/searchbar/SearchBar';
-import { Divider, Grid, Chip, Stack } from '@mui/material';
+import { Divider, Grid, Chip } from '@mui/material';
 import { Link } from 'react-router-dom';
 import './SearchResultPage.css';
 import RecentGamesList from '../../components/recentgameslist/RecentGamesList';
@@ -166,22 +166,23 @@ const SearchResultsPage: React.FC = () => {
                 <img src={item.image} alt={item.name} style={{ width: '100px', height: '100px', marginRight: '20px' }} />
               </Link>
 
-                <div>
-                  <h3>
-                    <Link 
-                      to={`/game/${item.id}`} 
-                      style={{ textDecoration: 'none', color: 'inherit' }}
-                      onClick={() => handleGameClick(item.id)}
-                    >
-                      {item.name}
-                    </Link>
-                  </h3>
-                  <Stack direction="row" spacing={2} style={{ marginBottom: '20px', flexWrap: 'wrap' }}>
-                    {item.tags.map(tag => (
-                    <Chip key={tag} label={tag} style={{ marginBottom: '8px' }} />
-                      ))}
-                  </Stack>
-                </div>
+              <div>
+  <h3>
+    <Link 
+      to={`/game/${item.id}`} 
+      style={{ textDecoration: 'none', color: 'inherit' }}
+      onClick={() => handleGameClick(item.id)}
+    >
+      {item.name}
+    </Link>
+  </h3>
+  <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '20px' }}>
+    {item.tags.map(tag => (
+      <Chip key={tag} label={tag} style={{ margin: '4px', marginBottom: '8px' }} />
+    ))}
+  </div>
+</div>
+
               </div>
               {index < visibleResults.length - 1 && <Divider />}
             </div>

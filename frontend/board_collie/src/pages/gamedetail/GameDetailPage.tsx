@@ -209,11 +209,11 @@ const GameDetailPage: React.FC = () => {
              )}
           </div>
           
-          <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
+          <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 3, mt: 3 }}>
             게임평 요약
           </Typography>
             {game && (
-          <Typography sx={{ fontFamily: 'Jua, sans-serif', mb: 4 }}>
+          <Typography sx={{ fontFamily: 'YESGothic-Regular', mb: 4 }}>
             {game.evaluation}
           </Typography>
           )}
