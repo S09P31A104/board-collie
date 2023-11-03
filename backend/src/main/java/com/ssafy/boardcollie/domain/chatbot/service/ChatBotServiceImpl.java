@@ -56,7 +56,7 @@ public class ChatBotServiceImpl implements ChatBotService {
         String prompt = requestDto.getPrompt();
         // 추후 게임 API와 연동 예정
         Game game = gameRepository.findById(requestDto.getGameId())
-                                  .orElseThrow(() -> new GlobalRuntimeException("해당하는 게임이 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
+                                  .orElseThrow(() -> new GlobalRuntimeException("해당하는 게임이 없습니다.", HttpStatus.NOT_FOUND));
         String gameName = game.getGameTitleEng();
         String uuid = requestDto.getUuid();
         String url = API_ENDPOINT + "completions";
