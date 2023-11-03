@@ -74,7 +74,7 @@ const RightSection = styled.div`
 const ColumnWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 `;
 const InnerWrapper = styled.div`
