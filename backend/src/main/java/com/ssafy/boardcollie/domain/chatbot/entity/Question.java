@@ -22,11 +22,11 @@ public class Question extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "question_id")
     private Long id;
-    @Column(name = "question")
+    @Column(name = "question", columnDefinition = "text")
     private String question;
     @Column(name = "game_id")
     private Long gameId;
-    @Column(name = "answer")
+    @Column(name = "answer", columnDefinition = "text")
     private String answer;
 
     @Builder

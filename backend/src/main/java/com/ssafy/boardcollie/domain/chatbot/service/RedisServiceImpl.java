@@ -1,6 +1,7 @@
 package com.ssafy.boardcollie.domain.chatbot.service;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -16,20 +17,24 @@ public class RedisServiceImpl implements RedisService{
     private final RedisTemplate<String, String> redisTemplate;
 
     public void saveQuestionToRedis(String prompt, String UUID) {
+        String key = QUEUE_QUESTION_KEY + UUID;
         ListOperations<String, String> listOps = redisTemplate.opsForList();
-        listOps.leftPush(QUEUE_QUESTION_KEY + UUID, prompt);
-        if (listOps.size(QUEUE_QUESTION_KEY + UUID) > QUEUE_SIZE) {
+        listOps.leftPush(key, prompt);
+        if (listOps.size(key) > QUEUE_SIZE) {
             listOps.rightPop(QUEUE_QUESTION_KEY);
         }
+        redisTemplate.expire(key, 60, TimeUnit.MINUTES);
     }
 
     @Override
     public void saveAnswerToRedis(String answer, String UUID) {
+        String key = QUEUE_ANSWER_KEY + UUID;
         ListOperations<String, String> listOps = redisTemplate.opsForList();
-        listOps.leftPush(QUEUE_ANSWER_KEY + UUID, answer);
-        if (listOps.size(QUEUE_ANSWER_KEY + UUID) > QUEUE_SIZE) {
+        listOps.leftPush(key, answer);
+        if (listOps.size(key) > QUEUE_SIZE) {
             listOps.rightPop(QUEUE_ANSWER_KEY);
         }
+        redisTemplate.expire(key, 60, TimeUnit.MINUTES);
     }
 
     public ArrayList<String> getPrevPrompt(String UUID) {
