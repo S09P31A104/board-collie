@@ -20,8 +20,9 @@ public class RedisServiceImpl implements RedisService{
         String key = QUEUE_QUESTION_KEY + UUID;
         ListOperations<String, String> listOps = redisTemplate.opsForList();
         listOps.leftPush(key, prompt);
-        if (listOps.size(key) > QUEUE_SIZE) {
-            listOps.rightPop(QUEUE_QUESTION_KEY);
+        Long size = listOps.size(key);
+        if (size != null && size > QUEUE_SIZE) {
+            listOps.rightPop(key);
         }
         redisTemplate.expire(key, 60, TimeUnit.MINUTES);
     }
@@ -31,8 +32,9 @@ public class RedisServiceImpl implements RedisService{
         String key = QUEUE_ANSWER_KEY + UUID;
         ListOperations<String, String> listOps = redisTemplate.opsForList();
         listOps.leftPush(key, answer);
-        if (listOps.size(key) > QUEUE_SIZE) {
-            listOps.rightPop(QUEUE_ANSWER_KEY);
+        Long size = listOps.size(key);
+        if (size != null && size > QUEUE_SIZE) {
+            listOps.rightPop(key);
         }
         redisTemplate.expire(key, 60, TimeUnit.MINUTES);
     }
