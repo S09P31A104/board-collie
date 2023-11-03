@@ -75,7 +75,6 @@ const SkipButton = styled.span`
     border-radius: 10px;
     font-family: 'Jolly Lodger', cursive;
 `;
-
 const BackButtonBox = styled.div`
     display: flex;
     justify-content: center;
@@ -98,14 +97,19 @@ const MoveButtonIconStyle = {
 };
 
 
-function GameSettingComponent({settingList, infoList, startStep, setSettingStartPage, setPage, nextPage}) {
+function GameSettingComponent({settingList, infoList, startStep, setSettingStartPage, setPage, prePage, nextPage}) {
     
     const [step, setStep] = useState(startStep);
 
     /* 단계 이동 메소드 */
     function moveBack () {
-        if(step !== 0) setStep(step - 1);
-        console.log(infoList);
+        if(step === 0) {
+            setSettingStartPage(0);
+            setPage(prePage);
+        }
+        else {
+            setStep(step - 1);
+        }
     };
     function moveForward () {
         if(step === settingList.length - 1) {
@@ -127,23 +131,20 @@ function GameSettingComponent({settingList, infoList, startStep, setSettingStart
         <GameSettingContainer>
             {/* 뒤로 가기 버튼 */}
             <BackButtonBox>
-                {
-                    step !== 0 &&
-                    <IconButton
-                        sx={{...MoveButtonStyle}}
-                        onClick={() => moveBack()}
-                    >
-                        <KeyboardArrowLeft sx={{...MoveButtonIconStyle}}/>
-                    </IconButton>
-                }
+                <IconButton
+                    sx={{...MoveButtonStyle}}
+                    onClick={() => moveBack()}
+                >
+                    <KeyboardArrowLeft sx={{...MoveButtonIconStyle}}/>
+                </IconButton>
             </BackButtonBox>
             {/* 세팅 정보 */}
             <GameSettingContent>
                 <Title>
                     <TitleWrapper><TitleText>게임 시작 전 세팅</TitleText></TitleWrapper>
-                    {infoList !== null && <InfoComponent info={infoList}/>}
+                    {infoList !== null && <InfoComponent type='setting' info={infoList}/>}
                 </Title>
-                <StepImage src={process.env.PUBLIC_URL + settingList[step][0]}></StepImage>
+                <StepImage src={settingList[step][0]}></StepImage>
                 <StepTextBox><StepText>{settingList[step][1]}</StepText></StepTextBox>
                 {
                     step !== settingList.length - 1

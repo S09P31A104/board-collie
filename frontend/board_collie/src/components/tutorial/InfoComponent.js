@@ -1,5 +1,4 @@
-import { IconButton, Box, Modal } from '@mui/material';
-import { Info } from '@mui/icons-material';
+import { Box, Modal } from '@mui/material';
 import styled from 'styled-components';
 import { useState } from "react";
 
@@ -8,10 +7,6 @@ const InfoContainer = styled.div`
     display: flex;
     align-items: center;
 `;
-const infoIconStyle = {
-    fontSize: '3.5vw',
-    color: '#CCF38C'
-};
 const StyledBox = styled(Box)`
     position: absolute;
     display: flex;
@@ -27,6 +22,7 @@ const StyledBox = styled(Box)`
     padding-right: 4px;
     padding-bottom: 3px;
     border-radius: 8px;
+    font-family: 'Jua', sans-serif;
     overflow: auto;
     
     /* 스크롤바 스타일 설정 */
@@ -66,7 +62,7 @@ const InfoText = styled.div`
     font-size: 2vw;
 `;
 
-function InfoComponent({info}) {
+function InfoComponent({type, info}) {
 
     const [modalOpen, setModalOpen] = useState(false);
     const handlekModalOpen = () => {
@@ -78,9 +74,17 @@ function InfoComponent({info}) {
 
     return (
         <InfoContainer>
-            <IconButton onClick={handlekModalOpen}>
-                <Info sx={{...infoIconStyle}}/>
-            </IconButton>
+            <div onClick={handlekModalOpen}>
+                {
+                    (type === 'setting') ?
+                        <span>📦</span>
+                    :
+                    (type === 'ending') ?
+                        <span>🙋‍♂️</span>
+                    :
+                    null
+                }
+            </div>
             <Modal
                 open={modalOpen}
                 onClose={handleModalClose}

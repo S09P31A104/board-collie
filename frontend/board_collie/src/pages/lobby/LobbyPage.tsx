@@ -21,8 +21,7 @@ const LobbyPage: React.FC<LobbyPageProps> = ({ players, setPlayers }) => {
   useEffect(() => {
     // 페이지가 로드될 때 실행될 초기화 로직
     setPlayers(2);  // 플레이어 수를 초기 상태로 설정
-    localStorage.removeItem('time');  // 로컬 스토리지의 time 항목을 삭제
-    localStorage.setItem('isActive', 'false');  // isActive를 false로 설정
+    localStorage.setItem('players', '2');
   }, []);  // 빈 dependency 배열을 전달하여 컴포넌트가 마운트 될 때만 실행
 
   const incrementPlayers = () => {
@@ -36,6 +35,8 @@ const LobbyPage: React.FC<LobbyPageProps> = ({ players, setPlayers }) => {
   const startGame = async () => {
 
     localStorage.setItem('isActive', 'true');
+    localStorage.setItem('time', '0');
+    localStorage.setItem('players', players.toString());
 
   //   // API POST 요청 : 플레이어 수 
   //   try {
@@ -67,7 +68,8 @@ const LobbyPage: React.FC<LobbyPageProps> = ({ players, setPlayers }) => {
             {char}
           </span>
         ))}
-      </Typography>
+       </Typography>
+
 
       <div className="player-adjust" style={{ marginBottom: '40px' }}>
         <IconButton 

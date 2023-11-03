@@ -30,18 +30,26 @@ const Message = styled.div`
     border-radius: 8px;
     line-height: 1.5;
     margin-bottom: 3vh;
+    text-align: center;
 `;
 
-/* 페이지 이동 함수 */
-function moveNextPage(setPage, movePageNumber) {
-    setPage(movePageNumber);
-}
-
-function TutorialStartComponent({title_image, title, message, button1, movePage1, setPage}) {
+function TutorialStartComponent({title_image, title, message, button1, setBgmIsPlaying, movePage1, setPage}) {
     
+    /* 배경음악 시작 */
+    const startMusic = () => {
+        setBgmIsPlaying('on');
+    }
+
+    /* 페이지 이동 함수 */
+    function moveNextPage(setPage, movePageNumber) {
+        startMusic();
+        setPage(movePageNumber);
+    }
+
+
     return (
         <TutorialStartContainer>
-            <TitleImage src={process.env.PUBLIC_URL + title_image}></TitleImage>
+            <TitleImage src={title_image}></TitleImage>
             <Title className='animate__animated animate__jackInTheBox'>{title} 튜토리얼 시작하기</Title>
             <Message>{message}</Message>
             <Button
@@ -49,7 +57,7 @@ function TutorialStartComponent({title_image, title, message, button1, movePage1
                 variant="contained" 
                 style={{ 
                     backgroundColor: '#CCF38C', 
-                    color: 'black', 
+                    color: 'black',
                     marginTop: '20px', 
                     fontFamily: 'Jolly Lodger, cursive',
                     borderRadius: "10px",

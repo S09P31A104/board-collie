@@ -1,193 +1,112 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { IconButton, Box, Divider, Typography, Chip } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import gameimg from '../../assets/splendor.png'
 import gameQr from '../../assets/qr2.png';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import axios from 'axios';
+import Modal from '@mui/material/Modal';
 
-interface Game {
+const SERVER_API_URL = `${process.env.REACT_APP_API_SERVER_URL}`;
+
+type Game = {
+  id: number;
   name: string;
-  tags: string[];
-}
+  image: string | null;
+  qrImage: string | null;
+  minPlayer: number;
+  maxPlayer: number;
+  playTime: number;
+  evaluation: string;
+  tags: {
+    id: number;
+    name: string;
+    description: string;
+  }[];
+};
+
 type GameFromServer = {
-  game_id: number;
-  game_title: string;
-  game_tag: Array<{
-    tag_id: number;
-    tag_name_kor: string;
+  gameId: number;
+  gameImage: string | null;
+  qrImage: string | null;
+  gameTitleKor: string;
+  gameTitleEng: string;
+  minPlayer: number;
+  maxPlayer: number;
+  playTime: number;
+  gameEvaluation: string;
+  tags: Array<{
+    tagId: number;
+    tagName: string;
+    tagDescription: string;
   }>;
+  similarGame: any[]; // 여기서 'any'를 필요에 따라 적절한 타입으로 바꿔야 합니다.
 };
 
-const dummyDataFromServer: GameFromServer[] = [
-  {
-    game_id: 1,
-    game_title: '스플렌더',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '2-4명' },
-      { tag_id: 3, tag_name_kor: '45분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 2,
-    game_title: '모노폴리',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '2-8명' },
-      { tag_id: 3, tag_name_kor: '180분' },
-      { tag_id: 4, tag_name_kor: '경영' }
-    ]
-  },
-  {
-    game_id: 3,
-    game_title: '다빈치코드',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '쉬움' },
-      { tag_id: 2, tag_name_kor: '2-4명' },
-      { tag_id: 3, tag_name_kor: '20분' },
-      { tag_id: 4, tag_name_kor: '추리' }
-    ]
-  },
-  {
-    game_id: 4,
-    game_title: '장미전쟁',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '2명' },
-      { tag_id: 3, tag_name_kor: '25분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 5,
-    game_title: '센추리: 향신료의 길',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '2-5명' },
-      { tag_id: 3, tag_name_kor: '40분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 6,
-    game_title: '마헤',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '4-7명' },
-      { tag_id: 3, tag_name_kor: '30분' },
-      { tag_id: 4, tag_name_kor: '경주' }
-    ]
-  },
-  {
-    game_id: 7,
-    game_title: '부루마불',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '2-4명' },
-      { tag_id: 3, tag_name_kor: '60분' },
-      { tag_id: 4, tag_name_kor: '경영' }
-    ]
-  },
-  {
-    game_id: 8,
-    game_title: '테라포밍마스',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '2-5명' },
-      { tag_id: 3, tag_name_kor: '120분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 9,
-    game_title: '인코그니토',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '4명' },
-      { tag_id: 3, tag_name_kor: '60분' },
-      { tag_id: 4, tag_name_kor: '추리' }
-    ]
-  },
-  {
-    game_id: 10,
-    game_title: '시타델',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '4-7명' },
-      { tag_id: 3, tag_name_kor: '60분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 11,
-    game_title: '제왕의 깃발',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '3-4명' },
-      { tag_id: 3, tag_name_kor: '20분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 12,
-    game_title: '마피아 데 쿠바',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '어려움' },
-      { tag_id: 2, tag_name_kor: '6-12명' },
-      { tag_id: 3, tag_name_kor: '60분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 13,
-    game_title: '아발론',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '쉬움' },
-      { tag_id: 2, tag_name_kor: '2명' },
-      { tag_id: 3, tag_name_kor: '20분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-  {
-    game_id: 14,
-    game_title: '루미큐브',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '2-6명' },
-      { tag_id: 3, tag_name_kor: '30분' },
-      { tag_id: 4, tag_name_kor: '타일조합' }
-    ]
-  },
-  {
-    game_id: 15,
-    game_title: '로스트시티',
-    game_tag: [
-      { tag_id: 1, tag_name_kor: '보통' },
-      { tag_id: 2, tag_name_kor: '2명' },
-      { tag_id: 3, tag_name_kor: '20분' },
-      { tag_id: 4, tag_name_kor: '전략' }
-    ]
-  },
-
- 
-];
-const transformData = (dataFromServer: GameFromServer[]): Game[] => {
-  return dataFromServer.map(game => ({
-    id: game.game_id,
-    name: game.game_title,
-    tags: game.game_tag.map(tag => tag.tag_name_kor),
-  }));
+const transformData = (dataFromServer: GameFromServer): Game => {
+  return {
+    id: dataFromServer.gameId,
+    name: dataFromServer.gameTitleKor,
+    image: dataFromServer.gameImage,
+    qrImage: dataFromServer.qrImage,
+    minPlayer: dataFromServer.minPlayer,
+    maxPlayer: dataFromServer.maxPlayer,
+    playTime: dataFromServer.playTime,
+    evaluation: dataFromServer.gameEvaluation,
+    tags: dataFromServer.tags.map(tag => ({
+      id: tag.tagId,
+      name: tag.tagName,
+      description: tag.tagDescription,
+    })),
+  };
 };
-
-const dummyData = transformData(dummyDataFromServer);
 
 const GameDetailPage: React.FC = () => {
-  const { name } = useParams<{ name: string }>();
+  const { id } = useParams<{ id: string }>();
+  const gameId = parseInt(id ?? "0"); // useParams로 받은 id를 정수로 변환
   const navigate = useNavigate();
-  const game = dummyData.find(game => game.name === name);
+  const [game, setGame] = useState<Game | null>(null);
 
+  const [open, setOpen] = useState(false);
+  const [selectedTagDescription, setSelectedTagDescription] = useState("");
+  const handleOpen = (tagName: string, tagDescription: string) => {
+    setSelectedTagName(tagName);
+    setSelectedTagDescription(tagDescription);
+    setOpen(true);
+  };
+  
+  const [selectedTagName, setSelectedTagName] = useState("");
+  
+  const handleClose = () => setOpen(false);
+  const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+
+  useEffect(() => {
+    const fetchGameDetail = async () => {
+      try {
+        const response = await axios.get(`${SERVER_API_URL}/game/detail/${gameId}`);
+        if (response.data.success) {
+          const transformedData = transformData(response.data.data);
+          setGame(transformedData);
+        }
+      } catch (error) {
+        console.error("게임 디테일 정보를 가져오는데 실패했습니다.", error);
+      }
+    };
+    
+    fetchGameDetail();
+  }, [gameId]);
+  
   const goBack = () => {
     navigate(-1);
   };
@@ -195,7 +114,8 @@ const GameDetailPage: React.FC = () => {
   // 재생버튼 클릭 시 선택페이지로 이동
   const handlePlayButtonClick = () => {
     if (game) {
-      navigate(`/select/${game.name}`);
+      sessionStorage.setItem(`gameName-${game.id}`, game.name);
+      navigate(`/select/${game.id}`);
     }
   };
 
@@ -205,23 +125,35 @@ const GameDetailPage: React.FC = () => {
   <IconButton onClick={goBack} aria-label="뒤로 가기" sx={{ alignSelf: 'flex-start', mb: 2 }}>
     <ArrowBackIcon />
   </IconButton>
-  <img src={gameimg} alt={name} style={{ maxWidth: '100%', maxHeight: '200px', marginBottom: '32px' }} />
+  <img 
+  src={game?.image || gameimg} 
+  alt={game?.name || '게임 이미지'} 
+  style={{ maxWidth: '100%', maxHeight: '200px', marginBottom: '32px' }} 
+/>
   <Typography variant="h3" gutterBottom sx={{ fontFamily: 'Jua, sans-serif', textAlign: 'center', mb: 3 }}>
-    {name}
-  </Typography>
-  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-    {game ? (
-      game.tags.map(tag => (
-        <Chip key={tag} label={tag} sx={{ fontSize: '1rem',fontFamily: 'Jua, sans-serif', mb: 2 }} />
-      ))
-    ) : (
-      <Typography style={{ fontFamily: 'Jua, sans-serif' }}>게임 정보를 찾을 수 없습니다.</Typography>
-    )}
-  </Box>
+      {game?.name} 
+    </Typography>
+
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, justifyContent: 'center' }}>
+  {game ? (
+    <>
+      <Chip label={`최소 인원: ${game.minPlayer}명`} sx={{ fontSize: '1rem', fontFamily: 'Jua, sans-serif', mb: 2 }} />
+      <Chip label={`최대 인원: ${game.maxPlayer}명`} sx={{ fontSize: '1rem', fontFamily: 'Jua, sans-serif', mb: 2 }} />
+      <Chip label={`플레이 시간: ${game.playTime}분`} sx={{ fontSize: '1rem', fontFamily: 'Jua, sans-serif', mb: 2 }} />
+    </>
+  ) : (
+    <Typography style={{ fontFamily: 'Jua, sans-serif' }}>게임 정보를 찾을 수 없습니다.</Typography>
+  )}
+</Box>
+
   
   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
   <Box sx={{ textAlign: 'center' }}>
-    <img src={gameQr} alt="QR 코드" style={{ maxWidth: '100%', maxHeight: '180px' }} />
+  <img 
+  src={game?.qrImage || gameQr} 
+  alt="QR 코드" 
+  style={{ maxWidth: '100%', maxHeight: '180px' }} 
+/>
     <Typography sx={{ fontSize: '2rem', fontFamily: 'Jolly Lodger, cursive' }}>Chat Bot</Typography>
   </Box>
   
@@ -244,8 +176,8 @@ const GameDetailPage: React.FC = () => {
     >
       <PlayArrowIcon
         sx={{
-          fontSize: 90, // 아이콘의 크기
-          color: '#A1F38C', // 아이콘의 색상
+          fontSize: 90, 
+          color: '#A1F38C', 
         }}
       />
     </Box>
@@ -253,21 +185,60 @@ const GameDetailPage: React.FC = () => {
   </Box>
 </Box>
 
-
 </Box>
 
       <Divider orientation="vertical" flexItem />
-      <Box sx={{ flex: 3, display: 'flex', flexDirection: 'column', justifyContent: 'start', pl: 14, mt: 7 }}>
-          <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 15 }}>
-            테마 및 진행방식
+      <Box sx={{ flex: 3, display: 'flex', flexDirection: 'column', justifyContent: 'start', pl: 10, mt: 7 }}>
+      
+      <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 3 }}>
+        테마 및 진행방식
+      </Typography>
+        <div>
+          {game ? (
+            game.tags.map((tag) => (
+              <Chip
+              key={tag.id}
+              label={tag.name}
+              onClick={() => handleOpen(tag.name, tag.description)}
+              sx={{ backgroundColor: '#CCF38C', mr: 1, mb: 1, fontFamily: 'Jua, sans-serif' }}
+            />
+            
+            ))
+            ) : (
+          <Typography style={{ fontFamily: 'Jua, sans-serif' }}>태그 정보를 찾을 수 없습니다.</Typography>
+             )}
+          </div>
+          
+          <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
+            게임평 요약
           </Typography>
-          <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 15 }}>
-            게임별 요약
+            {game && (
+          <Typography sx={{ fontFamily: 'Jua, sans-serif', mb: 4 }}>
+            {game.evaluation}
           </Typography>
+          )}
+
           <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif' }}>
             유사한 다른 게임
           </Typography>
         </Box>
+
+        <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+           {selectedTagName}
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            {selectedTagDescription}
+          </Typography>
+        </Box>
+      </Modal>
+
       </Box>
       );
     }

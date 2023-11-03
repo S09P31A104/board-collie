@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useParams } from "react-router-dom";
-import { useState } from "react";
-import Splendor from "./games/Splendor";
+import { useState, useEffect } from "react";
+import ID72 from "./games/ID72";
 import { Box, Modal, Button } from '@mui/material';
 
 
@@ -32,7 +32,7 @@ const BackgroundLayer = styled.div`
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba(247, 238, 246, 0.4);
+    background-color: rgba(247, 238, 246, 0.55);
 `;
 const BackButton = styled.div`
     position: absolute;
@@ -69,14 +69,23 @@ const BackModalMessage = styled.h2`
     justify-content: center;
     font-size: 2vw;
     letter-spacing: 0.05em;
+    font-family: 'Jua', sans-serif;
 `;
 const BackModalButton = styled.div`
     display: flex;
     justify-content: space-between;
 `;
 const BackModalButtonStyle = {
-    fontSize: '1.5vw'
+    fontSize: '1.5vw',
+    fontFamily: 'Jua, sans-serif'
 };
+const MuteButton = styled.div`
+    position: absolute;
+    z-index: 9999;
+    top: 3vh;
+    right: 3vw;
+    font-size: 3vw;
+`;
 
 /* 튜토리얼 나가기 */
 function exitTutorial() {
@@ -84,12 +93,23 @@ function exitTutorial() {
     window.history.back();
 }
 
-function TutorialPage({players}) {
+function TutorialPage() {
+
+    const players = localStorage.getItem('players');
 
     const params = useParams();
 
     /* 배경 사진 관련 */
     const [backgroundImage, setBackgroundImage] = useState('');
+
+    /* 배경 음악 관련 */
+    const [bgmIsPlaying, setBgmIsPlaying] = useState('wait');
+    function bgmOn() {
+        setBgmIsPlaying('on');
+    }
+    function bgmOff() {
+        setBgmIsPlaying('off');
+    }
 
     /* 돌아가기 버튼 모달 관련 */
     const [backModalOpen, setBackModalOpen] = useState(false);
@@ -99,6 +119,19 @@ function TutorialPage({players}) {
     const handleBackModalClose = () => {
         setBackModalOpen(false);
     };
+
+    // 로컬 스토리지 타이머 계속 가게 설정
+    const [time, setTime] = useState(Number(localStorage.getItem('time')) || 0);
+    useEffect(() => {
+        const timer = setInterval(() => {
+          setTime(prevTime => prevTime + 1); // time 값을 1 증가
+        }, 1000); // 1초에 한 번씩 실행
+    
+        return () => {
+          clearInterval(timer); // 컴포넌트 unmount시 타이머 해제
+          localStorage.setItem('time', time); // 컴포넌트 unmount시 time 값을 localStorage에 저장
+        };
+    }, [time]);
 
     return (
         <TutorialContainer
@@ -128,10 +161,26 @@ function TutorialPage({players}) {
                     </BackModalButton>
                 </Box>
             </Modal>
+            <MuteButton>
+                {
+                    (bgmIsPlaying === 'on') ?
+                        <span onClick={bgmOff}>🔊</span>
+                    :
+                    (bgmIsPlaying === 'off') ?
+                        <span onClick={bgmOn}>🔈</span>
+                    :
+                        null
+                }
+            </MuteButton>
             <MainContent>
             {
-                (params.title === '스플렌더') ?
-                    <Splendor players={players} setBackgroundImage={setBackgroundImage}/>
+                (params.title === '스플렌더') ? // Splendor 스플렌더
+                    <ID72
+                        players={players}
+                        bgmIsPlaying={bgmIsPlaying}
+                        setBackgroundImage={setBackgroundImage}
+                        setBgmIsPlaying={setBgmIsPlaying}
+                    />
                 :
                     null
             }

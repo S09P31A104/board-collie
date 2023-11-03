@@ -27,10 +27,10 @@ const AppContent: React.FC<{ players: number }> = ({ players }) => {
       <Routes>
         <Route path="/main" element={<MainPage />} />
         <Route path="/searchresult" element={<SearchResultPage />} />
-        <Route path="/game/:name" element={<GameDetailPage />} />
+        <Route path="/game/:id" element={<GameDetailPage />} />
         <Route path="/gamerecommend" element={<GameRecommendPage />} />
-        <Route path="/tutorial/:title" element={<TutorialPage players={players}/>} />
-        <Route path="/select/:name" element={<SelectPage />} />
+        <Route path="/tutorial/:title" element={<TutorialPage/>} />
+        <Route path="/select/:id" element={<SelectPage />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/notfound2" element={<NotFound2 />} />
         <Route path="/recommendresult" element={<RecommendResult />} />

@@ -1,6 +1,9 @@
 import { IconButton } from '@mui/material';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import styled from 'styled-components';
+import TypeIt from "typeit-react";
+import reactStringReplace from 'react-string-replace';
+import { useState, useEffect } from "react";
 
 /* 스타일 */
 const TitleContainer = styled.div`
@@ -41,6 +44,24 @@ const Title = styled.div`
 
 function TitleComponent({title, setPage, prePage, nextPage}) {
 
+    const [customTitle, setCustomTitle] = useState(title);
+
+    // 타이핑 애니메이션 적용
+    useEffect(() => {
+        let parsedTitle = reactStringReplace(title, /<TypeIt>(.*?)<\/TypeIt>/g, (match, i) => (
+            <TypeIt
+                key={match}
+                options={{
+                    strings: [match],
+                    speed: 50,
+                    waitUntilVisible: true,
+                    cursor: false,
+                }}
+            />
+        ));
+        setCustomTitle(parsedTitle);
+    }, [title]);
+
     /* 이전 페이지 이동 메소드 */
     function moveBackPage () {
         setPage(prePage);
@@ -64,7 +85,7 @@ function TitleComponent({title, setPage, prePage, nextPage}) {
 
             {/* 본문 */}
             <TitleContent>
-                <Title>{title}</Title>
+                <Title>{customTitle}</Title>
             </TitleContent>
 
             {/* 앞으로 가기 버튼 */}
