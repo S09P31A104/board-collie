@@ -188,7 +188,7 @@ const GameDetailPage: React.FC = () => {
 </Box>
 
       <Divider orientation="vertical" flexItem />
-      <Box sx={{ flex: 3, display: 'flex', flexDirection: 'column', justifyContent: 'start', pl: 5, mt: 3 }}>
+      <Box sx={{ flex: 3, display: 'flex', flexDirection: 'column', justifyContent: 'start', pl: 5, mt: 3 }} className="hide-scrollbar">
       
       <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 3 }}>
         테마 및 진행방식
