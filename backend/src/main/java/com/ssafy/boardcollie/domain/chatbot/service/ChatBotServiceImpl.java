@@ -49,14 +49,15 @@ public class ChatBotServiceImpl implements ChatBotService {
     private final GameRepository gameRepository;
     private static final String PROMPT_PREFIX = "보드게임 ";
     private static final String PROMPT_SUFFIX = "의 플레이 룰에 관한 질문이야: ";
-    private static final String PROMPT_LANGUAGE = "부드러운 말투로 '해요'체로 대답해줘";
+    private static final String PROMPT_LANGUAGE = "부드러운 말투로 '해요'체로 대답해줘.";
+    private static final String PROMPT_PREV_QUESTION = "이전 질문 데이터가 입력되면 이전 질문도 고려하여 답변해줘. 룰북을 확인하라는 말은 하면 안돼.";
 
     public String getCompletion(QuestionRequestDto requestDto) {
         String prompt = requestDto.getPrompt();
         // 추후 게임 API와 연동 예정
         Game game = gameRepository.findById(requestDto.getGameId())
                                   .orElseThrow(() -> new GlobalRuntimeException("해당하는 게임이 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR));
-        String gameName = game.getGameTitleKor();
+        String gameName = game.getGameTitleEng();
         String uuid = requestDto.getUuid();
         String url = API_ENDPOINT + "completions";
         HttpHeaders headers = new HttpHeaders();
@@ -70,9 +71,11 @@ public class ChatBotServiceImpl implements ChatBotService {
         String prevPrompt = createPrevPrompt(redisService.getPrevPrompt(uuid),
                 redisService.getPrevAnswer(uuid));
         messages.add(createSystemMap(prevPrompt));
+        log.info(prevPrompt);
         redisService.saveQuestionToRedis(prompt, uuid);
 
         messages.add(createSystemMap(PROMPT_LANGUAGE));
+        messages.add(createSystemMap(PROMPT_PREV_QUESTION));
         userMessage.put("role", "user");
         userMessage.put("content", PROMPT_PREFIX + gameName + PROMPT_SUFFIX + prompt);
         messages.add(userMessage);
