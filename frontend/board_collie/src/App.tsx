@@ -11,11 +11,15 @@ import SelectPage from './pages/select/SelectPage';
 import NotFound from './components/common/notfound/NotFound'
 import NotFound2 from './components/common/notfound/NotFound2';
 import RecommendResult from './pages/gamerecommend/RecommendResult';
+import ChatBot from './pages/phone/ChatBotPage';
 
 
 const AppContent: React.FC<{ players: number }> = ({ players }) => {
   const location = useLocation();
-  const shouldRenderNavbar = !location.pathname.startsWith('/tutorial/');
+  const shouldRenderNavbar = !(
+    location.pathname.startsWith('/tutorial/') ||
+    location.pathname.startsWith('/chatbot/')
+    );
 
   return (
     <>
@@ -30,6 +34,7 @@ const AppContent: React.FC<{ players: number }> = ({ players }) => {
         <Route path="*" element={<NotFound />} />
         <Route path="/notfound2" element={<NotFound2 />} />
         <Route path="/recommendresult" element={<RecommendResult />} />
+        <Route path="/chatbot/:id" element={<ChatBot />} />
       </Routes>
     </>
   );

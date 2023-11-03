@@ -16,7 +16,7 @@ import styled, { keyframes } from 'styled-components';
 
 // icon
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { IconDefinition, faDiceOne, faDiceTwo, faDiceThree  } from "@fortawesome/free-solid-svg-icons";
+import { faDiceOne, faDiceTwo, faDiceThree  } from "@fortawesome/free-solid-svg-icons";
 
 import ChatBubble from '../../components/chatbubble/ChatBubble';
 

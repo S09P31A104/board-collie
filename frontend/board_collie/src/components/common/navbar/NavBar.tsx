@@ -53,7 +53,7 @@ const Logo = styled.div`
     background-size: contain;
     background-repeat: no-repeat;
     width: 7vw;  
-    height: 12vh;
+    height: 11vh;
     padding: 0 1vw;
 `;
 
