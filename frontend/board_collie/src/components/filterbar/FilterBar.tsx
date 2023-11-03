@@ -41,7 +41,7 @@ const CustomSelect = styled(Select<string>)`
 
 const FilterBar: React.FC<FilterBarProps> = ({ numberOfPlayers, setNumberOfPlayers, tagFilter, setTagFilter, style }) => {
   const handleChange = (event: SelectChangeEvent<string>) => {
-    setNumberOfPlayers(event.target.value);
+    setNumberOfPlayers(event.target.value === "all" ? '' : event.target.value);
   };
 
   const handleTagClick = (tag: string) => {
@@ -56,14 +56,12 @@ const FilterBar: React.FC<FilterBarProps> = ({ numberOfPlayers, setNumberOfPlaye
 
 
   const renderValue = (selectedValue: string) => {
-    if (selectedValue === "") {
+    if (selectedValue === '') {
       return <em>인원수</em>;
     }
-    if (selectedValue === "all") {
-      return "상관없음";
-    }
-    return `${selectedValue}명`;
+    return selectedValue === "all" ? "상관없음" : `${selectedValue}명`;
   };
+  
 
   return (
     <FilterBarContainer style={style}>
@@ -79,7 +77,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ numberOfPlayers, setNumberOfPlaye
             <MenuItem disabled value="">
               <em>인원수</em>
             </MenuItem>
-            <MenuItem value="all">
+            <MenuItem value="">
               상관없음
             </MenuItem>
             {Array.from({ length: 8 }, (_, i) => i + 1).map(number => (

@@ -200,7 +200,7 @@ const GameDetailPage: React.FC = () => {
               key={tag.id}
               label={tag.name}
               onClick={() => handleOpen(tag.name, tag.description)}
-              sx={{ backgroundColor: '#CCF38C', mr: 1, mb: 1 }}
+              sx={{ backgroundColor: '#CCF38C', mr: 1, mb: 1, fontFamily: 'Jua, sans-serif' }}
             />
             
             ))
@@ -209,7 +209,7 @@ const GameDetailPage: React.FC = () => {
              )}
           </div>
           
-          <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 3, mt: 3 }}>
+          <Typography variant="h5" sx={{ mb: 3, mt: 3 }}>
             게임평 요약
           </Typography>
             {game && (
