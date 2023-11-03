@@ -75,7 +75,7 @@ const ColumnWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
+    // justify-content: center;
 `;
 const InnerWrapper = styled.div`
     height: 50%;
