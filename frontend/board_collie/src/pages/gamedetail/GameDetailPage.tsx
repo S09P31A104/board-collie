@@ -200,7 +200,15 @@ const GameDetailPage: React.FC = () => {
               key={tag.id}
               label={tag.name}
               onClick={() => handleOpen(tag.name, tag.description)}
-              sx={{ backgroundColor: '#CCF38C', mr: 1, mb: 1, fontFamily: 'Jua, sans-serif' }}
+              sx={{ 
+                backgroundColor: '#CCF38C', 
+                mr: 1, 
+                mb: 1, 
+                fontFamily: 'Jua, sans-serif', 
+                fontSize: '1.5rem', 
+                height: '44px', // 칩의 높이 조정
+                padding: '0 10px', // 내부 여백 조정
+              }}
             />
             
             ))
@@ -213,7 +221,7 @@ const GameDetailPage: React.FC = () => {
             게임평 요약
           </Typography>
             {game && (
-          <Typography sx={{ fontFamily: 'YESGothic-Regular', mb: 4 }}>
+          <Typography sx={{ fontSize: '1.25rem', fontFamily: 'YESGothic-Regular', mb: 4 }}>
             {game.evaluation}
           </Typography>
           )}
