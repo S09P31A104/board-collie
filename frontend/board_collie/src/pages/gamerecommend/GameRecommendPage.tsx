@@ -412,8 +412,8 @@ const GameRecommendPage: React.FC = () => {
                 key={index}
                 animateIn={animateButtonsIn}
                 index={index}
-                style={selectedButtons[currentQuestion] === index + 1 ? { backgroundColor: '#90B299' } : {}}
-                onClick={() => handleClick(index + 1)}
+                style={selectedButtons[currentQuestion] === index ? { backgroundColor: '#90B299' } : {}}
+                onClick={() => handleClick(index)}
               >
                 <IconContainer>
                   {index === 0 && <FontAwesomeIcon icon={faDiceOne} size="2xl" />}
