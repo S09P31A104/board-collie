@@ -14,7 +14,7 @@ def read_html_file(file_name):
 def extract_game_times(strings):
     result = []
     for s in strings:
-        match = re.search(r'게임시간(\d+)분', s)
+        match = re.search(r'게임시간(\d+)분', s) 
         if match:
             result.append(int(match.group(1)))
     return result
@@ -74,4 +74,27 @@ def get_game_data(file_name):
     data = data[:344]
 
     return data
+
+# HTML에서 이미지 URL 추출
+def extract_game_image_urls(soup):
+    # 'game-thumb' 클래스를 가진 div 요소 찾기
+    game_thumb_divs = soup.find_all('div', class_='game-thumb')
+
+    # 이미지 URL을 저장할 리스트 초기화
+    image_urls = []
+
+    # 각 'game-thumb' 요소에서 'img' 태그를 찾아 이미지 URL 추출
+    for div in game_thumb_divs:
+        img = div.find('img')
+        if img and 'src' in img.attrs:
+            image_url = img['src']
+            image_urls.append(image_url)
+    return image_urls
+
+def get_game_image_urls(file_name):
+    html = read_html_file(file_name)
+    soup = BeautifulSoup(html, 'html.parser')
+    image_urls= extract_game_image_urls(soup)
+
+    return pd.DataFrame({'game_image_url': image_urls})
 
