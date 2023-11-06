@@ -15,27 +15,30 @@ import TutorialEndComponent from '../../../components/tutorial/TutorialEndCompon
 import TutorialStartComponent from "../../../components/tutorial/TutorialStartComponent";
 
 /* 이미지 */
-const title = 'http://boardcollie.com.s3.ap-northeast-2.amazonaws.com/tutorial/72/title.png';
-const background1 = 'http://boardcollie.com.s3.ap-northeast-2.amazonaws.com/tutorial/72/background1.jpg';
-const background2 = 'http://boardcollie.com.s3.ap-northeast-2.amazonaws.com/tutorial/72/background2.jpg';
-const background3 = 'http://boardcollie.com.s3.ap-northeast-2.amazonaws.com/tutorial/72/background3.jpg';
-const chatbot = 'http://boardcollie.com.s3-website.ap-northeast-2.amazonaws.com/chatbot/qr/QR72.jpg';
-const info1 = 'http://boardcollie.com.s3.ap-northeast-2.amazonaws.com/tutorial/72/info1.png';
-const info2 = 'http://boardcollie.com.s3.ap-northeast-2.amazonaws.com/tutorial/72/info2.png';
+const title = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/title.png';
+const background1 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/background1.jpg';
+const background2 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/background2.jpg';
+const background3 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/background3.jpg';
+const chatbot = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/chatbot/qr/QR72.jpg';
+const info1 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/info1.png';
+const info2 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/info2.png';
 const info3 = process.env.PUBLIC_URL + '/tutorial/splendor/info3.png'; // 임시 사진
-const setting1 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png'; // 임시 사진
-const setting2 = process.env.PUBLIC_URL + '/tutorial/splendor/setting2.png'; // 임시 사진
-const setting3_2 = process.env.PUBLIC_URL + '/tutorial/splendor/setting3-2.png'; // 임시 사진
-const setting3_3 = process.env.PUBLIC_URL + '/tutorial/splendor/setting3-3.png'; // 임시 사진
-const setting3_4 = process.env.PUBLIC_URL + '/tutorial/splendor/setting3-4.png'; // 임시 사진
-const setting4 = process.env.PUBLIC_URL + '/tutorial/splendor/setting4.png'; // 임시 사진
-const summary1 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png'; // 임시 사진
-const summary2 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png'; // 임시 사진
-const summary3 = process.env.PUBLIC_URL + '/tutorial/splendor/setting1.png'; // 임시 사진
-const contentImg1 = process.env.PUBLIC_URL + '/tutorial/splendor/contentImg1.png'; // 임시 사진
+const setting1 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/setting1.jpg';
+const setting2 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/setting2.jpg';
+const setting3_2 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/setting3-2.jpg';
+const setting3_3 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/setting3-3.jpg';
+const setting3_4 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/setting3-4.jpg';
+const setting4_2 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/setting4-2.jpg';
+const setting4_3 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/setting4-3.jpg';
+const setting4_4 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/setting4-4.jpg';
+const summary1 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/summary1.png';
+const summary2 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/summary2.png';
+const summary3 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/summary3.png';
+const summary4 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/summary4.png';
+const contentImg1 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/summary2.png';
 
 /* bgm */
-const backgroundMusic = process.env.PUBLIC_URL + '/tutorial/splendor/background-music.mp3';
+const backgroundMusic = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/background-music.mp3';
 
 /* 스타일 */
 const SplenderContainer = styled.div`
@@ -63,7 +66,7 @@ function Splender({players, setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) 
                 '귀족 타일을 섞은 다음 <RedText>3개</RedText>를 펼쳐 놓아주세요.\n(귀족 타일은 인원수 + 1개 놓아줍니다.)\n\n남은 타일은 게임 중에 사용되지 않으므로 상자에 다시 넣어 둡시다.' // 3번 세팅 설명
             ],
             [
-                setting4, // 4번 세팅 이미지
+                setting4_2, // 4번 세팅 이미지
                 '토큰을 색깔별로 분류하여 쌓아 놓아주세요.\n\n황금 조커 토큰: <RedText>5개</RedText>\n나머지 토큰: <RedText>4개</RedText> (2명: 4개, 3명: 5개, 4명: 7개)' // 4번 세팅 설명
             ]
         ],
@@ -81,7 +84,7 @@ function Splender({players, setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) 
                 '귀족 타일을 섞은 다음 <RedText>4개</RedText>를 펼쳐 놓아주세요.\n(귀족 타일은 인원수 + 1개 놓아줍니다.)\n\n남은 타일은 게임 중에 사용되지 않으므로 상자에 다시 넣어 둡시다.' // 3번 세팅 설명
             ],
             [
-                setting4, // 4번 세팅 이미지
+                setting4_3, // 4번 세팅 이미지
                 '토큰을 색깔별로 분류하여 쌓아 놓아주세요.\n\n황금 조커 토큰: <RedText>5개</RedText>\n나머지 토큰: <RedText>5개</RedText> (2명: 4개, 3명: 5개, 4명: 7개)' // 4번 세팅 설명
             ]
         ],
@@ -99,7 +102,7 @@ function Splender({players, setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) 
                 '귀족 타일을 섞은 다음 <RedText>5개</RedText>를 펼쳐 놓아주세요.\n(귀족 타일은 인원수 + 1개 놓아줍니다.)\n\n남은 타일은 게임 중에 사용되지 않으므로 상자에 다시 넣어 둡시다.' // 3번 세팅 설명
             ],
             [
-                setting4, // 4번 세팅 이미지
+                setting4_4, // 4번 세팅 이미지
                 '토큰을 색깔별로 분류하여 쌓아 놓아주세요.\n\n황금 조커 토큰: <RedText>5개</RedText>\n나머지 토큰: <RedText>7개</RedText> (2명: 4개, 3명: 5개, 4명: 7개)' // 4번 세팅 설명
             ]
         ]
@@ -153,7 +156,7 @@ function Splender({players, setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) 
                 [6, '개발 카드 찜하기'],
                 [7, '개발 카드 1장 구매하기']
             ],
-            2 // 이전 페이지 flow 번호
+            27 // 이전 페이지 flow 번호
         ],
         [ // 4: 선택 액션 설명
             'TitleAndContenAndTwoButtonComponent', // 템플릿
@@ -161,7 +164,7 @@ function Splender({players, setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) 
             '토큰이 잘 보이도록 앞에 놓아주세요.\n\n토큰은 10개까지만 가지고 있을 수 있습니다.\n원하는 토큰을 남기고 나머지는 버려주세요.', // content
             null, // additional information
             [ // 버튼 내용
-                [8, '예, 가져갈래요.'],
+                [9, '예, 가져갈래요.'],
                 [3, '다른 액션 선택할래요.']
             ],
             3 // 이전 페이지 flow 번호
@@ -172,7 +175,7 @@ function Splender({players, setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) 
             '가져가려는 토큰이 <RedText>4개 이상</RedText>일때만\n같은 색깔의 토큰을 2개 가져갈 수 있습니다.\n\n토큰은 10개까지만 가지고 있을 수 있습니다.\n원하는 토큰을 남기고 나머지는 버려주세요.', // content
             null, // additional information
             [ // 버튼 내용
-                [8, '예, 가져갈래요.'],
+                [9, '예, 가져갈래요.'],
                 [3, '다른 액션 선택할래요.']
             ],
             3 // 이전 페이지 flow 번호
@@ -189,7 +192,7 @@ function Splender({players, setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) 
                 '💎 찜한 카드를 전부 구매할 필요는 없습니다.',
             ],
             [ // 버튼 내용
-                [8, '예, 찜 할래요.'],
+                [9, '예, 찜 할래요.'],
                 [3, '다른 액션 선택할래요.']
             ],
             3 // 이전 페이지 flow 번호
@@ -212,11 +215,11 @@ function Splender({players, setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) 
         ],
         [ // 8:  액션 선택 이후 정보 전달
             'TitleAndImageAndContentAndOneButtonComponent', // 템플릿
-            '차례가 끝날 때마다 확인해주세요!', // title
+            '개발 카드를 구매했다면 확인해주세요!', // title
             contentImg1, // image
             '귀족 타일에 표시된 만큼의 카드를 보유하고 있다면\n<RedText>귀족 타일 획득</RedText> 가능합니다.\n\n귀족 카드는 <RedText>한 차례에 하나만</RedText> 얻을 수 있습니다.', // content
             9, '확인했어요.', // 버튼 내용
-            3 // 이전 페이지 flow 번호
+            7 // 이전 페이지 flow 번호
         ],
         [ // 9: 다음 플레이어 턴
             'TitleAndContenAndTwoButtonComponent', // 템플릿
@@ -227,7 +230,7 @@ function Splender({players, setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) 
                 [15, '모든 플레이어가 한 번씩 액션을 완료했어요.'],
                 [10, '액션 다시 확인할래요.']
             ],
-            8 // 이전 페이지 flow 번호
+            3 // 이전 페이지 flow 번호
         ],
         [ // 10: 액션 수행
             'TitleAndContentAndFourButtonComponent', // 템플릿
@@ -337,7 +340,7 @@ function Splender({players, setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) 
         [ // 21: 개요(2)
             'ImageAndContentComponent', // 템플릿
             summary1, // image
-            '<TypeIt>토큰으로<br/>개발 카드를 구매하여<br/>승점과 보너스를 얻을 수 있습니다.</TypeIt>', // content
+            '<TypeIt>토큰💰으로<br/>개발 카드🃏를 구매하여<br/>승점과 보너스를 얻을 수 있습니다.</TypeIt>', // content
             20, // 이전 페이지 flow 번호
             22 // 다음 페이지 flow 번호
         ],
@@ -353,7 +356,7 @@ function Splender({players, setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) 
             summary3, // image
             '<TypeIt>또한, 보너스는<br/>앞으로 구매할 개발 카드의 비용을 줄여줍니다.</TypeIt>', // content
             22, // 이전 페이지 flow 번호
-            3 // 다음 페이지 flow 번호
+            27 // 다음 페이지 flow 번호
         ],
         [ // 24: 15점이 되었을 때
             'TitleComponent', // 템플릿
@@ -372,11 +375,18 @@ function Splender({players, setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) 
             title, // image
             '승점이 가장 높은 플레이어가 🎉승자🎉입니다!', // content
             [
-                '🎉 동점일 경우 귀족타일을 제외한 카드를 더 적게 가지고 있는 분이 승리합니다.',
+                '🎉 동점일 경우 귀족 타일을 제외한 카드를 더 적게 가지고 있는 분이 승리합니다.',
                 '🎉 그것도 같다면, 귀족 타일을 더 많이 가지고 있는 분이 승리합니다.',
-                '🎉 그것도 같다면, 가지고 있는 보석칩 개수가 더 많은 분이 승리합니다.',
+                '🎉 그것도 같다면, 토큰이 더 많이 가지고 있는 분이 승리합니다.',
             ], // additional information
             25 // 이전 페이지 flow 번호
+        ],
+        [ // 27: 개요(5)
+            'ImageAndContentComponent', // 템플릿
+            summary4,
+            '<TypeIt>개발 카드를 나만 구입할 수 있게<br/>찜할 수도 있습니다!<br/>이때 황금 조커 토큰을 가져올 수 있고,<br/>다른 토큰을 대신해서 사용할 수 있습니다.</TypeIt>', // content
+            23, // 이전 페이지 flow 번호
+            3 // 다음 페이지 flow 번호
         ],
     ];
 
