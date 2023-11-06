@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar from '../../components/searchbar/SearchBar';
-import { Divider, Grid, Chip, Stack } from '@mui/material';
+import { Divider, Grid, Chip } from '@mui/material';
 import { Link } from 'react-router-dom';
 import './SearchResultPage.css';
 import RecentGamesList from '../../components/recentgameslist/RecentGamesList';
@@ -28,8 +28,6 @@ type GameFromServer = {
 };
 
 const SERVER_API_URL = `${process.env.REACT_APP_API_SERVER_URL}`;
-// const SERVER_API_URL = 'https://boardcollie.com/api/s1';
- 
 
 const transformData = (dataFromServer: GameFromServer[]): Game[] => {
   return dataFromServer.map(game => ({
@@ -40,8 +38,6 @@ const transformData = (dataFromServer: GameFromServer[]): Game[] => {
   }));
 };
 
-
-
 const SearchResultsPage: React.FC = () => {
   
   const [results, setResults] = useState<Game[]>([]);
@@ -49,6 +45,7 @@ const SearchResultsPage: React.FC = () => {
   const [query, setQuery] = useState('');
   const [visibleResults, setVisibleResults] = useState<Game[]>([]);
   const [hasMore, setHasMore] = useState(true);
+  const [tagFilter, setTagFilter] = useState<string | null>(null);
 
   useEffect(() => {
     // 검색창이 비어있을 때 초기 상태로 설정
@@ -82,12 +79,9 @@ const SearchResultsPage: React.FC = () => {
             people: numberOfPlayers,
           },
         });
-        console.log(response.data, '#1')
-        console.log(response.data.message, '#2')
-        console.log(response.data.data, '#3')
-        console.log(response.data.data[0].gameId, '#4')
+        
         // 받아온 데이터를 transformData 함수를 사용하여 변환합니다.
-        const games = transformData(response.data);
+        const games = transformData(response.data.data);
         setResults(games);
       } catch (error) {
         console.error("Error fetching data: ", error);
@@ -100,7 +94,6 @@ const SearchResultsPage: React.FC = () => {
   const handleSearch = (query: string) => {
     setQuery(query); // 입력받은 검색어를 state에 저장합니다.
   };
-
 
   const centerStyle: React.CSSProperties = {
     display: 'flex',
@@ -126,12 +119,28 @@ const SearchResultsPage: React.FC = () => {
   
     localStorage.setItem('recentGames', JSON.stringify(newRecentGames));
   };
-  
+
+  useEffect(() => {
+    // 태그 필터가 변경되었을 때 실행됩니다.
+    if (tagFilter) {
+      const filteredResults = results.filter(game => game.tags.includes(tagFilter));
+      setVisibleResults(filteredResults.slice(0, 10));
+    } else {
+      setVisibleResults(results.slice(0, 10));
+    }
+  }, [tagFilter, results]);
 
   return (
     <div style={{ overflow: 'hidden', height: '100vh' }}>
     <SearchBar onSearch={handleSearch} style={{ position: 'relative' }}/>
-    <FilterBar numberOfPlayers={numberOfPlayers} setNumberOfPlayers={setNumberOfPlayers} style={{ marginTop: '2.1vh' }} />
+    <FilterBar
+      numberOfPlayers={numberOfPlayers}
+      setNumberOfPlayers={setNumberOfPlayers}
+      tagFilter={tagFilter}
+      setTagFilter={setTagFilter}
+      style={{ marginTop: '2.1vh' }}
+    />
+
     <Grid container spacing={2}>
       <Grid item xs={9} style={{ overflowY: 'auto', maxHeight: '90vh', scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="hide-scrollbar">
         {results.length === 0 ? (
@@ -149,23 +158,31 @@ const SearchResultsPage: React.FC = () => {
           {visibleResults.map((item, index) => (
             <div key={item.name} style={{ marginLeft: '10vw' }} >
               <div style={{ display: 'flex', alignItems: 'center', padding: '20px' }}>
-                <img src={item.image} alt={item.image} style={{ width: '100px', height: '100px', marginRight: '20px' }} />
-                <div>
-                  <h3>
-                    <Link 
-                      to={`/game/${item.id}`} 
-                      style={{ textDecoration: 'none', color: 'inherit' }}
-                      onClick={() => handleGameClick(item.id)}
-                    >
-                      {item.name}
-                    </Link>
-                  </h3>
-                  <Stack direction="row" spacing={1} style={{ marginBottom: '20px' }}>
-                    {item.tags.map(tag => (
-                      <Chip key={tag} label={tag} />
-                    ))}
-                  </Stack>
-                </div>
+              <Link 
+                to={`/game/${item.id}`} 
+                style={{ textDecoration: 'none', color: 'inherit' }}
+                onClick={() => handleGameClick(item.id)}
+                >
+                <img src={item.image} alt={item.name} style={{ width: '100px', height: '100px', marginRight: '20px' }} />
+              </Link>
+
+              <div>
+  <h3>
+    <Link 
+      to={`/game/${item.id}`} 
+      style={{ textDecoration: 'none', color: 'inherit' }}
+      onClick={() => handleGameClick(item.id)}
+    >
+      {item.name}
+    </Link>
+  </h3>
+  <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '20px' }}>
+    {item.tags.map(tag => (
+      <Chip key={tag} label={tag} style={{ margin: '4px', marginBottom: '8px' }} />
+    ))}
+  </div>
+</div>
+
               </div>
               {index < visibleResults.length - 1 && <Divider />}
             </div>
@@ -176,7 +193,7 @@ const SearchResultsPage: React.FC = () => {
       </Grid>
       <Grid item container xs={3} style={{ alignItems: 'flex-start' }}>
         <Divider orientation="vertical" flexItem sx={{ height: '100%' }} />
-        <Grid item xs style={{ overflowY: 'auto', maxHeight: '90vh', scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }} >
+        <Grid item xs style={{ overflowY: 'auto', maxHeight: '90vh', scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }} className="hide-scrollbar">
           <div style={{ textAlign: 'center' }}>
             <h4>최근 본 게임</h4>
             <RecentGamesList />

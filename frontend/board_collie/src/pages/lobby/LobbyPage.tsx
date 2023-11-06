@@ -21,6 +21,7 @@ const LobbyPage: React.FC<LobbyPageProps> = ({ players, setPlayers }) => {
   useEffect(() => {
     // 페이지가 로드될 때 실행될 초기화 로직
     setPlayers(2);  // 플레이어 수를 초기 상태로 설정
+    localStorage.setItem('players', '2');
   }, []);  // 빈 dependency 배열을 전달하여 컴포넌트가 마운트 될 때만 실행
 
   const incrementPlayers = () => {

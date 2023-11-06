@@ -75,7 +75,6 @@ const SkipButton = styled.span`
     border-radius: 10px;
     font-family: 'Jolly Lodger', cursive;
 `;
-
 const BackButtonBox = styled.div`
     display: flex;
     justify-content: center;

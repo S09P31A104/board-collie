@@ -3,7 +3,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Typography,
+  Chip,
   Select,
   MenuItem,
   FormControl,
@@ -16,6 +16,8 @@ interface FilterBarProps {
   numberOfPlayers: string;
   setNumberOfPlayers: React.Dispatch<React.SetStateAction<string>>;
   style?: React.CSSProperties;
+  tagFilter: string | null;
+  setTagFilter: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const FilterBarContainer = styled(Accordion)`
@@ -37,20 +39,29 @@ const CustomSelect = styled(Select<string>)`
   }
 `;
 
-const FilterBar: React.FC<FilterBarProps> = ({ numberOfPlayers, setNumberOfPlayers, style }) => {
+const FilterBar: React.FC<FilterBarProps> = ({ numberOfPlayers, setNumberOfPlayers, tagFilter, setTagFilter, style }) => {
   const handleChange = (event: SelectChangeEvent<string>) => {
-    setNumberOfPlayers(event.target.value);
+    setNumberOfPlayers(event.target.value === "all" ? '' : event.target.value);
   };
 
+  const handleTagClick = (tag: string) => {
+    if (tagFilter === tag) {
+      setTagFilter(null);
+    } else {
+      setTagFilter(tag);
+    }
+  };
+
+  const tagList = ["핸드 관리", "세트 모으기", "파티 게임", "어린이 게임", "카드 게임", "추리", "투표", "퍼즐", "주사위", "블러핑"];
+
+
   const renderValue = (selectedValue: string) => {
-    if (selectedValue === "") {
+    if (selectedValue === '') {
       return <em>인원수</em>;
     }
-    if (selectedValue === "all") {
-      return "상관없음";
-    }
-    return `${selectedValue}명`;
+    return selectedValue === "all" ? "상관없음" : `${selectedValue}명`;
   };
+  
 
   return (
     <FilterBarContainer style={style}>
@@ -66,7 +77,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ numberOfPlayers, setNumberOfPlaye
             <MenuItem disabled value="">
               <em>인원수</em>
             </MenuItem>
-            <MenuItem value="all">
+            <MenuItem value="">
               상관없음
             </MenuItem>
             {Array.from({ length: 8 }, (_, i) => i + 1).map(number => (
@@ -78,15 +89,15 @@ const FilterBar: React.FC<FilterBarProps> = ({ numberOfPlayers, setNumberOfPlaye
         </FormControl>
       </AccordionSummary>
       <AccordionDetails>
-        <Typography>
-          필터 옵션 1
-        </Typography>
-        <Typography>
-          필터 옵션 2
-        </Typography>
-        <Typography>
-          필터 옵션 3
-        </Typography>
+        {tagList.map(tag => (
+          <Chip 
+            key={tag} 
+            label={tag} 
+            onClick={() => handleTagClick(tag)} 
+            style={{ margin: '4px' }}
+            variant={tagFilter === tag ? 'filled' : 'outlined'}
+          />
+        ))}
       </AccordionDetails>
     </FilterBarContainer>
   );
