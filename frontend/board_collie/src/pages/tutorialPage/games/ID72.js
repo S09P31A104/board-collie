@@ -340,7 +340,7 @@ function Splender({players, setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) 
         [ // 21: 개요(2)
             'ImageAndContentComponent', // 템플릿
             summary1, // image
-            '<TypeIt>토큰💰으로<br/>개발 카드🃏를 구매하여<br/>승점과 보너스를 얻을 수 있습니다.</TypeIt>', // content
+            '<TypeIt>토큰으로<br/>개발 카드를 구매하여<br/>승점과 보너스를 얻을 수 있습니다.</TypeIt>', // content
             20, // 이전 페이지 flow 번호
             22 // 다음 페이지 flow 번호
         ],
