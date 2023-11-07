@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GameRelation {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "game_relations_id")
+    @Column(name = "game_relation_id")
     private Long id;
 
     @ManyToOne
