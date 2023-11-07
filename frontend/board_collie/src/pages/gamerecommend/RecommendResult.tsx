@@ -46,9 +46,9 @@ const Card = styled(animated.div)<{ bg: string }>`
   background-repeat: no-repeat;
   background-position: center center;
   width: 45vh;
-  max-width: 300px;
-  height: 85vh;
-  max-height: 400px;
+  // max-width: 450px;
+  height: 65vh;
+  // max-height: 600px;
   will-change: transform;
   border-radius: 10px;
   box-shadow: 0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);
@@ -63,20 +63,46 @@ const Card = styled(animated.div)<{ bg: string }>`
       delay: i * 100,
     })
 
-  const from = (_i: number) => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
+  const from = (_i: number) => ({ x: 0, rot: 0, scale: 1.5, y: -1500 })
 
   // This is being used down there in the view, it interpolates rotation and scale into a css transform
-  const trans = (r: number, s: number) =>
-    `perspective(1500px) rotateX(30deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
+  const trans = (r: number, s: number, rotateX: number) =>
+    `perspective(1500px) rotateX(${rotateX}deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
   
   function Deck() {
+    const [zoomed, setZoomed] = useState(new Array(cards.length).fill(false));
+
     const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
     const [props, api] = useSprings(cards.length, i => ({
       ...to(i),
       from: from(i),
+
+      // 클릭된 카드가 확대되면 scale을 증가시키고 rotateX를 0으로 설정합니다.
+      scale: zoomed[i] ? 1.2 : 1,
+      rot: zoomed[i] ? 0 : -10 + Math.random() * 20,
+      rotateX: zoomed[i] ? 0 : 30,
+      config: { friction: 50, tension: 500 },
     })) // Create a bunch of springs using the helpers above
+
+    // 카드 클릭 이벤트를 처리합니다.
+    const handleClick = (index : number) => {
+      // 선택된 카드의 확대 상태를 토글합니다.
+      setZoomed(zoomed.map((z, i) => (i === index ? !z : z)));
+      // api를 사용하여 선택된 카드의 스프링 속성을 업데이트합니다.
+      api.start(i => {
+        if (index !== i) return;
+        const newY = zoomed[i] ? -4 : 50;
+        return {
+          y: newY,
+          scale: zoomed[i] ? 1 : 1.2, // 클릭 시 스케일을 토글합니다.
+          rot: zoomed[i] ? -10 + Math.random() * 20 : 0, // 클릭 시 회전 값을 토글합니다.
+          rotateX: zoomed[i] ? 30 : 0,
+        };
+      });
+    };
+
     // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
-    const bind = useDrag(({ args: index, down, movement: [mx], direction: [xDir], velocity }) => {
+    const bind = useDrag(({ args: [index], down, movement: [mx], direction: [xDir], velocity }) => {
       const trigger = velocity > 0.2 // If you flick hard enough it should trigger the card to fly out
       const dir = xDir < 0 ? -1 : 1 // Direction should either point left or right
       if (!down && trigger) gone.add(index) // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
@@ -97,9 +123,18 @@ const Card = styled(animated.div)<{ bg: string }>`
       if (!down && gone.size === cards.length)
         setTimeout(() => {
           gone.clear()
-          api.start(i => to(i))
+          setZoomed(new Array(cards.length).fill(false)); // zoomed 상태를 초기화합니다.
+          api.start(i => ({
+            ...to(i),
+            from: from(i),
+            scale: 1, // scale 값을 초기화합니다.
+            rot: -10 + Math.random() * 20, // rot 값을 초기화합니다.
+            rotateX: 30, // rotateX 값을 초기화합니다.
+            immediate: false, // 애니메이션을 적용하기 위해 immediate를 false로 설정합니다.
+          }));
         }, 600)
     })
+
     // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
     return (
         <>
@@ -109,8 +144,10 @@ const Card = styled(animated.div)<{ bg: string }>`
               {...bind(i)}
               bg={cards[i]}
               style={{
-                transform: interpolate([rot, scale], trans),
+                transform: interpolate([rot, scale], (r, s) => trans(r, s, zoomed[i] ? 0 : 30)),
+                backgroundImage: `url(${cards[i]})`,
               }}
+              onClick={() => handleClick(i)} // 카드에 클릭 이벤트 핸들러를 추가합니다.
             />
           </DeckDiv>
         ))}

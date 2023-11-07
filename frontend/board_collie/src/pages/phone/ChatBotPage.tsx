@@ -15,7 +15,8 @@ import chatIcon from '../../assets/chat_icon.png';
 // icon
 import LogoutIcon from '@mui/icons-material/Logout';
 import SendIcon from '@mui/icons-material/Send';
-import { type } from 'os';
+
+import { fetchGameDetail, Game } from '../../apis/gamedetail/GameDetailAPI';
 
 /**
  * ChatBot 
@@ -25,13 +26,6 @@ import { type } from 'os';
  */
 
 const SERVER_API_URL = `${process.env.REACT_APP_API_SERVER_URL}`;
-
-// UUID 받아오기
-interface UUIDResponse {
-  success: boolean;
-  message: string;
-  data: string;
-};
 
 // 채팅방 컨테이너
 const ChatRoomContainer = styled.div`
@@ -265,24 +259,46 @@ interface Answer {
 const ChatBotPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const gameId = parseInt(id ?? "0"); // useParams로 받은 id를 정수로 변환
-  
+
   const [uuid, setUuid] = useState<string | null>(null);
 
-  const title = '스플랜더';
+  const [gamedetail, setGameDetail] = useState<Game | null>(null); // 게임 상세 정보를 저장할 상태 추가
+  const [title, setTitle] = useState<string | null>(null); 
 
   const [isLoading, setIsLoading] = React.useState(false);
+
+  // gameId 변경 시 또는 컴포넌트 마운트 시 게임 상세 정보 가져오기
+  useEffect(() => {
+    const loadGameDetail = async () => {
+      const gameData = await fetchGameDetail(gameId);
+      if (gameData) {
+        setGameDetail(gameData); // 게임 상세 정보 상태 업데이트
+        setTitle(gameData.name); // 게임 이름을 title 상태로 설정
+      }
+    };
+
+    if (gameId) {
+      loadGameDetail();
+    }
+  }, [gameId]);
 
   // 종료 : 현재 창 닫기
   const handleClose = () => {
     window.close();
   };
 
-  const [questions, setQuestions] = React.useState<Question[]>([
-  ]);
+  const [questions, setQuestions] = React.useState<Question[]>([]);
 
-  const [answers, setAnswers] = React.useState<Answer[]>([
-    { id: uuidv4(), text: `게임 : ${title}\n상세한 게임룰이나 헷갈리는 규칙이 있을 경우 질문 주세요!`},
-  ]);
+  const [answers, setAnswers] = React.useState<Answer[]>([]);
+
+  useEffect(() => {
+    // title이 null이 아니라면 첫 번째 답변을 설정합니다.
+    if (title) {
+      setAnswers([
+        { id: uuidv4(), text: `게임 : ${title}\n상세한 게임룰이나 헷갈리는 규칙이 있을 경우 질문 주세요!`},
+      ]);
+    }
+  }, [title]); // title이 바뀔 때마다 이 로직을 실행합니다.
 
   const [inputText, setInputText] = React.useState('');
 
@@ -378,13 +394,13 @@ const ChatBotPage: React.FC = () => {
     fetchUUID();
   }, []);
 
-  // UUID 사용 예시
-  useEffect(() => {
-    if (uuid) {
-      console.log(`UUID: ${uuid}`);
-      console.log(gameId);
-    }
-  }, [uuid]);
+  // // UUID 사용 예시
+  // useEffect(() => {
+  //   if (uuid) {
+  //     console.log(`UUID: ${uuid}`);
+  //     console.log(gameId);
+  //   }
+  // }, [uuid]);
 
   return (
     <ChatRoomContainer>
