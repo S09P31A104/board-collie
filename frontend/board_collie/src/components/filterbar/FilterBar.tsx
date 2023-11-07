@@ -63,20 +63,9 @@ const FilterBar: React.FC<FilterBarProps> = ({ numberOfPlayers, setNumberOfPlaye
   };
   
   return (
-    <div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '20px' }}>
-        {oldTagList.map(tag => (
-          <Chip 
-            key={tag} 
-            label={tag} 
-            onClick={() => handleTagClick(tag)} 
-            style={{ margin: '4px' }}
-            variant={tagFilter === tag ? 'filled' : 'outlined'}
-          />
-        ))}
-      </div>
     <FilterBarContainer style={style}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />} >
+      <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
         <FormControl variant="outlined" sx={{ m: 1, minWidth: 120 }}>
           <CustomSelect
             value={numberOfPlayers}
@@ -98,6 +87,18 @@ const FilterBar: React.FC<FilterBarProps> = ({ numberOfPlayers, setNumberOfPlaye
             ))}
           </CustomSelect>
         </FormControl>
+        <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
+            {oldTagList.map(tag => (
+              <Chip 
+                key={tag} 
+                label={tag} 
+                onClick={() => handleTagClick(tag)} 
+                style={{ margin: '4px' }}
+                variant={tagFilter === tag ? 'filled' : 'outlined'}
+              />
+            ))}
+          </div>
+        </div>
       </AccordionSummary>
       <AccordionDetails>
       {newTagList.map(tag => (
@@ -111,7 +112,6 @@ const FilterBar: React.FC<FilterBarProps> = ({ numberOfPlayers, setNumberOfPlaye
           ))}
       </AccordionDetails>
     </FilterBarContainer>
-    </div>
   );
 };
 
