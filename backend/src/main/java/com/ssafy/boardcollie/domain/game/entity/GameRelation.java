@@ -27,4 +27,5 @@ public class GameRelation {
     @ManyToOne
     @JoinColumn(name = "related_game_id")
     private Game relatedGame;
+
 }
