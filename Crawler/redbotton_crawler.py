@@ -84,7 +84,7 @@ def extract_game_image_urls(soup):
     image_urls = [img['src'] for img in soup.select('div.game-thumb img[src]')]
 
 
-    filtered_data = [(titles, urls) for titles, urls in zip(game_titles_kor, image_urls) if any(title.isalnum() for title in titles)]
+    filtered_data = [(titles, urls) for titles, urls in zip(game_titles_kor, image_urls[10:]) if any(title.isalnum() for title in titles)]
     filtered_game_titles_kor, filtered_image_urls = zip(*filtered_data)
     
     return pd.DataFrame({'game_title': filtered_game_titles_kor, 'game_image_url': filtered_image_urls})
