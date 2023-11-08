@@ -14,8 +14,8 @@ import TutorialEndComponent from '../../../components/tutorial/TutorialEndCompon
 import TutorialStartComponent from "../../../components/tutorial/TutorialStartComponent";
 
 /* 이미지 */
-const title = process.env.PUBLIC_URL + "/tutorial/rummikub/title.png"; // 임시
-const background = process.env.PUBLIC_URL + "/tutorial/rummikub/background.jfif"; // 임시
+const title = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/title.png';
+const background = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/background.jfif';
 const chatbot = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/chatbot/qr/QR27.jpg';
 const setting1 = process.env.PUBLIC_URL + "/tutorial/rummikub/setting1.png"; // 임시
 const setting2 = process.env.PUBLIC_URL + "/tutorial/rummikub/setting2.png"; // 임시
@@ -34,7 +34,7 @@ const contentImage7 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage7
 const contentImage8 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage8.png"; // 임시
 
 /* bgm */
-const backgroundMusic = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/72/background-music.mp3'; // 임시
+const backgroundMusic = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/backgroundMusic.mp3';
 
 /* 스타일 */
 const RummikubContainer = styled.div`
