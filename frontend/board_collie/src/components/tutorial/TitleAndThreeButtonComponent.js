@@ -1,11 +1,11 @@
 import { IconButton } from '@mui/material';
 import { KeyboardArrowLeft } from '@mui/icons-material';
+import styled from 'styled-components';
 import { useState, useEffect } from "react";
 import reactStringReplace from 'react-string-replace';
-import styled from 'styled-components';
 
 /* 스타일 */
-const TitleAndContentAndOneButtonCotainer = styled.div`
+const TitleAndThreeButtonCotainer = styled.div`
     display: flex;
     justify-content: space-between;
     height: 100%;
@@ -33,20 +33,8 @@ const MainContainer = styled.div`
 `;
 const Title = styled.div`
     margin-top: 5%;
-    height: 20%;
-    width: 100%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-    font-size: 4.5vw;
-`;
-const Content = styled.div`
-    margin-top: 5%;
     margin-bottom: 5%;
-    height: 51%;
+    height: 48%;
     width: 100%;
 
     display: flex;
@@ -54,21 +42,18 @@ const Content = styled.div`
     justify-content: center;
 
     text-align: center;
-    font-size: 3vw;
-
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.8);
+    font-size: 5vw;
 `;
 const RedTextContent = styled.span`
     color: red;
 `;
-const Button = styled.div`
-    height: 10%;
-    margin-bottom: 4%;
+const Buttons = styled.div`
+    height: 42%;
     width: 100%;
-
-    border-radius: 8px;
-    background: #CCF38C;
+`;
+const ChoiceButton = styled.div`
+    height: 10vh;
+    margin-bottom: 4vh;
 
     display: flex;
     align-items: center;
@@ -76,10 +61,13 @@ const Button = styled.div`
 
     text-align: center;
     font-size: 2.8vw;
+
+    border-radius: 8px;
+    background: #CCF38C;
 `;
 
-function TitleAndContentAndOneButtonComponent({title, content, buttonPageInfo, buttonTextInfo, setPage, prePage}) {
-
+function TitleAndThreeButtonComponent({title, buttonInfo, setPage, prePage}) {
+    
     /* 이전 페이지 이동 */
     function moveBackPage() {
         setPage(prePage);
@@ -90,18 +78,17 @@ function TitleAndContentAndOneButtonComponent({title, content, buttonPageInfo, b
         setPage(nextFlow);
     }
 
-    const [highlightedContent, setHighlightedContent] = useState(content);
-
-    // content 강조 부분
+    const [highlightedTitle, setHighlightedTitle] = useState(title);
+    // title 강조 부분
     useEffect(() => {
-        const parsedContent = reactStringReplace(content, /<RedText>(.*?)<\/RedText>/g, (match, i) => (
-            <RedTextContent key={i}>{match}</RedTextContent>
+        const parsedTitle = reactStringReplace(title, /<RedText>(.*?)<\/RedText>/g, (match, i) => (
+            <RedTextContent key={match}>{match}</RedTextContent>
         ));
-        setHighlightedContent(parsedContent);
-    }, [content]);
+        setHighlightedTitle(parsedTitle);
+    }, [title]);
 
     return (
-        <TitleAndContentAndOneButtonCotainer>
+        <TitleAndThreeButtonCotainer>
             {/* 뒤로 가기 버튼 */}
             <MovePageButtonBox>
                 <IconButton
@@ -114,15 +101,20 @@ function TitleAndContentAndOneButtonComponent({title, content, buttonPageInfo, b
 
             {/* 콘텐츠 */}
             <MainContainer>
-                <Title>{title}</Title>
-                <Content><p>{highlightedContent}</p></Content>
-                <Button onClick={() => moveNextFlow(buttonPageInfo)}>{buttonTextInfo}</Button>
+                <Title><p>{highlightedTitle}</p></Title>
+                <Buttons>
+                    {buttonInfo.map((item, index) => (
+                        <ChoiceButton key={index} onClick={() => moveNextFlow(item[0])}>
+                            {item[1]}
+                        </ChoiceButton>
+                    ))}
+                </Buttons>
             </MainContainer>
 
             {/* 앞으로 가기 버튼 */}
             <MovePageButtonBox/>
-        </TitleAndContentAndOneButtonCotainer>
+        </TitleAndThreeButtonCotainer>
     )
 }
 
-export default TitleAndContentAndOneButtonComponent;
+export default TitleAndThreeButtonComponent;

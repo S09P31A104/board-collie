@@ -45,7 +45,7 @@ const SplenderContainer = styled.div`
     height: 100%;
 `;
 
-function Splender({players, setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) {
+function ID72({players, setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) {
 
     const settingIndex = players > 4 ? 2 : players - 2;
     const [page, setPage] = useState(0);
@@ -525,4 +525,4 @@ function Splender({players, setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) 
     )
 }
 
-export default Splender;
+export default ID72;
