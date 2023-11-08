@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { IconButton, Box, Divider, Typography, Chip } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import gameimg from '../../assets/splendor.png'
@@ -24,6 +24,13 @@ type Game = {
     name: string;
     description: string;
   }[];
+  similarGames: SimilarGame[];
+};
+
+type SimilarGame = {
+  gameId: number;
+  gameTitleKor: string;
+  gameImage: string | null;
 };
 
 type GameFromServer = {
@@ -58,6 +65,11 @@ const transformData = (dataFromServer: GameFromServer): Game => {
       id: tag.tagId,
       name: tag.tagName,
       description: tag.tagDescription,
+    })),
+    similarGames: dataFromServer.similarGame.map(game => ({
+      gameId: game.gameId,
+      gameTitleKor: game.gameTitleKor,
+      gameImage: game.gameImage
     })),
   };
 };
@@ -227,9 +239,27 @@ const GameDetailPage: React.FC = () => {
           </Typography>
           )}
 
-          <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif' }}>
+          <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 3 }}>
             유사한 다른 게임
           </Typography>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, justifyContent: 'center' }}>
+            {game?.similarGames.map(similarGame => (
+          <Box key={similarGame.gameId} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', m: 1 }}>
+            <Link to={`/game/${similarGame.gameId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <img
+              src={similarGame.gameImage || gameimg} 
+              alt={similarGame.gameTitleKor}
+              style={{ width: '150px', height: '150px', objectFit: 'cover', borderRadius: '10px' }}
+              />
+            </Link>
+          <Typography sx={{ mt: 1, fontFamily: 'Jua, sans-serif', fontSize: '1.2rem' }}>
+          <Link to={`/game/${similarGame.gameId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+            {similarGame.gameTitleKor}
+          </Link>
+          </Typography>
+            </Box>
+              ))}
+            </Box>
         </Box>
 
         <Modal
