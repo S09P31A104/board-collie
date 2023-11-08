@@ -48,7 +48,7 @@ type GameFromServer = {
     tagName: string;
     tagDescription: string;
   }>;
-  similarGame: any[]; // 여기서 'any'를 필요에 따라 적절한 타입으로 바꿔야 합니다.
+  similarGame: any[]; 
 };
 
 const transformData = (dataFromServer: GameFromServer): Game => {
@@ -130,6 +130,41 @@ const GameDetailPage: React.FC = () => {
       navigate(`/select/${game.id}`);
     }
   };
+
+  useEffect(() => {
+    const fetchGameDetail = async () => {
+      try {
+        const response = await axios.get(`${SERVER_API_URL}/game/detail/${gameId}`);
+        if (response.data.success) {
+          const transformedData = transformData(response.data.data);
+          setGame(transformedData);
+  
+          // 여기서 로컬 스토리지에 게임 정보를 저장합니다.
+          updateRecentGamesInLocalStorage(transformedData);
+        }
+      } catch (error) {
+        console.error("게임 디테일 정보를 가져오는데 실패했습니다.", error);
+      }
+    };
+    
+    fetchGameDetail();
+  }, [gameId]);
+  
+  const updateRecentGamesInLocalStorage = (gameData: Game) => {
+    const recentGames = JSON.parse(localStorage.getItem('recentGames') || '[]');
+  
+    const newRecentGame = { id: gameData.id, name: gameData.name };
+  
+    // 중복 게임 제거
+    const filteredRecentGames = recentGames.filter((game: Game) => game.id !== gameData.id);
+  
+    // 새로운 게임을 추가합니다.
+    const newRecentGames = [newRecentGame, ...filteredRecentGames];
+
+    // 로컬 스토리지를 업데이트합니다.
+    localStorage.setItem('recentGames', JSON.stringify(newRecentGames));
+  };
+  
 
   return (
     <div style={{ overflow: 'hidden', height: '100vh' }}>
