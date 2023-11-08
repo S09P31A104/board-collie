@@ -43,7 +43,7 @@ public class Game {
     private String gameEvaluation;
 
     @OneToMany(mappedBy = "game", cascade = CascadeType.PERSIST)
-    private List<GameTag> gameTags;
+    private Set<GameTag> gameTags = new HashSet<>();
 
     public List<Tag> getTags() {
         return gameTags.stream().map(GameTag::getTag).collect(Collectors.toList());
