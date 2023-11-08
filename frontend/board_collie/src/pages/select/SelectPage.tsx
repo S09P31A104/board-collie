@@ -57,7 +57,7 @@ const SelectPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const gameName = sessionStorage.getItem(`gameName-${id}`) || '게임 이름';
-  const validTitles = ['스플렌더', ];
+  const validTitles = ['72', '27'];
 
   const goBack = () => {
     navigate(-1);
