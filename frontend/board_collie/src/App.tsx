@@ -13,7 +13,7 @@ import NotFound2 from './components/common/notfound/NotFound2';
 import RecommendResult from './pages/gamerecommend/RecommendResult';
 import ChatBot from './pages/phone/ChatBotPage';
 import MiniGamesPage from './pages/minigame/MiniGamePage';
-import Wheel from './pages/minigame/wheel/wheel'
+import Wheel from './pages/minigame/wheel/WorkoutWheel'
 
 const AppContent: React.FC<{ players: number }> = ({ players }) => {
   const location = useLocation();
