@@ -3,7 +3,10 @@ import recommendLogo from '../../assets/recommendLogo.png';
 import searchLogo from '../../assets/searchLogo.png';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Fab } from '@mui/material';
+import GameIcon from '@mui/icons-material/Gamepad'; 
+
 
 const MainPage: React.FC = () => {
   const boxStyle: React.CSSProperties = {
@@ -28,6 +31,11 @@ const MainPage: React.FC = () => {
     marginBottom: '20px',
   };
 
+  const navigate = useNavigate();
+  const handlePlayGameClick = () => {
+    navigate('/minigame'); 
+  };
+
 
   return (
     <div>
@@ -49,6 +57,9 @@ const MainPage: React.FC = () => {
           </Link>
         </Grid>
       </Grid>
+      <Fab color="primary" aria-label="play game" style={{ position: 'fixed', bottom: 16, right: 16 }} onClick={handlePlayGameClick}>
+        <GameIcon />
+      </Fab>
     
     </div>
   );

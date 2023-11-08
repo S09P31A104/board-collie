@@ -12,7 +12,8 @@ import NotFound from './components/common/notfound/NotFound'
 import NotFound2 from './components/common/notfound/NotFound2';
 import RecommendResult from './pages/gamerecommend/RecommendResult';
 import ChatBot from './pages/phone/ChatBotPage';
-
+import MiniGamesPage from './pages/minigame/MiniGamePage';
+import Wheel from './pages/minigame/wheel/wheel'
 
 const AppContent: React.FC<{ players: number }> = ({ players }) => {
   const location = useLocation();
@@ -35,6 +36,8 @@ const AppContent: React.FC<{ players: number }> = ({ players }) => {
         <Route path="/notfound2" element={<NotFound2 />} />
         <Route path="/recommendresult" element={<RecommendResult />} />
         <Route path="/chatbot/:id" element={<ChatBot />} />
+        <Route path="/minigame" element={<MiniGamesPage />} />
+        <Route path="/wheel" element={<Wheel />} />
       </Routes>
     </>
   );
