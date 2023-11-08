@@ -75,26 +75,26 @@ def get_game_data(file_name):
 
     return data
 
-# HTML에서 이미지 URL 추출
+
 def extract_game_image_urls(soup):
-    # 'game-thumb' 클래스를 가진 div 요소 찾기
-    game_thumb_divs = soup.find_all('div', class_='game-thumb')
+    # 'game-title' 클래스를 가진 span 요소에서 게임 제목 추출
+    game_titles_kor = [span.get_text(strip=True) for span in soup.find_all('span', class_='game-title')]
 
-    # 이미지 URL을 저장할 리스트 초기화
-    image_urls = []
+    # 'game-thumb' 클래스를 가진 div 요소 내에 반드시 img 태그가 있는 경우 이미지 URL 추출
+    image_urls = [img['src'] for img in soup.select('div.game-thumb img[src]')]
 
-    # 각 'game-thumb' 요소에서 'img' 태그를 찾아 이미지 URL 추출
-    for div in game_thumb_divs:
-        img = div.find('img')
-        if img and 'src' in img.attrs:
-            image_url = img['src']
-            image_urls.append(image_url)
-    return image_urls
+
+    filtered_data = [(titles, urls) for titles, urls in zip(game_titles_kor, image_urls) if any(title.isalnum() for title in titles)]
+    filtered_game_titles_kor, filtered_image_urls = zip(*filtered_data)
+    
+    return pd.DataFrame({'game_title': filtered_game_titles_kor, 'game_image_url': filtered_image_urls})
 
 def get_game_image_urls(file_name):
     html = read_html_file(file_name)
     soup = BeautifulSoup(html, 'html.parser')
-    image_urls= extract_game_image_urls(soup)
+    image_urls = extract_game_image_urls(soup)# 빈 문자열을 NaN으로 변환
 
-    return pd.DataFrame({'game_image_url': image_urls})
+
+    return image_urls
+
 

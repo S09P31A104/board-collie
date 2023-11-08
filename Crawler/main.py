@@ -37,12 +37,11 @@ def export_image_urls_to_csv():
     df = get_game_image_urls('C:/ssafy3/rec/S09P31A104/Crawler/redbotton.html')
     df.to_csv('game_image_url.csv', index=False, encoding='utf-8-sig')
 
+
 export_image_urls_to_csv()
 #game_df = csv_to_pandas('game.csv')
-
 #mechanism_df = csv_to_pandas('mechanism.csv')
 
-game_image_urls_df= csv_to_pandas('game_image_url.csv')
 
 #db_util.save_to_mysql(game_df, 'game', secret.DB_USERNAME, secret.DB_PASSWORD, secret.DB_ENDPOINT, secret.DB_PORT,secret.DB_NAME)
 #db_util.save_to_mysql(mechanism_df, 'tag', secret.DB_USERNAME, secret.DB_PASSWORD, secret.DB_ENDPOINT, secret.DB_PORT,secret.DB_NAME)
