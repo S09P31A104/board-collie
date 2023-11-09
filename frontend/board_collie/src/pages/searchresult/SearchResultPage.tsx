@@ -73,18 +73,20 @@ const SearchResultsPage: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const searchQuery = searchTag || query;
         const response = await axios.get(`${SERVER_API_URL}/game`, {
           params: {
-            q: searchTag || query,
+            q: searchQuery,
             people: numberOfPlayers,
           },
         });
         
         const games = transformData(response.data.data);
         setResults(games);
-        // if (searchTag) {
-        //   setSearchTag('');
-        // }
+        if (searchTag) {
+          setQuery(searchTag);
+          setSearchTag('');
+        }
       } catch (error) {
         console.error("Error fetching data: ", error);
         setResults([]);
@@ -92,7 +94,7 @@ const SearchResultsPage: React.FC = () => {
     };
 
     fetchData();
-  }, [searchTag, query, numberOfPlayers, setSearchTag]);
+  }, [searchTag, query, numberOfPlayers, setSearchTag, setQuery]);
 
   const handleSearch = (query: string) => {
     setQuery(query); // 입력받은 검색어를 state에 저장합니다.
