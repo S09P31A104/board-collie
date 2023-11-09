@@ -38,7 +38,7 @@ def export_game_tag_to_csv(data):
 
 def get_dataframe():
     # Game Dataframe 가져오기
-    game_df = csv_to_pandas('game.csv')
+    game_df = csv_to_pandas('game_3.csv')
 
     mechanism_df = csv_to_pandas('mechanism.csv')
 
@@ -58,13 +58,16 @@ def save_to_db():
 game_df, mechanism_df = get_dataframe()
 save_to_db()
 
-game_df['game_detail'] = ''
-game_df['game_evaluation'] = ''
+# game_df['game_detail'] = ''
+# game_df['game_evaluation'] = ''
 
 try:
     # 각 게임에 대해 ChatGPT API 호출
     for index, row in tqdm(game_df.iterrows(), total=len(game_df), desc="Processing Games"):
         # 게임 설명 요청
+        if index < 200:
+            continue
+
         prompt_detail = [
             {"role": "user",
              "content": f"보드게임 \"{row['game_title_eng']}\"에 대한 설명을 보드게임의 메커니즘에 기반하여 약 200자 분량으로 설명해 줘. 이 때, 응답의{row['game_title_eng']}는 {row['game_title_kor']}로 치환해서 적어 줘."}
@@ -91,13 +94,14 @@ try:
         print(f"\nGame Evaluation : {response_evaluation['choices'][0]['message']['content'].strip()}")
         game_df.at[index, 'game_evaluation'] = response_evaluation['choices'][0]['message']['content'].strip()
 
-        if index >= 99:  # 0부터 시작하므로 99로 설정
-            break
 except Exception as e:
     print(f"An error occurred: {str(e)}")
-    game_df.to_csv('game_2.csv', index=False, encoding='utf-8-sig')
-    print("The current data has been saved to game_2.csv")
+    game_df.to_csv('game_4.csv', index=False, encoding='utf-8-sig')
+    print("The current data has been saved to game_4.csv")
     exit()
 
+game_df.to_csv('game_4.csv', index=False, encoding='utf-8-sig')
+print("The current data has been saved to game_4.csv")
+exit()
 # 결과 확인
 print(game_df)
