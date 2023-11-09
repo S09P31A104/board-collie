@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { IconButton, Box, Divider, Typography, Chip } from '@mui/material';
+import { IconButton, Box, Divider, Typography, Chip, Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import gameimg from '../../assets/splendor.png'
 import gameQr from '../../assets/qr2.png';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import axios from 'axios';
 import Modal from '@mui/material/Modal';
+import { useSearch } from '../../contexts/SearchContext'
 
 const SERVER_API_URL = `${process.env.REACT_APP_API_SERVER_URL}`;
 
@@ -79,7 +80,7 @@ const GameDetailPage: React.FC = () => {
   const gameId = parseInt(id ?? "0"); // useParams로 받은 id를 정수로 변환
   const navigate = useNavigate();
   const [game, setGame] = useState<Game | null>(null);
-
+  const { setSearchTag } = useSearch();
   const [open, setOpen] = useState(false);
   const [selectedTagDescription, setSelectedTagDescription] = useState("");
   const handleOpen = (tagName: string, tagDescription: string) => {
@@ -103,6 +104,11 @@ const GameDetailPage: React.FC = () => {
     p: 4,
   };
 
+  const handleViewThemeGames = () => {
+    setSearchTag(selectedTagName);
+    navigate('/searchresult');
+  };
+
   useEffect(() => {
     const fetchGameDetail = async () => {
       try {
@@ -120,6 +126,7 @@ const GameDetailPage: React.FC = () => {
   }, [gameId]);
   
   const goBack = () => {
+    setSearchTag('');
     navigate(-1);
   };
   
@@ -310,6 +317,7 @@ const GameDetailPage: React.FC = () => {
           <Typography id="modal-modal-description" sx={{ mt: 2, fontSize: '1.1rem' }} >
             {selectedTagDescription}
           </Typography>
+          <Button onClick={handleViewThemeGames}>해당 테마 게임 모아보기</Button>
         </Box>
       </Modal>
 

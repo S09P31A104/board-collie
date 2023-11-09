@@ -8,6 +8,7 @@ import FilterBar from '../../components/filterbar/FilterBar'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import gameImg from '../../assets/splendor.png'
 import axios from 'axios';
+import { useSearch } from '../../contexts/SearchContext';
 
 type Game = {
   id: number;
@@ -46,7 +47,7 @@ const SearchResultsPage: React.FC = () => {
   const [visibleResults, setVisibleResults] = useState<Game[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [tagFilter, setTagFilter] = useState<string | null>(null);
-
+  const { searchTag, setSearchTag } = useSearch();
   useEffect(() => {
     // 검색창이 비어있을 때 초기 상태로 설정
     handleSearch('');
@@ -72,24 +73,26 @@ const SearchResultsPage: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // 서버에 GET 요청을 보냅니다.
         const response = await axios.get(`${SERVER_API_URL}/game`, {
           params: {
-            q: query,
+            q: searchTag || query,
             people: numberOfPlayers,
           },
         });
         
-        // 받아온 데이터를 transformData 함수를 사용하여 변환합니다.
         const games = transformData(response.data.data);
         setResults(games);
+        // if (searchTag) {
+        //   setSearchTag('');
+        // }
       } catch (error) {
         console.error("Error fetching data: ", error);
         setResults([]);
       }
     };
+
     fetchData();
-  }, [query, numberOfPlayers]);
+  }, [searchTag, query, numberOfPlayers, setSearchTag]);
 
   const handleSearch = (query: string) => {
     setQuery(query); // 입력받은 검색어를 state에 저장합니다.
