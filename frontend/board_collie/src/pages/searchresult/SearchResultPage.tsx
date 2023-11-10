@@ -55,8 +55,8 @@ const SearchResultsPage: React.FC = () => {
   const [visibleResults, setVisibleResults] = useState<Game[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [tagFilter, setTagFilter] = useState<string | null>(null);
-  const { searchTag, setSearchTag } = useSearch();
-  const [searchType, setSearchType] = useState('tag');
+  const { searchTag, setSearchTag, searchType, setSearchType } = useSearch();
+  // const [searchType, setSearchType] = useState('title');
   const [open, setOpen] = useState(false);
   const [selectedTagName, setSelectedTagName] = useState("");
   const [selectedTagDescription, setSelectedTagDescription] = useState("");
@@ -132,7 +132,6 @@ const SearchResultsPage: React.FC = () => {
   const handleViewThemeGames = () => {
     setSearchType('tag');
     setSearchTag(selectedTagName);
-    // navigate('/searchresult');
   };
 
   const centerStyle: React.CSSProperties = {

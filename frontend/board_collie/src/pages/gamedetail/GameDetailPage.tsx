@@ -108,7 +108,9 @@ const GameDetailPage: React.FC = () => {
   const handleViewThemeGames = () => {
     setSearchTag(selectedTagName);
     setSearchType('tag');
+    console.log("#2", selectedTagName)
     navigate('/searchresult');
+    // navigate('/searchresult',{ state: { searchType: 'tag', q: selectedTagName } });
   };
 
   useEffect(() => {

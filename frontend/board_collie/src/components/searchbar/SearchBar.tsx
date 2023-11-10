@@ -9,7 +9,7 @@ import { SelectChangeEvent } from '@mui/material';
 interface Props {
   onSearch: (query: string) => void;
   searchType: string;
-  setSearchType: React.Dispatch<React.SetStateAction<string>>;
+  setSearchType: (type: string) => void; 
   style?: CSSProperties; 
 }
 
