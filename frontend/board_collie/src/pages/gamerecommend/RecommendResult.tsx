@@ -1,15 +1,20 @@
 /* eslint-disable */
 
-import React, { useState } from 'react'
-import { useSprings, animated, to as interpolate } from '@react-spring/web'
+import { useState } from 'react'
+import { useSpring, useSprings, animated, to as interpolate } from '@react-spring/web'
 import { useDrag } from 'react-use-gesture'
 import styled from 'styled-components'
+
+import { Slider } from '../../components/common/slider/Slider'
 
 /**
  * Recommend Result 
  *
  * @author 허주혁
  * @todo 
+ * 1. 첫 클릭만에 rot 0와 함께 확대
+ * 2. 마지막 카드까지 useDrag 후엔 일자 슬라이드 형식의 UI로 전환
+ * 3. 새로받기
  */
 
 const cards = [
@@ -71,6 +76,7 @@ const Card = styled(animated.div)<{ bg: string }>`
   
   function Deck() {
     const [zoomed, setZoomed] = useState(new Array(cards.length).fill(false));
+    const [showSlider, setShowSlider] = useState(false);
 
     const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
     const [props, api] = useSprings(cards.length, i => ({
@@ -105,7 +111,9 @@ const Card = styled(animated.div)<{ bg: string }>`
     const bind = useDrag(({ args: [index], down, movement: [mx], direction: [xDir], velocity }) => {
       const trigger = velocity > 0.2 // If you flick hard enough it should trigger the card to fly out
       const dir = xDir < 0 ? -1 : 1 // Direction should either point left or right
+
       if (!down && trigger) gone.add(index) // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
+      
       api.start(i => {
         if (index !== i) return // We're only interested in changing spring-data for the current spring
         const isGone = gone.has(index)
@@ -120,19 +128,21 @@ const Card = styled(animated.div)<{ bg: string }>`
           config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 },
         }
       })
-      if (!down && gone.size === cards.length)
-        setTimeout(() => {
-          gone.clear()
-          setZoomed(new Array(cards.length).fill(false)); // zoomed 상태를 초기화합니다.
-          api.start(i => ({
-            ...to(i),
-            from: from(i),
-            scale: 1, // scale 값을 초기화합니다.
-            rot: -10 + Math.random() * 20, // rot 값을 초기화합니다.
-            rotateX: 30, // rotateX 값을 초기화합니다.
-            immediate: false, // 애니메이션을 적용하기 위해 immediate를 false로 설정합니다.
-          }));
-        }, 600)
+
+      if (!down && gone.size === cards.length){
+        // setTimeout(() => {
+        //   gone.clear()
+        //   setZoomed(new Array(cards.length).fill(false)); // zoomed 상태를 초기화합니다.
+        //   api.start(i => ({
+        //     ...to(i),
+        //     from: from(i),
+        //     scale: 1, // scale 값을 초기화합니다.
+        //     rot: -10 + Math.random() * 20, // rot 값을 초기화합니다.
+        //     rotateX: 30, // rotateX 값을 초기화합니다.
+        //     immediate: false, // 애니메이션을 적용하기 위해 immediate를 false로 설정합니다.
+        //   }));
+        // }, 600)
+      }
     })
 
     // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
