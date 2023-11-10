@@ -1,11 +1,12 @@
 /* eslint-disable */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { TypeAnimation } from 'react-type-animation';
 import { PacmanLoader } from 'react-spinners';
+import { useParams } from 'react-router-dom';
 
 // images
 import iconLogo from '../../assets/logo.png'
@@ -15,6 +16,16 @@ import chatIcon from '../../assets/chat_icon.png';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SendIcon from '@mui/icons-material/Send';
 
+import { fetchGameDetail, Game } from '../../apis/gamedetail/GameDetailAPI';
+
+/**
+ * ChatBot 
+ *
+ * @author 허주혁
+ * @todo 
+ */
+
+const SERVER_API_URL = `${process.env.REACT_APP_API_SERVER_URL}`;
 
 // 채팅방 컨테이너
 const ChatRoomContainer = styled.div`
@@ -246,29 +257,54 @@ interface Answer {
 
 // 채팅방 컴포넌트
 const ChatBotPage: React.FC = () => {
-  
-  const title = '스플랜더';
+  const { id } = useParams<{ id: string }>();
+  const gameId = parseInt(id ?? "0"); // useParams로 받은 id를 정수로 변환
+
+  const [uuid, setUuid] = useState<string | null>(null);
+
+  const [gamedetail, setGameDetail] = useState<Game | null>(null); // 게임 상세 정보를 저장할 상태 추가
+  const [title, setTitle] = useState<string | null>(null); 
 
   const [isLoading, setIsLoading] = React.useState(false);
+
+  // gameId 변경 시 또는 컴포넌트 마운트 시 게임 상세 정보 가져오기
+  useEffect(() => {
+    const loadGameDetail = async () => {
+      const gameData = await fetchGameDetail(gameId);
+      if (gameData) {
+        setGameDetail(gameData); // 게임 상세 정보 상태 업데이트
+        setTitle(gameData.name); // 게임 이름을 title 상태로 설정
+      }
+    };
+
+    if (gameId) {
+      loadGameDetail();
+    }
+  }, [gameId]);
 
   // 종료 : 현재 창 닫기
   const handleClose = () => {
     window.close();
   };
 
-  const [questions, setQuestions] = React.useState<Question[]>([
-    { id: uuidv4(), text: '가져올 수 있는 노란 보석이 없으면 찜을 못 해?'},
-  ]);
+  const [questions, setQuestions] = React.useState<Question[]>([]);
 
-  const [answers, setAnswers] = React.useState<Answer[]>([
-    { id: uuidv4(), text: `게임 : ${title}\n상세한 게임룰이나 헷갈리는 규칙이 있을 경우 질문 주세요!`},
-    { id: uuidv4(), text: '골드 토큰이 없는 경우에도 예약 행동은 가능합니다. 단, 골드 토큰을 받지는 못하게 됩니다.'},
-  ]);
+  const [answers, setAnswers] = React.useState<Answer[]>([]);
+
+  useEffect(() => {
+    // title이 null이 아니라면 첫 번째 답변을 설정합니다.
+    if (title) {
+      setAnswers([
+        { id: uuidv4(), text: `게임 : ${title}\n상세한 게임룰이나 헷갈리는 규칙이 있을 경우 질문 주세요!`},
+      ]);
+    }
+  }, [title]); // title이 바뀔 때마다 이 로직을 실행합니다.
 
   const [inputText, setInputText] = React.useState('');
 
   const handleSend = async () => {
-    if (inputText.trim()) {
+
+    if (inputText.trim() && uuid) {
       const newQuestion: Question = {
         id: uuidv4(),
         text: inputText,
@@ -278,23 +314,29 @@ const ChatBotPage: React.FC = () => {
       try {
         setIsLoading(true); // 로딩 시작
 
-        // POST 요청으로 사용자의 메시지를 전송하고, 답변을 받습니다.
-        await axios.post('/api/message/send', { message: inputText });
-        // GET 요청으로 답변을 받습니다.
-        const response = await axios.get('/api/message/receive', { params: { questionId: newQuestion.id } });
+        // POST 요청으로 챗봇에 질문을 보내고 답변을 받습니다.
+        const postResponse = await axios.post(`${SERVER_API_URL}/chatbot/question`, {
+          gameId: gameId, // 게임 ID
+          prompt: inputText, // 사용자가 입력한 텍스트
+          uuid: uuid, // UUID
+        });
 
-        const receivedAnswer: Answer = {
-          id: uuidv4(),
-          text: response.data.reply, // 가정: 응답 데이터에 답변이 'reply' 필드에 있음
-        };
-        setAnswers(currentAnswer => [...currentAnswer, receivedAnswer]);
+        if (postResponse.data.success) {
+          const receivedAnswer: Answer = {
+            id: uuidv4(),
+            text: postResponse.data.data, // 서버로부터 받은 답변
+          };
+          setAnswers([...answers, receivedAnswer]);
+        } else {
+          console.error(postResponse.data.message);
+        }
       } catch (error) {
-        console.error('API 요청 중 오류가 발생했습니다', error);
+        console.error('질문을 보내고 답변을 받는 중 오류가 발생했습니다', error);
       } finally {
         setIsLoading(false); // 로딩 종료
       }
 
-      setInputText('');
+      setInputText(''); // 입력 필드 초기화
     }
   };
 
@@ -332,6 +374,33 @@ const ChatBotPage: React.FC = () => {
 
     return messageItems;
   };
+
+  // 서버로부터 UUID 가져오기
+  useEffect(() => {
+    const fetchUUID = async () => {
+      try {
+        const response = await axios.get(`${SERVER_API_URL}/chatbot/id`);
+        if (response.data.success) {
+          // 'data' 필드의 값을 UUID 상태로 설정
+          setUuid(response.data.data);
+        } else {
+          console.error(response.data.message);
+        }
+      } catch (error) {
+        console.error("UUID를 가져오는데 실패했습니다.", error);
+      }
+    };
+    
+    fetchUUID();
+  }, []);
+
+  // // UUID 사용 예시
+  // useEffect(() => {
+  //   if (uuid) {
+  //     console.log(`UUID: ${uuid}`);
+  //     console.log(gameId);
+  //   }
+  // }, [uuid]);
 
   return (
     <ChatRoomContainer>
