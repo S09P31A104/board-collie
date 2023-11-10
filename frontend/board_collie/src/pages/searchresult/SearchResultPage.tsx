@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar from '../../components/searchbar/SearchBar';
-import { Divider, Grid, Chip } from '@mui/material';
+import { Divider, Grid, Chip, Modal, Button, Box, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import './SearchResultPage.css';
 import RecentGamesList from '../../components/recentgameslist/RecentGamesList';
@@ -10,10 +10,15 @@ import gameImg from '../../assets/splendor.png'
 import axios from 'axios';
 import { useSearch } from '../../contexts/SearchContext';
 
+type TagInfo = {
+  name: string;
+  description: string;
+};
+
 type Game = {
   id: number;
   name: string;
-  tags: string[];
+  tags: TagInfo[];
   image: string;
 };
 
@@ -34,7 +39,10 @@ const transformData = (dataFromServer: GameFromServer[]): Game[] => {
   return dataFromServer.map(game => ({
     id: game.gameId,
     name: game.gameTitle,
-    tags: game.gameTag.map(tag => tag.tagName),
+    tags: game.gameTag.map(tag => ({
+      name: tag.tagName,
+      description: tag.tagDescription
+    })),
     image: game.gameImage || gameImg,
   }));
 };
@@ -48,12 +56,32 @@ const SearchResultsPage: React.FC = () => {
   const [hasMore, setHasMore] = useState(true);
   const [tagFilter, setTagFilter] = useState<string | null>(null);
   const { searchTag, setSearchTag } = useSearch();
+  const [open, setOpen] = useState(false);
+  const [selectedTagName, setSelectedTagName] = useState("");
+  const [selectedTagDescription, setSelectedTagDescription] = useState("");
+  const handleClose = () => setOpen(false);
+  const handleTagClick = (tagName: string, tagDescription: string) => {
+    setSelectedTagName(tagName);
+    setSelectedTagDescription(tagDescription);
+    setOpen(true);
+  };
+  const modalStyle = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
   useEffect(() => {
     // 검색창이 비어있을 때 초기 상태로 설정
     handleSearch('');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  
   const loadMore = () => {
     console.log("Load More is called");
     if (visibleResults.length >= results.length) {
@@ -99,6 +127,10 @@ const SearchResultsPage: React.FC = () => {
   const handleSearch = (query: string) => {
     setQuery(query); // 입력받은 검색어를 state에 저장합니다.
   };
+  const handleViewThemeGames = () => {
+    setSearchTag(selectedTagName);
+    // navigate('/searchresult');
+  };
 
   const centerStyle: React.CSSProperties = {
     display: 'flex',
@@ -124,16 +156,20 @@ const SearchResultsPage: React.FC = () => {
   
     localStorage.setItem('recentGames', JSON.stringify(newRecentGames));
   };
+  
 
   useEffect(() => {
     // 태그 필터가 변경되었을 때 실행됩니다.
     if (tagFilter) {
-      const filteredResults = results.filter(game => game.tags.includes(tagFilter));
+      const filteredResults = results.filter(game => 
+        game.tags.some(tag => tag.name === tagFilter)
+      );
       setVisibleResults(filteredResults.slice(0, 10));
     } else {
       setVisibleResults(results.slice(0, 10));
     }
   }, [tagFilter, results]);
+  
 
   return (
     <div style={{ overflow: 'hidden', height: '100vh' }}>
@@ -183,7 +219,12 @@ const SearchResultsPage: React.FC = () => {
                 </h3>
                   <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '20px' }}>
                   {item.tags.map(tag => (
-                  <Chip key={tag} label={tag} style={{ margin: '4px', marginBottom: '8px', backgroundColor: '#dce7c7' }} />
+                  <Chip 
+                  key={tag.name} 
+                  label={tag.name} 
+                  onClick={() => handleTagClick(tag.name, tag.description)} 
+                  style={{ margin: '4px', marginBottom: '8px', backgroundColor: '#dce7c7' }}
+                />
                     ))}
                   </div>
                 </div>
@@ -206,6 +247,22 @@ const SearchResultsPage: React.FC = () => {
         </Grid>
       </Grid>
     </Grid>
+    <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Box sx={modalStyle}>
+          <Typography id="modal-title" variant="h6">
+            {selectedTagName}
+          </Typography>
+          <Typography id="modal-description" sx={{ mt: 2 }}>
+            {selectedTagDescription}
+          </Typography>
+          <Button onClick={handleViewThemeGames}>해당 테마 게임 모아보기</Button>
+        </Box>
+      </Modal>
   </div>
   );
 }
