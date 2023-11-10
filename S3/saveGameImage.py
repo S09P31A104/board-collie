@@ -56,5 +56,4 @@ with open(output_csv_file, 'w', newline='', encoding='utf-8') as csvfile:
                 s3_image_url = f'https://s3.ap-northeast-2.amazonaws.com/{S3_BUCKET_NAME}/{s3_image_key}'
 
                 # S3 이미지 URL을 CSV 파일에 추가
-                csvwriter.writerow({'s3_image_title': image_title})
-                csvwriter.writerow({'s3_image_url': s3_image_url})
+                csvwriter.writerow({'s3_image_title': image_title, 's3_image_url': s3_image_url})
