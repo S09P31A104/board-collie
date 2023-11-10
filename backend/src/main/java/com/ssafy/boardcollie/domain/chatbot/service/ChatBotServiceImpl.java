@@ -49,8 +49,8 @@ public class ChatBotServiceImpl implements ChatBotService {
     private final GameRepository gameRepository;
     private static final String PROMPT_PREFIX = "보드게임 ";
     private static final String PROMPT_SUFFIX = "의 플레이 룰에 관한 질문이야: ";
-    private static final String PROMPT_LANGUAGE = "보드게임 도우미로서 친절하게 답해줘.";
-    private static final String PROMPT_PREV_QUESTION = "이전 질문 데이터가 입력되면 이전 질문도 고려하여 답변해줘. 간단하게 핵심만 2~3문장 정도로 답해줘";
+    private static final String PROMPT_LANGUAGE = "너는 보드게임 도우미야. 친절한 말투로 작성해줘. 존댓말로 대답해줘.";
+    private static final String PROMPT_PREV_QUESTION = "이전 질문 데이터가 입력되면 이전 질문도 고려하여 답변해줘. 간단하게 핵심만 2문장 정도로 답해줘";
 
     public String getCompletion(QuestionRequestDto requestDto) {
         String prompt = requestDto.getPrompt();
@@ -139,7 +139,7 @@ public class ChatBotServiceImpl implements ChatBotService {
 
         Map<String, Object> requestBody = new HashMap<>();
 
-        requestBody.put("model", "gpt-4");
+        requestBody.put("model", "gpt-4-1106-preview");
         requestBody.put("temperature", 0.8);
         requestBody.put("max_tokens", 1024);
         requestBody.put("top_p", 1);
@@ -158,7 +158,7 @@ public class ChatBotServiceImpl implements ChatBotService {
     public String createQR(Long gameId) {
         int width = 200;
         int height = 200;
-        String url = "http://www.boardcollie.com/chatbot/" + gameId;
+        String url = "https://boardcollie.com/chatbot/" + gameId;
         String directory = "chatbot/qr/";
         String prefix = "QR";
         try {
