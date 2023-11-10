@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { IconButton, Box, Divider, Typography, Chip } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import gameimg from '../../assets/splendor.png'
@@ -26,6 +26,13 @@ type Game = {
     name: string;
     description: string;
   }[];
+  similarGames: SimilarGame[];
+};
+
+type SimilarGame = {
+  gameId: number;
+  gameTitleKor: string;
+  gameImage: string | null;
 };
 
 type GameFromServer = {
@@ -43,7 +50,7 @@ type GameFromServer = {
     tagName: string;
     tagDescription: string;
   }>;
-  similarGame: any[]; // 여기서 'any'를 필요에 따라 적절한 타입으로 바꿔야 합니다.
+  similarGame: any[]; 
 };
 
 const transformData = (dataFromServer: GameFromServer): Game => {
@@ -60,6 +67,11 @@ const transformData = (dataFromServer: GameFromServer): Game => {
       id: tag.tagId,
       name: tag.tagName,
       description: tag.tagDescription,
+    })),
+    similarGames: dataFromServer.similarGame.map(game => ({
+      gameId: game.gameId,
+      gameTitleKor: game.gameTitleKor,
+      gameImage: game.gameImage
     })),
   };
 };
@@ -86,7 +98,7 @@ const GameDetailPage: React.FC = () => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 500,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -121,8 +133,44 @@ const GameDetailPage: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchGameDetail = async () => {
+      try {
+        const response = await axios.get(`${SERVER_API_URL}/game/detail/${gameId}`);
+        if (response.data.success) {
+          const transformedData = transformData(response.data.data);
+          setGame(transformedData);
+  
+          // 여기서 로컬 스토리지에 게임 정보를 저장합니다.
+          updateRecentGamesInLocalStorage(transformedData);
+        }
+      } catch (error) {
+        console.error("게임 디테일 정보를 가져오는데 실패했습니다.", error);
+      }
+    };
+    
+    fetchGameDetail();
+  }, [gameId]);
+  
+  const updateRecentGamesInLocalStorage = (gameData: Game) => {
+    const recentGames = JSON.parse(localStorage.getItem('recentGames') || '[]');
+  
+    const newRecentGame = { id: gameData.id, name: gameData.name };
+  
+    // 중복 게임 제거
+    const filteredRecentGames = recentGames.filter((game: Game) => game.id !== gameData.id);
+  
+    // 새로운 게임을 추가합니다.
+    const newRecentGames = [newRecentGame, ...filteredRecentGames];
+
+    // 로컬 스토리지를 업데이트합니다.
+    localStorage.setItem('recentGames', JSON.stringify(newRecentGames));
+  };
+  
+
   return (
-    <Box sx={{ padding: '20px', display: 'flex', flexDirection: 'row', marginTop: '90px' }}>
+    <div style={{ overflow: 'hidden', height: '100vh' }}>
+    <Box sx={{ height: '80vh', padding: '20px', display: 'flex', flexDirection: 'row', marginTop: '100px' }}>
      <Box sx={{ flex: 2, marginRight: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
   <IconButton onClick={goBack} aria-label="뒤로 가기" sx={{ alignSelf: 'flex-start', mb: 2 }}>
     <ArrowBackIcon />
@@ -190,7 +238,7 @@ const GameDetailPage: React.FC = () => {
 </Box>
 
       <Divider orientation="vertical" flexItem />
-      <Box sx={{ flex: 3, display: 'flex', flexDirection: 'column', justifyContent: 'start', pl: 5, mt: 3 }}>
+      <Box sx={{ flex: 3, display: 'flex', flexDirection: 'column', justifyContent: 'start', pl: 5, mt: 3, overflowY: 'auto' }} className="hide-scrollbar">
       
       <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 3 }}>
         테마 및 진행방식
@@ -228,9 +276,27 @@ const GameDetailPage: React.FC = () => {
           </Typography>
           )}
 
-          <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif' }}>
+          <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 3 }}>
             유사한 다른 게임
           </Typography>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, justifyContent: 'center' }}>
+            {game?.similarGames.map(similarGame => (
+          <Box key={similarGame.gameId} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', m: 1 }}>
+            <Link to={`/game/${similarGame.gameId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <img
+              src={similarGame.gameImage || gameimg} 
+              alt={similarGame.gameTitleKor}
+              style={{ width: '150px', height: '150px', objectFit: 'cover', borderRadius: '10px' }}
+              />
+            </Link>
+          <Typography sx={{ mt: 1, fontFamily: 'Jua, sans-serif', fontSize: '1.2rem' }}>
+          <Link to={`/game/${similarGame.gameId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+            {similarGame.gameTitleKor}
+          </Link>
+          </Typography>
+            </Box>
+              ))}
+            </Box>
         </Box>
 
         <Modal
@@ -240,16 +306,17 @@ const GameDetailPage: React.FC = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ fontSize: '1.5rem' }} >
            {selectedTagName}
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Typography id="modal-modal-description" sx={{ mt: 2, fontSize: '1.1rem' }} >
             {selectedTagDescription}
           </Typography>
         </Box>
       </Modal>
 
       </Box>
+      </div>
       );
     }
 

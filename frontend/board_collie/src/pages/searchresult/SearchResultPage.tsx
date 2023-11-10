@@ -156,7 +156,7 @@ const SearchResultsPage: React.FC = () => {
           className="hide-scrollbar"
         >
           {visibleResults.map((item, index) => (
-            <div key={item.name} style={{ marginLeft: '10vw' }} >
+            <div key={item.name} style={{ marginLeft: '5vw' }} >
               <div style={{ display: 'flex', alignItems: 'center', padding: '20px' }}>
               <Link 
                 to={`/game/${item.id}`} 
@@ -167,21 +167,21 @@ const SearchResultsPage: React.FC = () => {
               </Link>
 
               <div>
-  <h3>
-    <Link 
-      to={`/game/${item.id}`} 
-      style={{ textDecoration: 'none', color: 'inherit' }}
-      onClick={() => handleGameClick(item.id)}
-    >
-      {item.name}
-    </Link>
-  </h3>
-  <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '20px' }}>
-    {item.tags.map(tag => (
-      <Chip key={tag} label={tag} style={{ margin: '4px', marginBottom: '8px' }} />
-    ))}
-  </div>
-</div>
+                <h3>
+                  <Link 
+                    to={`/game/${item.id}`} 
+                    style={{ textDecoration: 'none', color: 'inherit' }}
+                    onClick={() => handleGameClick(item.id)}
+                  >
+                    {item.name}
+                  </Link>
+                </h3>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '20px' }}>
+                  {item.tags.map(tag => (
+                  <Chip key={tag} label={tag} style={{ margin: '4px', marginBottom: '8px', backgroundColor: '#dce7c7' }} />
+                    ))}
+                  </div>
+                </div>
 
               </div>
               {index < visibleResults.length - 1 && <Divider />}
@@ -193,7 +193,7 @@ const SearchResultsPage: React.FC = () => {
       </Grid>
       <Grid item container xs={3} style={{ alignItems: 'flex-start' }}>
         <Divider orientation="vertical" flexItem sx={{ height: '100%' }} />
-        <Grid item xs style={{ overflowY: 'auto', maxHeight: '90vh', scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }} >
+        <Grid item xs style={{ overflowY: 'auto', maxHeight: '80vh', scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }} className="hide-scrollbar">
           <div style={{ textAlign: 'center' }}>
             <h4>최근 본 게임</h4>
             <RecentGamesList />
