@@ -69,7 +69,7 @@ function TitleComponent({title, setPage, prePage, nextPage}) {
     /* 다음 페이지 이동 메소드 */
     function moveForwardPage () {
         setPage(nextPage);
-    }
+    };
 
     return (
         <TitleContainer>
