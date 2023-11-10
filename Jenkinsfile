@@ -20,6 +20,9 @@ pipeline {
             }
         }
         stage('Setup Python Environment') {
+            environment {
+                PATH = "/usr/bin:${env.PATH}"
+            }
             steps {
                 sh 'python3 -m venv myenv'
                 
