@@ -1,12 +1,15 @@
 import React, { useState, CSSProperties } from 'react';
-import { TextField, Grid, Button, Modal } from '@mui/material';
+import { TextField, Grid, Button, Modal, FormControl, Select, MenuItem } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';
 import iconLogo from '../../assets/logo.png'
 import styled from 'styled-components';
+import { SelectChangeEvent } from '@mui/material';
 
 interface Props {
   onSearch: (query: string) => void;
+  searchType: string;
+  setSearchType: (type: string) => void; 
   style?: CSSProperties; 
 }
 
@@ -38,12 +41,14 @@ const ButtonWrapper = styled.div`
   text-align: center;
 `;
 
-const SearchBar: React.FC<Props> = ({ onSearch, style }) => {
+const SearchBar: React.FC<Props> = ({ onSearch, searchType, setSearchType, style }) => {
   const [inputValue, setInputValue] = useState("");
   const [isFocused, setIsFocused] = useState(false);
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
+  };
+  const handleSearchTypeChange = (event: SelectChangeEvent) => {
+    setSearchType(event.target.value as string);
   };
 
   const handleSearchClick = () => { 
@@ -77,7 +82,6 @@ const SearchBar: React.FC<Props> = ({ onSearch, style }) => {
   };
 
   return (
-    
     <Grid container justifyContent="center" alignItems="center" spacing={2} style={{ marginTop: '15px', ...style }}>
       <div
         onClick={handleLogoClick}
@@ -91,6 +95,18 @@ const SearchBar: React.FC<Props> = ({ onSearch, style }) => {
           opacity: 0,
         }}
       />
+      <Grid item xs={2}>
+        <FormControl variant="outlined">
+          <Select
+            value={searchType}
+            onChange={handleSearchTypeChange}
+            displayEmpty
+          >
+            <MenuItem value="title">제목</MenuItem>
+            <MenuItem value="tag">태그</MenuItem>
+          </Select>
+        </FormControl>
+      </Grid>
       <Grid item xs={4}>
         <TextField
           fullWidth

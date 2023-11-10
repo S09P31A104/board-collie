@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { IconButton, Box, Divider, Typography, Chip, Button } from '@mui/material';
@@ -82,7 +81,7 @@ const GameDetailPage: React.FC = () => {
   const gameId = parseInt(id ?? "0"); // useParams로 받은 id를 정수로 변환
   const navigate = useNavigate();
   const [game, setGame] = useState<Game | null>(null);
-  const { setSearchTag } = useSearch();
+  const { setSearchTag, setSearchType } = useSearch();
   const [open, setOpen] = useState(false);
   const [selectedTagDescription, setSelectedTagDescription] = useState("");
   const handleOpen = (tagName: string, tagDescription: string) => {
@@ -108,6 +107,7 @@ const GameDetailPage: React.FC = () => {
 
   const handleViewThemeGames = () => {
     setSearchTag(selectedTagName);
+    setSearchType('tag');
     navigate('/searchresult');
   };
 
@@ -161,19 +161,14 @@ const GameDetailPage: React.FC = () => {
   
   const updateRecentGamesInLocalStorage = (gameData: Game) => {
     const recentGames = JSON.parse(localStorage.getItem('recentGames') || '[]');
-  
     const newRecentGame = { id: gameData.id, name: gameData.name };
-  
     // 중복 게임 제거
     const filteredRecentGames = recentGames.filter((game: Game) => game.id !== gameData.id);
-  
     // 새로운 게임을 추가합니다.
     const newRecentGames = [newRecentGame, ...filteredRecentGames];
-
     // 로컬 스토리지를 업데이트합니다.
     localStorage.setItem('recentGames', JSON.stringify(newRecentGames));
   };
-  
 
   return (
     <div style={{ overflow: 'hidden', height: '100vh' }}>
@@ -202,8 +197,6 @@ const GameDetailPage: React.FC = () => {
     <Typography style={{ fontFamily: 'Jua, sans-serif' }}>게임 정보를 찾을 수 없습니다.</Typography>
   )}
 </Box>
-
-  
   <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
   <Box sx={{ textAlign: 'center' }}>
   <img 
@@ -241,12 +234,9 @@ const GameDetailPage: React.FC = () => {
     <Typography textAlign="center" sx={{ fontSize: '2rem', fontFamily: 'Jolly Lodger, cursive', mt: 2 }}>Tutorial</Typography>
   </Box>
 </Box>
-
 </Box>
-
       <Divider orientation="vertical" flexItem />
       <Box sx={{ flex: 3, display: 'flex', flexDirection: 'column', justifyContent: 'start', pl: 5, mt: 3, overflowY: 'auto' }} className="hide-scrollbar">
-      
       <Typography variant="h5" sx={{ fontFamily: 'Jua, sans-serif', mb: 3 }}>
         테마 및 진행방식
       </Typography>
@@ -267,7 +257,6 @@ const GameDetailPage: React.FC = () => {
                 padding: '0 10px', // 내부 여백 조정
               }}
             />
-            
             ))
             ) : (
           <Typography style={{ fontFamily: 'Jua, sans-serif' }}>태그 정보를 찾을 수 없습니다.</Typography>
@@ -305,7 +294,6 @@ const GameDetailPage: React.FC = () => {
               ))}
             </Box>
         </Box>
-
         <Modal
         open={open}
         onClose={handleClose}
@@ -322,7 +310,6 @@ const GameDetailPage: React.FC = () => {
           <Button onClick={handleViewThemeGames}>해당 테마 게임 모아보기</Button>
         </Box>
       </Modal>
-
       </Box>
       </div>
       );

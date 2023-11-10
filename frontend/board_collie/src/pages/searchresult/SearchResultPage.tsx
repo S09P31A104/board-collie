@@ -55,7 +55,7 @@ const SearchResultsPage: React.FC = () => {
   const [visibleResults, setVisibleResults] = useState<Game[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [tagFilter, setTagFilter] = useState<string | null>(null);
-  const { searchTag, setSearchTag } = useSearch();
+  const { searchTag, setSearchTag, searchType, setSearchType } = useSearch();
   const [open, setOpen] = useState(false);
   const [selectedTagName, setSelectedTagName] = useState("");
   const [selectedTagDescription, setSelectedTagDescription] = useState("");
@@ -106,10 +106,11 @@ const SearchResultsPage: React.FC = () => {
           params: {
             q: searchQuery,
             people: numberOfPlayers,
+            type: searchType,
           },
         });
-        
         const games = transformData(response.data.data);
+        console.log("#1", searchType, searchQuery)
         setResults(games);
         if (searchTag) {
           setQuery(searchTag);
@@ -122,14 +123,14 @@ const SearchResultsPage: React.FC = () => {
     };
 
     fetchData();
-  }, [searchTag, query, numberOfPlayers, setSearchTag, setQuery]);
+  }, [searchTag, query, numberOfPlayers, setSearchTag, setQuery, searchType]);
 
   const handleSearch = (query: string) => {
     setQuery(query); // 입력받은 검색어를 state에 저장합니다.
   };
   const handleViewThemeGames = () => {
+    setSearchType('tag');
     setSearchTag(selectedTagName);
-    // navigate('/searchresult');
   };
 
   const centerStyle: React.CSSProperties = {
@@ -173,7 +174,7 @@ const SearchResultsPage: React.FC = () => {
 
   return (
     <div style={{ overflow: 'hidden', height: '100vh' }}>
-    <SearchBar onSearch={handleSearch} style={{ position: 'relative' }}/>
+    <SearchBar onSearch={handleSearch} style={{ position: 'relative' }} searchType={searchType} setSearchType={setSearchType}/>
     <FilterBar
       numberOfPlayers={numberOfPlayers}
       setNumberOfPlayers={setNumberOfPlayers}
