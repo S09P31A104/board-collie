@@ -38,8 +38,6 @@ const ButtonWrapper = styled.div`
   text-align: center;
 `;
 
-
-
 const SearchBar: React.FC<Props> = ({ onSearch, style }) => {
   const [inputValue, setInputValue] = useState("");
   const [isFocused, setIsFocused] = useState(false);
@@ -97,7 +95,7 @@ const SearchBar: React.FC<Props> = ({ onSearch, style }) => {
         <TextField
           fullWidth
           variant="outlined"
-          placeholder="제목을 입력해주세요!"
+          placeholder="제목 또는 태그를 입력해주세요!"
           InputProps={{
             endAdornment: <SearchIcon  style={{position: 'relative', zIndex: 1000, marginRight: '10px'   }} />,
             sx: {
