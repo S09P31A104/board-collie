@@ -5,16 +5,15 @@ import { useSpring, useSprings, animated, to as interpolate } from '@react-sprin
 import { useDrag } from 'react-use-gesture'
 import styled from 'styled-components'
 
-import { Slider } from '../../components/common/slider/Slider'
-
 /**
  * Recommend Result 
  *
  * @author 허주혁
  * @todo 
  * 1. 첫 클릭만에 rot 0와 함께 확대
- * 2. 마지막 카드까지 useDrag 후엔 일자 슬라이드 형식의 UI로 전환
+ * 2. 카드 간의 z index 추가
  * 3. 새로받기
+ * 4. 옆에서 spreading
  */
 
 const cards = [
@@ -74,9 +73,18 @@ const Card = styled(animated.div)<{ bg: string }>`
   const trans = (r: number, s: number, rotateX: number) =>
     `perspective(1500px) rotateX(${rotateX}deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
   
+  const spread = (i: number) => ({
+    x: i * (window.innerWidth / (cards.length + 1)) - window.innerWidth / 3,
+    rot: 0,
+    scale: 1,
+    y: 0,
+    delay: i * 30,
+  });
+
   function Deck() {
     const [zoomed, setZoomed] = useState(new Array(cards.length).fill(false));
-    const [showSlider, setShowSlider] = useState(false);
+    const [isSpread, setIsSpread] = useState(false);
+    const [zIndices, setZIndices] = useState(Array(cards.length).fill(0));
 
     const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
     const [props, api] = useSprings(cards.length, i => ({
@@ -92,23 +100,52 @@ const Card = styled(animated.div)<{ bg: string }>`
 
     // 카드 클릭 이벤트를 처리합니다.
     const handleClick = (index : number) => {
-      // 선택된 카드의 확대 상태를 토글합니다.
-      setZoomed(zoomed.map((z, i) => (i === index ? !z : z)));
-      // api를 사용하여 선택된 카드의 스프링 속성을 업데이트합니다.
-      api.start(i => {
-        if (index !== i) return;
-        const newY = zoomed[i] ? -4 : 50;
-        return {
-          y: newY,
-          scale: zoomed[i] ? 1 : 1.2, // 클릭 시 스케일을 토글합니다.
-          rot: zoomed[i] ? -10 + Math.random() * 20 : 0, // 클릭 시 회전 값을 토글합니다.
-          rotateX: zoomed[i] ? 30 : 0,
-        };
-      });
+      const newZIndices = zIndices.map((_, i) => (i === index ? 1000 : 0));
+      setZIndices(newZIndices);
+
+      if (isSpread) {
+        // Spread 상태에서 이미 확대된 카드가 있는지 확인합니다.
+        const alreadyZoomedIndex = zoomed.findIndex(z => z);
+        const isCurrentCardZoomed = zoomed[index];
+
+        // 이미 확대된 카드가 없거나 현재 클릭된 카드가 이미 확대된 카드인 경우에만 동작합니다.
+        if (alreadyZoomedIndex === -1 || isCurrentCardZoomed) {
+          // 클릭된 카드의 확대 상태를 토글합니다.
+          const newZoomed = zoomed.map((z, i) => (i === index ? !z : z));
+          setZoomed(newZoomed);
+
+          api.start(i => {
+            if (index !== i) return;
+            return {
+              x: newZoomed[index] ? 0 : spread(i).x,
+              y: newZoomed[index] ? 50 : 0, // 확대된 카드를 위로 이동
+              scale: newZoomed[index] ? 1.2 : 1, // 클릭 시 스케일을 토글합니다.
+              immediate: false,
+            };
+          });
+        }
+      } else {
+        // 선택된 카드의 확대 상태를 토글합니다.
+        setZoomed(zoomed.map((z, i) => (i === index ? !z : z)));
+        // api를 사용하여 선택된 카드의 스프링 속성을 업데이트합니다.
+        api.start(i => {
+          if (index !== i) return;
+          const newY = zoomed[i] ? -4 : 50;
+          return {
+            y: newY,
+            scale: zoomed[i] ? 1 : 1.2, // 클릭 시 스케일을 토글합니다.
+            rot: zoomed[i] ? -10 + Math.random() * 20 : 0, // 클릭 시 회전 값을 토글합니다.
+            rotateX: zoomed[i] ? 30 : 0,
+          };
+        });
+      }
     };
 
     // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
     const bind = useDrag(({ args: [index], down, movement: [mx], direction: [xDir], velocity }) => {
+      // Spread 상태일 때는 드래그를 무시합니다.
+      if (isSpread) return;
+
       const trigger = velocity > 0.2 // If you flick hard enough it should trigger the card to fly out
       const dir = xDir < 0 ? -1 : 1 // Direction should either point left or right
 
@@ -130,18 +167,25 @@ const Card = styled(animated.div)<{ bg: string }>`
       })
 
       if (!down && gone.size === cards.length){
-        // setTimeout(() => {
-        //   gone.clear()
-        //   setZoomed(new Array(cards.length).fill(false)); // zoomed 상태를 초기화합니다.
-        //   api.start(i => ({
-        //     ...to(i),
-        //     from: from(i),
-        //     scale: 1, // scale 값을 초기화합니다.
-        //     rot: -10 + Math.random() * 20, // rot 값을 초기화합니다.
-        //     rotateX: 30, // rotateX 값을 초기화합니다.
-        //     immediate: false, // 애니메이션을 적용하기 위해 immediate를 false로 설정합니다.
-        //   }));
-        // }, 600)
+        setTimeout(() => {
+          gone.clear()
+          setIsSpread(true); // spread 상태를 true로 설정
+
+          setZoomed(new Array(cards.length).fill(false)); // zoomed 상태를 초기화합니다.
+          // api.start(i => ({
+          //   ...to(i),
+          //   from: from(i),
+          //   scale: 1, // scale 값을 초기화합니다.
+          //   rot: -10 + Math.random() * 20, // rot 값을 초기화합니다.
+          //   rotateX: 30, // rotateX 값을 초기화합니다.
+          //   immediate: false, // 애니메이션을 적용하기 위해 immediate를 false로 설정합니다.
+          // }));
+          api.start(i => ({
+            ...spread(i),
+            from:from(i),
+            immediate: false,
+          }));
+        }, 600)
       }
     })
 
@@ -149,7 +193,7 @@ const Card = styled(animated.div)<{ bg: string }>`
     return (
         <>
         {props.map(({ x, y, rot, scale }, i) => (
-          <DeckDiv key={i} style={{ x, y }}>
+          <DeckDiv key={i} style={{ x, y, zIndex: zIndices[i] }}>
             <Card
               {...bind(i)}
               bg={cards[i]}

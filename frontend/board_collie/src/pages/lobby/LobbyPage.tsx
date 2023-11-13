@@ -37,17 +37,7 @@ const LobbyPage: React.FC<LobbyPageProps> = ({ players, setPlayers }) => {
     localStorage.setItem('isActive', 'true');
     localStorage.setItem('time', '0');
     localStorage.setItem('players', players.toString());
-
-  //   // API POST 요청 : 플레이어 수 
-  //   try {
-  //     const response = await axios.post('API_ENDPOINT_HERE', {
-  //       players: players
-  //     });
-  //     console.log('Response:', response.data);
-  //   } catch (error) {
-  //     console.log('API Error:', error);
-  //   }
-  
+    
     navigate('/main');
   };
 
