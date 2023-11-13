@@ -19,10 +19,10 @@ pipeline {
                     credentialsId: 'somin'
             }
         }
+
         stage('Setup Python Environment') {
             steps {
                 sh 'python3 -m venv myenv'
-                
                 sh '. myenv/bin/activate'
             }
         }
@@ -30,8 +30,15 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh 'ls -al'
-
                 sh 'myenv/bin/pip install -r requirements.txt'
+            }
+        }
+
+        stage('Setup Secret File') {
+            steps {
+                withCredentials([file(credentialsId: 'secret', variable: 'secretFile')]) {
+                    sh 'cp $secretFile secret.py'
+                }
             }
         }
 
