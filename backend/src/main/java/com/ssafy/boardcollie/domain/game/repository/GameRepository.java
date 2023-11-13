@@ -30,11 +30,15 @@ public interface GameRepository extends JpaRepository<Game, Long> {
             "WHERE g.id = :gameId")
     Optional<Game> findGameDetailWithTagsAndSimilarGames(@Param("gameId") Long gameId);
 
-    @Query("SELECT g FROM Game g " +
-            "JOIN fetch GameTag gt ON g.id = gt.game.id " +
-            "JOIN fetch Tag t ON gt.tag.id = t.id " +
-            "WHERE t.tagNameKor = :tagName AND "
-            + ":numberOfPeople IS NULL OR (g.minPlayer <= :numberOfPeople AND g.maxPlayer >= :numberOfPeople)")
+//    @Query("SELECT distinct g FROM Game g " +
+//            "JOIN fetch GameTag gt ON g.id = gt.game" +
+//            "JOIN fetch Tag t ON gt.tag= t.id " +
+//            "WHERE t.tagNameKor = :tagName AND "
+//            + ":numberOfPeople IS NULL OR (g.minPlayer <= :numberOfPeople AND g.maxPlayer >= :numberOfPeople)")
+    @Query("SELECT distinct g FROM Game g JOIN FETCH g.gameTags gt JOIN FETCH gt.tag t " +
+        "WHERE g.id IN (SELECT g.id FROM Game g JOIN g.gameTags gt JOIN gt.tag t " +
+        "WHERE t.tagNameKor = :tagName AND "+
+            "(:numberOfPeople IS NULL) OR (g.minPlayer <= :numberOfPeople AND g.maxPlayer >= :numberOfPeople))")
     List<Game> findGamesByTagName(@Param("tagName") String tagName,
             @Param("numberOfPeople") Integer numberOfPeople);
 }

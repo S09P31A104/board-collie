@@ -24,7 +24,7 @@ public class GameController {
     public ResponseEntity<?> getGameListByGameTitle(
             @RequestParam(name = "q", required = false) String searchKeyword,
             @RequestParam(name = "people", required = false) Integer numberOfPeople,
-            @RequestParam(name="type, required=false") String searchType) {
+            @RequestParam(name="type", required=false) String searchType) {
 
         return JsonResponse.ok("Game List 반환 성공",
                 gameService.getGamesBySearchKeyword(searchKeyword, numberOfPeople, searchType));
