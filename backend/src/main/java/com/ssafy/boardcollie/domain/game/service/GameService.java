@@ -7,8 +7,7 @@ import java.util.List;
 
 public interface GameService {
 
-    List<GameResponseDto> getGamesByGameTitle(String searchKeyword, Integer numberOfPeople);
+    List<GameResponseDto> getGamesBySearchKeyword(String searchKeyword, Integer numberOfPeople, String searchType);
 
     GameDetailResponseDto getGameDetail(Long id);
-
 }
