@@ -91,10 +91,6 @@ const SingleButton = styled.button`
   border: none;
   border-radius: 20px;
   cursor: pointer;
-
-  &:hover {
-    background-color: #90B299;
-  }
 `;
 
 // 아이콘을 담을 컨테이너
@@ -149,8 +145,8 @@ type ButtonContents = {
   [key: number]: string[];
 };
 
-const GameRecommendPage: React.FC = () => {
-  const [selectedButtons, setSelectedButtons] = useState<number[]>([]);
+const GameRecommendPage: React.FC<{ players: number }> = ({ players }) => {
+  const [selectedButtons, setSelectedButtons] = useState<number[]>([players]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [handleButtonClicked, setHandleButtonClicked] = useState(false);
   const [animateButtonsIn, setAnimateButtonsIn] = useState(true);
@@ -159,11 +155,11 @@ const GameRecommendPage: React.FC = () => {
   useEffect(() => {
     console.log("선택된 버튼 배열: ", selectedButtons);
   }, [selectedButtons]);
-
+  
   // 질문 페이지가 아닌 경우에 자동으로 다음 페이지로 넘어가는 기능
   useEffect(() => {
     if ([0, 3, 7].includes(currentQuestion)) {
-      const delay = currentQuestion === 0 ? 3000 : 1500;
+      const delay = currentQuestion === 0 ? 3000 : 2500;
 
       const timer = setTimeout(() => {
         handleClick();
@@ -197,9 +193,6 @@ const GameRecommendPage: React.FC = () => {
 
   // 버튼 클릭(선택지 선택) 시 동작
   const handleClick = (buttonNumber?: number) => {
-    console.log(currentQuestion);
-    console.log(handleButtonClicked);
-
     setHandleButtonClicked(true);
 
     // 버튼이 아래로 내려가는 애니메이션
@@ -278,7 +271,6 @@ const GameRecommendPage: React.FC = () => {
     }, 1000);
   };
   
-
   // 질문 페이지만 계산하여 페이지 번호를 표시하는 기능
   const getDisplayPageNumber = () => {
     const questionPages = [1, 2, 4, 5, 6]; // 질문 페이지들의 currentQuestion 값
@@ -338,31 +330,14 @@ const GameRecommendPage: React.FC = () => {
   //   }
   // }, [fadeInDone, chatMessage, currentQuestion]);
 
-  // 마지막 페이지 도달 시 결과 페이지로 이동 & API 요청
+  // 마지막 페이지 도달 시 결과 페이지로 이동 & selectedButtons 리스트 전달
   const navigate = useNavigate();
 
   useEffect(() => {
     if (currentQuestion === 8) {
-      // API 요청을 보내는 함수
-      const postData = async () => {
-        try {
-          // const response = await axios.post('YOUR_API_ENDPOINT', {
-          //   selectedButtons,
-          // });
-
-          // console.log(response.data);
-
-          // 데이터를 성공적으로 전송한 후, 사용자를 다른 페이지로 리디렉션
-          navigate('/recommendresult');
-
-        } catch (error) {
-          console.error('There was an error!', error);
-        }
-      };
-
-      postData();
+      navigate('/recommendresult', { state: { selectedButtons } });
     }
-  }, [currentQuestion, history]);
+  }, [currentQuestion, navigate, selectedButtons]);
 
   return (
     <>
@@ -414,7 +389,6 @@ const GameRecommendPage: React.FC = () => {
                 key={index}
                 animateIn={animateButtonsIn}
                 index={index}
-                style={selectedButtons[currentQuestion] === index ? { backgroundColor: '#90B299' } : {}}
                 onClick={() => handleClick(index)}
               >
                 <IconContainer>

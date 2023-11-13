@@ -269,7 +269,7 @@ interface Answer {
 // 채팅방 컴포넌트
 const ChatBotPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const gameId = parseInt(id ?? "0") || 0; // useParams로 받은 id를 정수로 변환
+  const gameId = parseInt(id ?? "0"); // useParams로 받은 id를 정수로 변환
 
   const [uuid, setUuid] = useState<string | null>(null);
 
@@ -288,7 +288,7 @@ const ChatBotPage: React.FC = () => {
       }
     };
 
-    if (gameId) {
+    if (gameId || gameId === 0) {
       loadGameDetail();
     }
   }, [gameId]);
@@ -404,14 +404,6 @@ const ChatBotPage: React.FC = () => {
     
     fetchUUID();
   }, []);
-
-  // // UUID 사용 예시
-  // useEffect(() => {
-  //   if (uuid) {
-  //     console.log(`UUID: ${uuid}`);
-  //     console.log(gameId);
-  //   }
-  // }, [uuid]);
 
   return (
     <ChatRoomContainer>

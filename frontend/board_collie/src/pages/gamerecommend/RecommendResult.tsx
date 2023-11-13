@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useSpring, useSprings, animated, to as interpolate } from '@react-spring/web'
 import { useDrag } from 'react-use-gesture'
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components'
 
 /**
@@ -208,6 +209,11 @@ const Card = styled(animated.div)<{ bg: string }>`
   }
   
   export default function RecommendResult() {
+    const location = useLocation();
+    const { selectedButtons } = location.state || {}; // selectedButtons가 undefined일 경우를 대비한 기본값 설정
+    
+    console.log("전달 받은 버튼 배열: ",selectedButtons);
+
     return (
       <Container>
         <Deck />
