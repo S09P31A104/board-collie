@@ -23,9 +23,11 @@ public class GameController {
     @GetMapping()
     public ResponseEntity<?> getGameListByGameTitle(
             @RequestParam(name = "q", required = false) String searchKeyword,
-            @RequestParam(name = "people", required = false) Integer numberOfPeople) {
+            @RequestParam(name = "people", required = false) Integer numberOfPeople,
+            @RequestParam(name="type", required=false) String searchType) {
+
         return JsonResponse.ok("Game List 반환 성공",
-                gameService.getGamesByGameTitle(searchKeyword, numberOfPeople));
+                gameService.getGamesBySearchKeyword(searchKeyword, numberOfPeople, searchType));
     }
 
     @GetMapping("/detail/{gameId}")
