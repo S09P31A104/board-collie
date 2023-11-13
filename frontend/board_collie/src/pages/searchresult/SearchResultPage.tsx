@@ -184,7 +184,7 @@ const SearchResultsPage: React.FC = () => {
     />
 
     <Grid container spacing={2}>
-      <Grid item xs={9} style={{ overflowY: 'auto', maxHeight: '90vh', scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="hide-scrollbar">
+      <Grid item xs={9} style={{ overflowY: 'auto', maxHeight: '80vh', scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="hide-scrollbar">
         {results.length === 0 ? (
           <div style={centerStyle}>검색 결과가 없습니다.</div>
         ) : (
