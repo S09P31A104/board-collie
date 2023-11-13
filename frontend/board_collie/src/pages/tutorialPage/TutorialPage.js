@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Box, Modal, Button } from '@mui/material';
 
 import ID27 from './games/ID27';
+import ID33 from './games/ID33';
 import ID72 from "./games/ID72";
 
 
@@ -34,14 +35,13 @@ const BackgroundLayer = styled.div`
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.55);
 `;
 const BackButton = styled.div`
     position: absolute;
     top: 3vh;
     left: 3vw;
     font-size: 2vw;
-    color: #F7EEF6;
     z-index: 9999;
 `;
 const MainContent = styled.div`
@@ -176,6 +176,20 @@ function TutorialPage() {
             </MuteButton>
             <MainContent>
             {
+                (params.title === '27') ? // Rummikub 루미큐브
+                <ID27
+                    bgmIsPlaying={bgmIsPlaying}
+                    setBackgroundImage={setBackgroundImage}
+                    setBgmIsPlaying={setBgmIsPlaying}
+                />
+                :
+                (params.title === '33') ? // Mahe 마헤
+                    <ID33
+                        bgmIsPlaying={bgmIsPlaying}
+                        setBackgroundImage={setBackgroundImage}
+                        setBgmIsPlaying={setBgmIsPlaying}
+                    />
+                :
                 (params.title === '72') ? // Splendor 스플렌더
                     <ID72
                         players={players}
@@ -184,14 +198,7 @@ function TutorialPage() {
                         setBgmIsPlaying={setBgmIsPlaying}
                     />
                 :
-                (params.title === '27') ? // Rummikub 루미큐브
-                    <ID27
-                        bgmIsPlaying={bgmIsPlaying}
-                        setBackgroundImage={setBackgroundImage}
-                        setBgmIsPlaying={setBgmIsPlaying}
-                    />
-                :
-                    null
+                null
             }
             </MainContent>
         </TutorialContainer>

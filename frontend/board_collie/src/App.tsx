@@ -12,7 +12,7 @@ import NotFound from './components/common/notfound/NotFound'
 import NotFound2 from './components/common/notfound/NotFound2';
 import RecommendResult from './pages/gamerecommend/RecommendResult';
 import ChatBot from './pages/phone/ChatBotPage';
-
+import { SearchProvider } from './contexts/SearchContext';
 
 const AppContent: React.FC<{ players: number }> = ({ players }) => {
   const location = useLocation();
@@ -45,10 +45,12 @@ const App: React.FC = () => {
 
   return (
     <Router>
+      <SearchProvider>
       <Routes>
         <Route path="/" element={<LobbyPage players={players} setPlayers={setPlayers} />} />
         <Route path="*" element={<AppContent players={players} />} />
       </Routes>
+      </SearchProvider>
     </Router>
   );
 }
