@@ -27,7 +27,7 @@ public class GameServiceImpl implements GameService {
     public List<GameResponseDto> getGamesBySearchKeyword(String searchKeyword, Integer numberOfPeople, String searchType) {
         List<Game> games;
         if (searchType.equals("title")){
-            games = gameRepository.findGamesBySearchCriteria(searchKeyword, numberOfPeople);
+            games = gameRepository.findGamesByGameTitle(searchKeyword, numberOfPeople);
         }else{
             games= gameRepository.findGamesByTagName(searchKeyword, numberOfPeople);
         }
