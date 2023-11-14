@@ -32,7 +32,7 @@ const CustomSelect = styled(Select<string>)`
   & .MuiSelect-select {
     padding: 6px 32px 6px 12px;
     border-radius: 15px;
-    background-color: #D9D9D9;
+    background-color: #f4ede2;
   }
   & .MuiOutlinedInput-notchedOutline {
     border: none;

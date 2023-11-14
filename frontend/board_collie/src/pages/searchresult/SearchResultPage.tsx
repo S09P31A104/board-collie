@@ -265,13 +265,13 @@ const SearchResultsPage: React.FC = () => {
         aria-describedby="modal-description"
       >
         <Box sx={modalStyle}>
-          <Typography id="modal-title" variant="h6">
+          <Typography id="modal-title" variant="h5" style={{ fontFamily: 'Jua, sans-serif' }}>
             {selectedTagName}
           </Typography>
           <Typography id="modal-description" sx={{ mt: 2 }}>
             {selectedTagDescription}
           </Typography>
-          <Button onClick={handleViewThemeGames}>해당 테마 게임 모아보기</Button>
+          <Button onClick={handleViewThemeGames} sx={{ marginLeft: '-7px' }}>해당 테마 게임 모아보기</Button>
         </Box>
       </Modal>
   </div>

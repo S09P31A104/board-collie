@@ -47,8 +47,6 @@ const RecentGamesList: React.FC = () => {
     setRecentGames(updatedRecentGames);
   };
 
-  
-
   const listItemStyle: React.CSSProperties = {
     marginBottom: '10px',
     display: 'flex',
@@ -60,7 +58,7 @@ const RecentGamesList: React.FC = () => {
   const gameInfoStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     width: '100%', // 너비를 100%로 설정하여 부모 요소 전체를 사용
     gap: '10px'
   };
@@ -69,7 +67,7 @@ const RecentGamesList: React.FC = () => {
     <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
     {recentGames.map((game) => (
       <li key={game.id} style={listItemStyle}>
-        <Link to={`/game/${game.id}`} style={{ textDecoration: 'none' }}>
+        <Link to={`/game/${game.id}`} style={{ textDecoration: 'none', marginLeft: '30px' }}>
           {game.image && (
             <img src={game.image} alt={game.name} style={{ width: '100px', height: '100px' }} />
           )}
@@ -78,7 +76,7 @@ const RecentGamesList: React.FC = () => {
           <Link to={`/game/${game.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
             {game.name}
           </Link>
-          <IconButton size="small" onClick={() => handleRemoveGame(game.id)}>
+          <IconButton size="small" onClick={() => handleRemoveGame(game.id)} style={{ marginLeft: '10px' }}>
             <CloseIcon fontSize="small" />
           </IconButton>
         </div>

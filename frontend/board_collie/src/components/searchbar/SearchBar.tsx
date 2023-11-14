@@ -127,7 +127,7 @@ const SearchBar: React.FC<Props> = ({ onSearch, searchType, setSearchType, style
           sx: {
             height: '6vh',
             borderRadius: '30px',
-            backgroundColor: isFocused ? 'white' : '#e7e7e7',
+            backgroundColor: isFocused ? 'white' : '#f4ede2',
             fontFamily: 'Jua, sans-serif',
           },
         }}
