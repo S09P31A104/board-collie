@@ -64,6 +64,7 @@ const SearchResultsPage: React.FC = () => {
     setSelectedTagName(tagName);
     setSelectedTagDescription(tagDescription);
     setOpen(true);
+    setQuery(tagName);
   };
   const modalStyle = {
     position: 'absolute' as 'absolute',
@@ -183,7 +184,7 @@ const SearchResultsPage: React.FC = () => {
 
   return (
     <div style={{ overflow: 'hidden', height: '100vh' }}>
-    <SearchBar onSearch={handleSearch} style={{ position: 'relative' }} searchType={searchType} setSearchType={setSearchType}/>
+    <SearchBar onSearch={handleSearch} style={{ position: 'relative' }} searchType={searchType} setSearchType={setSearchType} currentQuery={query}/>
     <FilterBar
       numberOfPlayers={numberOfPlayers}
       setNumberOfPlayers={setNumberOfPlayers}

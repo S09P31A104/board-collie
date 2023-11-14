@@ -1,5 +1,5 @@
-import React, { useState, CSSProperties } from 'react';
-import { TextField, Grid, Button, Modal, FormControl, Select, MenuItem } from '@mui/material';
+import React, { useState, CSSProperties, useEffect } from 'react';
+import { TextField, Grid, Button, Modal, FormControl, Select, MenuItem, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';
 import iconLogo from '../../assets/logo.png'
@@ -11,6 +11,7 @@ interface Props {
   searchType: string;
   setSearchType: (type: string) => void; 
   style?: CSSProperties; 
+  currentQuery: string;
 }
 
 const ModalContent = styled.div`
@@ -43,8 +44,8 @@ const ButtonWrapper = styled.div`
   text-align: center;
 `;
 
-const SearchBar: React.FC<Props> = ({ onSearch, searchType, setSearchType, style }) => {
-  const [inputValue, setInputValue] = useState("");
+const SearchBar: React.FC<Props> = ({ onSearch, searchType, setSearchType, style, currentQuery }) => {
+  const [inputValue, setInputValue] = useState(currentQuery);
   const [isFocused, setIsFocused] = useState(false);
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -55,6 +56,7 @@ const SearchBar: React.FC<Props> = ({ onSearch, searchType, setSearchType, style
 
   const handleSearchClick = () => { 
     onSearch(inputValue);
+    // setInputValue('');
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -83,6 +85,10 @@ const SearchBar: React.FC<Props> = ({ onSearch, searchType, setSearchType, style
     navigate('/');
   };
 
+  useEffect(() => {
+    setInputValue(currentQuery); // 현재 검색어로 상태를 업데이트
+  }, [currentQuery]);
+
   return (
     <Grid container justifyContent="center" alignItems="center" spacing={2} style={{ marginTop: '15px', ...style }}>
       <div
@@ -97,46 +103,48 @@ const SearchBar: React.FC<Props> = ({ onSearch, searchType, setSearchType, style
           opacity: 0,
         }}
       />
-      <Grid item xs={1}>
-        <FormControl variant="outlined" style={{ backgroundColor: 'white' }}>
-          <Select
-            value={searchType}
-            onChange={handleSearchTypeChange}
-            displayEmpty
-          >
-            <MenuItem value="title">제목</MenuItem>
-            <MenuItem value="tag">태그</MenuItem>
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid item xs={4} >
-        <TextField
-          fullWidth
-          variant="outlined"
-          placeholder="제목 또는 태그를 입력해주세요!"
-          InputProps={{
-            endAdornment: <SearchIcon  style={{position: 'relative', zIndex: 1000, marginRight: '10px'   }} />,
-            sx: {
-              height: '6vh',
-              borderRadius: '30px',
-              backgroundColor: isFocused ? 'white' : '#e7e7e7',
-              fontFamily: 'Jua, sans-serif',
-            },
-          }}
-          style={{ position: 'relative', zIndex: 1000 }}
-          sx={{
-            "& .MuiOutlinedInput-notchedOutline": {
-              border: isFocused ? "" : 'none',
-              height: '6vh',
-            },
-          }}
-          value={inputValue}
-          onChange={handleInputChange}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          onKeyDown={handleKeyDown}
-        />
-      </Grid>
+      <Grid item xs={6}>
+      <TextField
+        fullWidth
+        variant="outlined"
+        placeholder="제목 또는 태그를 입력해주세요!"
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <FormControl variant="outlined" style={{ marginRight: '10px' }}>
+                <Select
+                  value={searchType}
+                  onChange={handleSearchTypeChange}
+                  displayEmpty
+                >
+                  <MenuItem value="title">제목</MenuItem>
+                  <MenuItem value="tag">태그</MenuItem>
+                </Select>
+              </FormControl>
+            </InputAdornment>
+          ),
+          endAdornment: <SearchIcon style={{ marginRight: '10px' }} />,
+          sx: {
+            height: '6vh',
+            borderRadius: '30px',
+            backgroundColor: isFocused ? 'white' : '#e7e7e7',
+            fontFamily: 'Jua, sans-serif',
+          },
+        }}
+        style={{ position: 'relative', zIndex: 1000 }}
+        sx={{
+          "& .MuiOutlinedInput-notchedOutline": {
+            border: isFocused ? "" : 'none',
+            height: '6vh',
+          },
+        }}
+        value={inputValue}
+        onChange={handleInputChange}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        onKeyDown={handleKeyDown}
+      />
+    </Grid>
       <Grid item xs={2}>
       <Button 
           variant="contained" 
