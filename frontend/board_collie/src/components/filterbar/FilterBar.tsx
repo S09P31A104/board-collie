@@ -71,6 +71,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ numberOfPlayers, setNumberOfPlaye
           <CustomSelect
             value={numberOfPlayers}
             onChange={handleChange}
+            onClick={(event: React.MouseEvent) => event.stopPropagation()}
             displayEmpty
             renderValue={renderValue}
             inputProps={{ 'aria-label': 'Without label' }}
