@@ -134,7 +134,7 @@ const SearchBar: React.FC<Props> = ({ onSearch, searchType, setSearchType, style
         style={{ position: 'relative', zIndex: 1000 }}
         sx={{
           "& .MuiOutlinedInput-notchedOutline": {
-            border: isFocused ? "" : 'none',
+            border: 'none',
             height: '6vh',
           },
         }}
