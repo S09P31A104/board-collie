@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useSpring, useSprings, animated, to as interpolate } from '@react-spring/web'
 import { useDrag } from 'react-use-gesture'
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components'
 
 /**
@@ -10,8 +11,7 @@ import styled from 'styled-components'
  *
  * @author 허주혁
  * @todo 
- * 1. 첫 클릭만에 rot 0와 함께 확대
- * 2. 카드 간의 z index 추가
+ * 1. 첫 클릭만에 rot 0와 함께 확대 & stack deck 상태일 때도 다중 선택 막기 
  * 3. 새로받기
  * 4. 옆에서 spreading
  */
@@ -100,9 +100,6 @@ const Card = styled(animated.div)<{ bg: string }>`
 
     // 카드 클릭 이벤트를 처리합니다.
     const handleClick = (index : number) => {
-      const newZIndices = zIndices.map((_, i) => (i === index ? 1000 : 0));
-      setZIndices(newZIndices);
-
       if (isSpread) {
         // Spread 상태에서 이미 확대된 카드가 있는지 확인합니다.
         const alreadyZoomedIndex = zoomed.findIndex(z => z);
@@ -113,6 +110,15 @@ const Card = styled(animated.div)<{ bg: string }>`
           // 클릭된 카드의 확대 상태를 토글합니다.
           const newZoomed = zoomed.map((z, i) => (i === index ? !z : z));
           setZoomed(newZoomed);
+
+          // z-index를 업데이트
+          const newZIndices = zIndices.map((_, i) => {
+            if (i === index) {
+              return isCurrentCardZoomed ? i : 1000; // 이미 확대된 경우 원래 z-index, 아니면 1000
+            }
+            return i; // 다른 카드는 z-index를 0으로 설정
+          });
+          setZIndices(newZIndices);
 
           api.start(i => {
             if (index !== i) return;
@@ -141,13 +147,13 @@ const Card = styled(animated.div)<{ bg: string }>`
       }
     };
 
-    // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
+    // React Spring의 동작 (useDrag) 정의 파트
     const bind = useDrag(({ args: [index], down, movement: [mx], direction: [xDir], velocity }) => {
       // Spread 상태일 때는 드래그를 무시합니다.
       if (isSpread) return;
 
-      const trigger = velocity > 0.2 // If you flick hard enough it should trigger the card to fly out
-      const dir = xDir < 0 ? -1 : 1 // Direction should either point left or right
+      const trigger = velocity > 0.2 // 강하게 drag 시 spin (돌면서) 퇴장
+      const dir = xDir < 0 ? -1 : 1 // 퇴장 방향은 오직 좌우로만
 
       if (!down && trigger) gone.add(index) // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
       
@@ -172,14 +178,7 @@ const Card = styled(animated.div)<{ bg: string }>`
           setIsSpread(true); // spread 상태를 true로 설정
 
           setZoomed(new Array(cards.length).fill(false)); // zoomed 상태를 초기화합니다.
-          // api.start(i => ({
-          //   ...to(i),
-          //   from: from(i),
-          //   scale: 1, // scale 값을 초기화합니다.
-          //   rot: -10 + Math.random() * 20, // rot 값을 초기화합니다.
-          //   rotateX: 30, // rotateX 값을 초기화합니다.
-          //   immediate: false, // 애니메이션을 적용하기 위해 immediate를 false로 설정합니다.
-          // }));
+
           api.start(i => ({
             ...spread(i),
             from:from(i),
@@ -210,6 +209,11 @@ const Card = styled(animated.div)<{ bg: string }>`
   }
   
   export default function RecommendResult() {
+    const location = useLocation();
+    const { selectedButtons } = location.state || {}; // selectedButtons가 undefined일 경우를 대비한 기본값 설정
+    
+    console.log("전달 받은 버튼 배열: ",selectedButtons);
+
     return (
       <Container>
         <Deck />
