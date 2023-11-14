@@ -12,7 +12,7 @@ game_vectors, bert_embeddings, tfidf_matrix, tfidf_vectorizer = init.get_compone
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-game_df = pd.read_csv('S09P31A104/statics/game_df.csv')
+game_df = pd.read_csv('statics/game_df.csv')
 
 text_template = [
     [
