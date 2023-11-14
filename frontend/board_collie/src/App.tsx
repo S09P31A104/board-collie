@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import LobbyPage from './pages/lobby/LobbyPage';
 import MainPage from './pages/main/MainPage';
@@ -42,6 +42,15 @@ const AppContent: React.FC<{ players: number }> = ({ players }) => {
 
 const App: React.FC = () => {
   const [players, setPlayers] = useState(2);
+
+  function setScreenSize() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  }
+
+  useEffect(() => {
+    setScreenSize();
+  });
 
   return (
     <Router>
