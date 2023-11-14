@@ -15,7 +15,9 @@ import chatIcon from '../../assets/chat_icon.png';
 // icon
 import LogoutIcon from '@mui/icons-material/Logout';
 import SendIcon from '@mui/icons-material/Send';
+import MicIcon from '@mui/icons-material/Mic';
 
+// apis
 import { fetchGameDetail, Game } from '../../apis/gamedetail/GameDetailAPI';
 
 /**
@@ -23,9 +25,8 @@ import { fetchGameDetail, Game } from '../../apis/gamedetail/GameDetailAPI';
  *
  * @author 허주혁
  * @todo 
- * 3. 입력창 위치 고정
- * 4. 핸드폰 마이크를 통한 음성인식
- * 5. tts
+ * 1. stt
+ * 2. tts
  */
 
 const SERVER_API_URL = `${process.env.REACT_APP_API_SERVER_URL}`;
@@ -197,6 +198,19 @@ const SendButton = styled.button`
   }
 `;
 
+// 마이크 버튼
+const MicButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  margin-right: 10px;
+`;
+
 // 로딩 컴포넌트 스타일
 const LoadingOverlay = styled.div`
   display: flex;
@@ -249,6 +263,11 @@ const InputAreaWithButton: React.FC<{ onSend: () => void, text: string, setText:
       placeholder="Message"
       onKeyDown={(e) => e.key === 'Enter' && onSend()}
     />
+
+    <MicButton>
+      <MicIcon style={{ color: 'gray' }} />
+    </MicButton>
+
     <SendButton onClick={onSend}>
       <SendIcon style={{ color: 'white' }} />
     </SendButton>
