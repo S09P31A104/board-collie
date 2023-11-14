@@ -44,7 +44,8 @@ const FilterBar: React.FC<FilterBarProps> = ({ numberOfPlayers, setNumberOfPlaye
     setNumberOfPlayers(event.target.value === "all" ? '' : event.target.value);
   };
 
-  const handleTagClick = (tag: string) => {
+  const handleTagClick = (event: React.MouseEvent, tag: string) => {
+    event.stopPropagation();
     if (tagFilter === tag) {
       setTagFilter(null);
     } else {
@@ -92,7 +93,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ numberOfPlayers, setNumberOfPlaye
               <Chip 
                 key={tag} 
                 label={tag} 
-                onClick={() => handleTagClick(tag)} 
+                onClick={(event) => handleTagClick(event, tag)} 
                 style={{ margin: '4px' }}
                 variant={tagFilter === tag ? 'filled' : 'outlined'}
               />
@@ -106,7 +107,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ numberOfPlayers, setNumberOfPlaye
       <Chip 
         key={tag} 
         label={tag} 
-        onClick={() => handleTagClick(tag)} 
+        onClick={(event) => handleTagClick(event, tag)} 
         style={{ margin: '4px' }}
         variant={tagFilter === tag ? 'filled' : 'outlined'}
       />
