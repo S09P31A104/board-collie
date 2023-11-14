@@ -81,12 +81,14 @@ const SearchResultsPage: React.FC = () => {
     handleSearch('');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const filterGamesByTag = (games: Game[], tagFilter: string | null): Game[] => {
     if (!tagFilter) return games;
     return games.filter(game => 
       game.tags.some(tag => tag.name === tagFilter)
     );
   };
+  
   const loadMore = () => {
     console.log("Load More is called");
     // 필터링된 결과를 기준으로 더 많은 데이터를 불러옵니다.
@@ -98,15 +100,13 @@ const SearchResultsPage: React.FC = () => {
     const moreResults = filteredResults.slice(visibleResults.length, visibleResults.length + 10);
     setVisibleResults(visibleResults.concat(moreResults));
   };
-  
 
   useEffect(() => {
-    // 검색 결과가 바뀔 때마다 visibleResults를 리셋하고 무한 스크롤을 다시 활성화합니다.
     const filteredResults = filterGamesByTag(results, tagFilter);
     setVisibleResults(filteredResults.slice(0, 10));
     setHasMore(filteredResults.length > 10);
   }, [tagFilter, results]);
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -189,7 +189,7 @@ const SearchResultsPage: React.FC = () => {
       setNumberOfPlayers={setNumberOfPlayers}
       tagFilter={tagFilter}
       setTagFilter={setTagFilter}
-      style={{ marginTop: '1.5vh' }}
+      style={{ marginTop: '2.1vh' }}
     />
 
     <Grid container spacing={2}>
