@@ -27,7 +27,7 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
     @Query("SELECT distinct g FROM Game g JOIN FETCH g.gameTags gt JOIN FETCH gt.tag t " +
         "WHERE g.id IN (SELECT g.id FROM Game g JOIN g.gameTags gt JOIN gt.tag t " +
-        "WHERE (:tagName IS NULL OR t.tagNameKor = :tagName) AND "+
+        "WHERE (:tagName IS NULL OR t.tagNameKor LIKE %:tagName) AND "+
             "(:numberOfPeople IS NULL) OR (g.minPlayer <= :numberOfPeople AND g.maxPlayer >= :numberOfPeople))")
     List<Game> findGamesByTagName(@Param("tagName") String tagName,
             @Param("numberOfPeople") Integer numberOfPeople);
