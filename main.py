@@ -1,7 +1,7 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from typing import List
-from pydantic import BaseModel, conlist
-import init
+from pydantic import BaseModel
 from Recommend import recommend
 import db
 
