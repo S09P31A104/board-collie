@@ -64,7 +64,7 @@ const SearchResultsPage: React.FC = () => {
     setSelectedTagName(tagName);
     setSelectedTagDescription(tagDescription);
     setOpen(true);
-    setQuery(tagName);
+    // setQuery(tagName);
   };
   const modalStyle = {
     position: 'absolute' as 'absolute',
@@ -139,8 +139,10 @@ const SearchResultsPage: React.FC = () => {
     setQuery(query); // 입력받은 검색어를 state에 저장합니다.
   };
   const handleViewThemeGames = () => {
+    setQuery(selectedTagName);
     setSearchType('tag');
     setSearchTag(selectedTagName);
+    handleClose();
   };
 
   const centerStyle: React.CSSProperties = {
