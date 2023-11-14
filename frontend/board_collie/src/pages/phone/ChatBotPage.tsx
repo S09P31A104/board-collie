@@ -23,7 +23,6 @@ import { fetchGameDetail, Game } from '../../apis/gamedetail/GameDetailAPI';
  *
  * @author 허주혁
  * @todo 
- * 2. 0번 시 이름이 안 뜨는 버그 발생
  * 3. 입력창 위치 고정
  * 4. 핸드폰 마이크를 통한 음성인식
  * 5. tts
@@ -36,7 +35,7 @@ const ChatRoomContainer = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid #ccc;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   width: 100vw;
   overflow: hidden;
 `;
@@ -277,6 +276,23 @@ const ChatBotPage: React.FC = () => {
   const [title, setTitle] = useState<string | null>(null); 
 
   const [isLoading, setIsLoading] = React.useState(false);
+
+  // 뷰포트 높이 설정 함수
+  const setScreenSize = () => {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  };
+
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 뷰포트 높이 설정
+    setScreenSize();
+
+    // 윈도우 크기가 변경될 때마다 뷰포트 높이 다시 설정
+    window.addEventListener('resize', setScreenSize);
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
+    return () => window.removeEventListener('resize', setScreenSize);
+  }, []);
 
   // gameId 변경 시 또는 컴포넌트 마운트 시 게임 상세 정보 가져오기
   useEffect(() => {
