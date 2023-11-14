@@ -6,13 +6,18 @@ from Recommend import recommend
 import db
 
 app = FastAPI()
+origins = ["*"]  # 모든 도메인에서의 요청을 허용
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class NumbersInput(BaseModel):
     params: List[int]
-
-
-
 
 
 @app.get("/")
