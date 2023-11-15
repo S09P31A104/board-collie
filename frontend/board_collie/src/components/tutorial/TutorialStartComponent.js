@@ -7,6 +7,7 @@ const TutorialStartContainer = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
+    height: 100%;
 `;
 const TitleImage = styled.img`
     width: 32vw;
@@ -32,6 +33,8 @@ const Message = styled.div`
     margin-bottom: 3vh;
     text-align: center;
 `;
+const StartButton = styled.div`
+`;
 
 function TutorialStartComponent({title_image, title, message, button1, setBgmIsPlaying, movePage1, setPage}) {
     
@@ -52,22 +55,24 @@ function TutorialStartComponent({title_image, title, message, button1, setBgmIsP
             <TitleImage src={title_image}></TitleImage>
             <Title className='animate__animated animate__jackInTheBox'>{title} 튜토리얼 시작하기</Title>
             <Message>{message}</Message>
-            <Button
-                className='animate__animated animate__pulse animate__infinite'
-                variant="contained" 
-                style={{ 
-                    backgroundColor: '#CCF38C', 
-                    color: 'black',
-                    marginTop: '20px', 
-                    fontFamily: 'Jolly Lodger, cursive',
-                    borderRadius: "10px",
-                    fontSize: "2rem", 
-                    padding: '1px 70px',
-                }}
-                onClick={() => moveNextPage(setPage, movePage1)}
-                >
-                {button1}
-            </Button>
+            <StartButton>
+                <Button
+                    className='animate__animated animate__pulse animate__infinite'
+                    variant="contained" 
+                    style={{ 
+                        backgroundColor: '#CCF38C', 
+                        color: 'black',
+                        marginTop: '20px', 
+                        fontFamily: 'Jolly Lodger, cursive',
+                        borderRadius: "10px",
+                        fontSize: "2rem", 
+                        padding: '1px 70px',
+                    }}
+                    onClick={() => moveNextPage(setPage, movePage1)}
+                    >
+                    {button1}
+                </Button>
+            </StartButton>
         </TutorialStartContainer>
     )
 }
