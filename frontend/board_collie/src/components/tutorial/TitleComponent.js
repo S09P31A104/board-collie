@@ -53,7 +53,7 @@ function TitleComponent({title, setPage, prePage, nextPage}) {
                 key={match}
                 options={{
                     strings: [match],
-                    speed: 50,
+                    speed: 20,
                     waitUntilVisible: true,
                     cursor: false,
                 }}

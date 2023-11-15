@@ -20,18 +20,18 @@ const chatbot = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/chatbot
 const setting1 = process.env.PUBLIC_URL + "/tutorial/rummikub/setting1.png"; // 임시
 const setting2 = process.env.PUBLIC_URL + "/tutorial/rummikub/setting2.png"; // 임시
 const setting3 = process.env.PUBLIC_URL + "/tutorial/rummikub/setting3.png"; // 임시
-const setting4 = process.env.PUBLIC_URL + "/tutorial/rummikub/setting4.png"; // 임시
+const setting4 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/setting4.jpg';
 const info1 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/title.png'; // 임시
 const info2 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/title.png'; // 임시
 const info3 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/title.png'; // 임시
-const contentImage1 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage1.jpg"; // 임시
-const contentImage2 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage2.png"; // 임시
-const contentImage3 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage3.png"; // 임시
-const contentImage4 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage4.png"; // 임시
+const contentImage1 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage1.jpg';
+const contentImage2 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage2.jpg';
+const contentImage3 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage3.jpg"; // 임시
+const contentImage4 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage4.jpg"; // 임시
 const contentImage5 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage5.png"; // 임시
 const contentImage6 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage6.png"; // 임시
 const contentImage7 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage7.png"; // 임시
-const contentImage8 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage8.png"; // 임시
+const contentImage8 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage8.png';
 
 /* bgm */
 const backgroundMusic = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/backgroundMusic.mp3';
@@ -154,7 +154,7 @@ function ID27({setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) {
         ],
         [ // 10
             'TitleComponent', // 템플릿
-            '<TypeIt>먼저, 루미큐브에서<br/>타일을 내기 위해서는<br/>🧾등록🧾이 필요합니다.</TypeIt>', // 타이틀 내용
+            '<TypeIt>먼저, 루미큐브에서<br/>타일을 내기 위해서는<br/>등록이 필요합니다.</TypeIt>', // 타이틀 내용
             9, // 이전 페이지 flow 번호
             11 // 다음 페이지 flow 번호
         ],
@@ -205,9 +205,9 @@ function ID27({setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) {
             'TitleAndThreeButtonComponent', // 템플릿
             '타일을 모두 낸 사람은\n<RedText>루미큐브!</RedText>를\n외쳐주세요.', // title
             [ // 버튼 내용
-                [18, '루미큐브!'],
+                [20, '더 재밌게 플레이하기'],
                 [19, '질문 있어요!'],
-                [20, '더 재밌게 플레이하기']
+                [18, '루미큐브!'],
             ],
             16 // 이전 페이지 flow 번호
         ],
