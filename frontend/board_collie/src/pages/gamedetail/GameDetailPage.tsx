@@ -204,7 +204,7 @@ const GameDetailPage: React.FC = () => {
   alt="QR 코드" 
   style={{ maxWidth: '100%', maxHeight: '180px' }} 
 />
-    <Typography sx={{ fontSize: '2rem', fontFamily: 'Jolly Lodger, cursive' }}>Chat Bot</Typography>
+    <Typography sx={{ fontSize: '2rem', fontFamily: 'YESGothic-Regular' }}>챗봇</Typography>
   </Box>
   
   {/* 재생버튼과 튜토리얼 텍스트를 포함하는 부모 Box */}
@@ -231,7 +231,7 @@ const GameDetailPage: React.FC = () => {
         }}
       />
     </Box>
-    <Typography textAlign="center" sx={{ fontSize: '2rem', fontFamily: 'Jolly Lodger, cursive', mt: 2 }}>Tutorial</Typography>
+    <Typography textAlign="center" sx={{ fontSize: '2rem', fontFamily: 'YESGothic-Regular', mt: 2 }}>튜토리얼</Typography>
   </Box>
 </Box>
 </Box>
