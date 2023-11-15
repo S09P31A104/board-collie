@@ -64,6 +64,9 @@ const ChoiceButton = styled.div`
 
     border-radius: 8px;
     background: #CCF38C;
+
+    /* 그림자 스타일 */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8);
 `;
 
 function TitleAndThreeButtonComponent({title, buttonInfo, setPage, prePage}) {

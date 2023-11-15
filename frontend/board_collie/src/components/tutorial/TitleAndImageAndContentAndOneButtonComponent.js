@@ -87,6 +87,9 @@ const Button = styled.div`
 
     text-align: center;
     font-size: 2.8vw;
+
+    /* 그림자 스타일 */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8);
 `;
 
 function TitleAndImageAndContentAndOneButtonComponent({title, image, content, buttonPageInfo, buttonTextInfo, setPage, prePage}) {
