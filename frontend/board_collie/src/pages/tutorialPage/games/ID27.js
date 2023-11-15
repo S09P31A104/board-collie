@@ -27,10 +27,10 @@ const info3 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/
 const contentImage1 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage1.jpg';
 const contentImage2 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage2.jpg';
 const contentImage3 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage3.png';
-const contentImage4 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage4.png"; // 임시
-const contentImage5 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage5.png"; // 임시
+const contentImage4 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage4.png';
+const contentImage5 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage5.png';
 const contentImage6 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage6.png"; // 임시
-const contentImage7 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage7.png"; // 임시
+const contentImage7 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage7.png';
 const contentImage8 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage8.png';
 
 /* bgm */
