@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import ChatbotQRComponent from '../../../components/tutorial/ChatbotQRComponent';
 import GameSettingComponent from "../../../components/tutorial/GameSettingComponent";
 import ImageAndContentComponent from '../../../components/tutorial/ImageAndContentComponent';
+import ImageAndContentRedTextComponent from '../../../components/tutorial/ImageAndContentRedTextComponent';
 import TitleAndContentAndOneButtonComponent from '../../../components/tutorial/TitleAndContentAndOneButtonComponent';
 import TitleAndThreeButtonComponent from '../../../components/tutorial/TitleAndThreeButtonComponent';
 import TitleAndContenAndTwoButtonComponent from '../../../components/tutorial/TitleAndContentAndTwoButtonComponent';
@@ -27,10 +28,10 @@ const info3 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/
 const contentImage1 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage1.jpg';
 const contentImage2 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage2.jpg';
 const contentImage3 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage3.png';
-const contentImage4 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage4.png"; // 임시
-const contentImage5 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage5.png"; // 임시
+const contentImage4 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage4.png';
+const contentImage5 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage5.png';
 const contentImage6 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage6.png"; // 임시
-const contentImage7 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage7.png"; // 임시
+const contentImage7 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage7.png';
 const contentImage8 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage8.png';
 
 /* bgm */
@@ -133,9 +134,9 @@ function ID27({setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) {
             7 // 다음 페이지 flow 번호
         ],
         [ // 7
-            'ImageAndContentComponent', // 템플릿
+            'ImageAndContentRedTextComponent', // 템플릿
             contentImage6, // image
-            '자신의 턴이 끝날 때는\n중앙에 놓은 모든 타일이\n3개 이상\n붙어있어야 합니다.', // content
+            '자신의 턴이 끝날 때는\n중앙에 놓은 <RedText>모든 타일이</RedText>\n<RedText>3개 이상</RedText>\n붙어있어야 합니다.', // content
             6, // 이전 페이지 flow 번호
             8 // 다음 페이지 flow 번호
         ],
@@ -159,9 +160,9 @@ function ID27({setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) {
             11 // 다음 페이지 flow 번호
         ],
         [ // 11
-            'ImageAndContentComponent', // 템플릿
+            'ImageAndContentRedTextComponent', // 템플릿
             contentImage8, // image
-            '등록하기 위해서는\n타일의 총합이\n30 이상이어야 합니다.', // content
+            '등록하기 위해서는\n타일의 총합이\n<RedText>30 이상</RedText>이어야 합니다.', // content
             10, // 이전 페이지 flow 번호
             12 // 다음 페이지 flow 번호
         ],
@@ -358,6 +359,15 @@ function ID27({setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) {
                         qrImg={flow[page][1]}
                         setPage={setPage}
                         prePage={flow[page][2]}
+                    />
+                :
+                (flow[page] && flow[page][0] === 'ImageAndContentRedTextComponent') ?
+                    <ImageAndContentRedTextComponent
+                        image={flow[page][1]}
+                        content={flow[page][2]}
+                        setPage={setPage}
+                        prePage={flow[page][3]}
+                        nextPage={flow[page][4]}
                     />
                 :
                 null
