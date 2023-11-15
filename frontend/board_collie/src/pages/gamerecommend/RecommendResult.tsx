@@ -156,6 +156,16 @@ function Deck() {
     config: { friction: 50, tension: 500 },
   })) // Create a bunch of springs using the helpers above
 
+  useEffect(() => {
+    if (externalRecommendedGames.length > 0) {
+      api.start(i => ({
+        ...to(i),
+        from: from(i)
+      }));
+    }
+  }, [externalRecommendedGames, api]); // externalRecommendedGames 배열이 변경될 때 useEffect 실행
+  
+
   // 카드 클릭 이벤트를 처리합니다.
   const handleClick = (index : number) => {
     if (isSpread) {
