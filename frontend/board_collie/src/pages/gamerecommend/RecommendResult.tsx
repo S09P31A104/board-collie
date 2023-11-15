@@ -25,7 +25,8 @@ interface Game {
   similarity: number;
 }
 
-const recommendedGames: Game[] = [];
+const externalRecommendedGames: Game[] = [];
+
 
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
 const to = (i: number) => ({
@@ -43,7 +44,7 @@ const trans = (r: number, s: number, rotateX: number) =>
 `perspective(1500px) rotateX(${rotateX}deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
 const spread = (i: number) => ({
-x: i * (window.innerWidth / (recommendedGames.length + 1)) - window.innerWidth / 3,
+x: i * (window.innerWidth / (externalRecommendedGames.length + 1)) - window.innerWidth / 3,
 rot: 0,
 scale: 1,
 y: 0,
@@ -68,24 +69,14 @@ const DeckDiv = styled(animated.div)`
   touch-action: none;
 `
 
-const Card = styled(animated.div)<{ bg: string }>`
-  background-color: white;
-  background-image: url(${props => props.bg});
-  background-size: auto 85%;
-  background-repeat: no-repeat;
-  background-position: center center;
-  width: 45vh;
-  height: 65vh;
-  will-change: transform;
-  border-radius: 10px;
-  box-shadow: 0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);
-`
-
 const CardWrapper = styled(animated.div)`
+  position: relative; // 상대적 위치 설정
+  display: flex; // Flexbox 사용
+  flex-direction: column; // 자식 요소들을 수직 방향으로 정렬
+  align-items: center; // 수직 중앙 정렬
+  justify-content: center; // 수평 중앙 정렬
+
   background-color: white;
-  background-size: auto 85%;
-  background-repeat: no-repeat;
-  background-position: center center;
   width: 45vh;
   height: 65vh;
   will-change: transform;
@@ -94,14 +85,16 @@ const CardWrapper = styled(animated.div)`
 `;
 
 const GameImage = styled.img`
-  font-size: 20px;
-  font-weight: bold;
-  margin-top: 10px;
-  text-align: center;
+  width: 80%; // 예시: 너비를 CardWrapper의 80%로 설정
+  height: auto; // 높이는 자동으로 설정하여 비율 유지
+  margin-top: 10px; // 위로 살짝 이동
+  display: block; // 블록 레벨 요소로 설정
+  margin-left: auto; // 수평 중앙 정렬을 위해
+  margin-right: auto; // 수평 중앙 정렬을 위해
 `;
 
 const GameTitle = styled.div`
-  margin-top: 10px; /* 이미지 바로 밑 */
+  margin-top: 10px; 
 `;
 
 const Similarity = styled.div`
@@ -133,7 +126,7 @@ const GameCard = ({ game, style, onClick }: { game: Game; style?: any; onClick?:
 
   return (
     <CardWrapper style={style} onClick={onClick}>
-      <Similarity>{game.similarity * 100}% Similarity</Similarity>
+      <Similarity>{Math.round(game.similarity * 100)}% 유사도</Similarity>
       <GameImage src={game.image} alt={game.name} />
       <GameTitle>{game.name}</GameTitle>
       <DetailButton onClick={() => navigate(`/game/${game.id}`)}>
@@ -147,12 +140,12 @@ const GameCard = ({ game, style, onClick }: { game: Game; style?: any; onClick?:
 const AnimatedGameCard = animated(GameCard);
 
 function Deck() {
-  const [zoomed, setZoomed] = useState(new Array(recommendedGames.length).fill(false));
+  const [zoomed, setZoomed] = useState(new Array(externalRecommendedGames.length).fill(false));
   const [isSpread, setIsSpread] = useState(false);
-  const [zIndices, setZIndices] = useState(Array(recommendedGames.length).fill(0));
+  const [zIndices, setZIndices] = useState(Array(externalRecommendedGames.length).fill(0));
 
   const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
-  const [props, api] = useSprings(recommendedGames.length, i => ({
+  const [props, api] = useSprings(externalRecommendedGames.length, i => ({
     ...to(i),
     from: from(i),
 
@@ -237,12 +230,12 @@ function Deck() {
       }
     })
 
-    if (!down && gone.size === recommendedGames.length){
+    if (!down && gone.size === externalRecommendedGames.length){
       setTimeout(() => {
         gone.clear()
         setIsSpread(true); // spread 상태를 true로 설정
 
-        setZoomed(new Array(recommendedGames.length).fill(false)); // zoomed 상태를 초기화합니다.
+        setZoomed(new Array(externalRecommendedGames.length).fill(false)); // zoomed 상태를 초기화합니다.
 
         api.start(i => ({
           ...spread(i),
@@ -258,14 +251,11 @@ function Deck() {
     <>
       {props.map(({ x, y, rot, scale }, i) => (
         <DeckDiv key={i} style={{ x, y, zIndex: zIndices[i] }}>
-          <AnimatedGameCard
-            {...bind(i)}
-            game={recommendedGames[i]}
-            style={{
-              transform: interpolate([rot, scale], (r, s) => trans(r, s, zoomed[i] ? 0 : 30))
-            }}
-            onClick={() => handleClick(i)}
-          />
+          <CardWrapper {...bind(i)} style={{ transform: interpolate([rot, scale], (r, s) => trans(r, s, zoomed[i] ? 0 : 30)) }} onClick={() => handleClick(i)}>
+            <AnimatedGameCard
+              game={externalRecommendedGames[i]}
+            />
+          </CardWrapper>
         </DeckDiv>
       ))}
     </>
@@ -275,27 +265,30 @@ function Deck() {
 export default function RecommendResult() {
   const location = useLocation();
   const { selectedButtons } = location.state || {}; // selectedButtons가 undefined일 경우를 대비한 기본값 설정
-  // const [recommendedGames, setRecommendedGames] = useState<Game[]>([]);
+  const [recommendedGames, setRecommendedGames] = useState<Game[]>([]);
 
   useEffect(() => {
-      if (selectedButtons) {
-          fetchRecommendedGames(selectedButtons).then((games) => {
-            if (games) {
-              const newCards = games.map(game => ({
-                id: game.id,
-                name: game.name,
-                image: game.image || '기본 이미지 URL',
-                similarity: game.similarity,
-              }));
-              recommendedGames.splice(0, recommendedGames.length, ...newCards);
-            }
-          });
-      }
+    if (selectedButtons) {
+      fetchRecommendedGames(selectedButtons).then((games) => {
+        if (games) {
+          const newCards = games.map(game => ({
+            id: game.id,
+            name: game.name,
+            image: game.image || '기본 이미지 URL',
+            similarity: game.similarity,
+          }));
+          setRecommendedGames(newCards);
+        }
+      });
+    }
   }, [selectedButtons]);
 
-  console.log("전달 받은 버튼 배열: ", selectedButtons);
-  console.log(recommendedGames);
+  useEffect(() => {
+    // 내부 상태가 변경될 때마다 외부 배열을 업데이트
+    externalRecommendedGames.splice(0, externalRecommendedGames.length, ...recommendedGames);
+  }, [recommendedGames]);
 
+  console.log("전달 받은 버튼 배열: ", selectedButtons);
 
   return (
     <Container>
