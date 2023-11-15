@@ -1,6 +1,7 @@
 import { IconButton } from '@mui/material';
 import { KeyboardArrowLeft } from '@mui/icons-material';
 import styled from 'styled-components';
+import 'animate.css';
 
 /* 스타일 */
 const TitleAndContentAndFourButtonContainer = styled.div`
@@ -19,8 +20,8 @@ const MoveButtonStyle = {
     height: '70%',
 };
 const MoveButtonIconStyle = {
-    fontSize: '3.5vw',
-    color: '#F7EEF6',
+    fontSize: '6vw',
+    color: '#ffffff',
 };
 const MainContainer = styled.div`
     display: flex;
@@ -106,7 +107,11 @@ function TitleAndContentAndFourButtonComponent({title, content, buttonInfo, setP
                 <Content>{content}</Content>
                 <Buttons>
                     {buttonInfo.map((item, index) => (
-                        <ChoiceButton key={index} onClick={() => moveNextFlow(item[0])}>
+                        <ChoiceButton
+                            key={index}
+                            onClick={() => moveNextFlow(item[0])}
+                            className='animate__animated animate__pulse animate__repeat-2'
+                        >
                             {item[1]}
                         </ChoiceButton>
                     ))}

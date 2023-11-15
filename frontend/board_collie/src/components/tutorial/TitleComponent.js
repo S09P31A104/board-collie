@@ -28,8 +28,8 @@ const MoveButtonStyle = {
     height: '70%',
 };
 const MoveButtonIconStyle = {
-    fontSize: '3.5vw',
-    color: '#F7EEF6',
+    fontSize: '6vw',
+    color: '#ffffff',
 };
 const TitleContent = styled.div`
     display: flex;
