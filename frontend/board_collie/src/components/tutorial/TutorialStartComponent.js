@@ -6,22 +6,33 @@ import 'animate.css';
 const TutorialStartContainer = styled.div`
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
     height: 100%;
 `;
+const TitleImageWrapper = styled.div`
+    width: 100%;
+    height: 42%;
+    margin-top: 5%;
+    margin-bottom: 3%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
 const TitleImage = styled.img`
-    width: 32vw;
-    height: 32vw;
-    margin-top: 7vh;
-    margin-bottom: 2vh;
+    height: 100%;
+    width: auto;
 `;
 const Title = styled.div`
     font-size: 5vw;
-    margin-bottom: 3vh;
+    height: 10%;
+    margin-bottom: 3%;
 `;
 const Message = styled.div`
     width: 70%;
-    height: 15vh;
+    height: 14%;
+    margin-bottom: 3%;
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
@@ -30,10 +41,10 @@ const Message = styled.div`
     color: #F7EEF6;
     border-radius: 8px;
     line-height: 1.5;
-    margin-bottom: 3vh;
     text-align: center;
 `;
 const StartButton = styled.div`
+    height: 20%;
 `;
 
 function TutorialStartComponent({title_image, title, message, button1, setBgmIsPlaying, movePage1, setPage}) {
@@ -52,7 +63,9 @@ function TutorialStartComponent({title_image, title, message, button1, setBgmIsP
 
     return (
         <TutorialStartContainer>
-            <TitleImage src={title_image}></TitleImage>
+            <TitleImageWrapper>
+                <TitleImage src={title_image}/>
+            </TitleImageWrapper>
             <Title className='animate__animated animate__jackInTheBox'>{title} 튜토리얼 시작하기</Title>
             <Message>{message}</Message>
             <StartButton>
