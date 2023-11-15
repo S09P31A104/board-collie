@@ -17,14 +17,16 @@ const GameSettingContent = styled.div`
     align-items: center;
     flex-direction: column;
     position: relative;
+
+    height: 100%;
 `;
 const Title = styled.div`
     font-size: 5vw;
     display: flex;
     justify-content: center;
     width: 100%;
-    height: 8vh;
-    margin-top: 7vh;
+    height: 8%;
+    margin-top: 8%;
     position: relative;
 `;
 const TitleWrapper = styled.div`
@@ -40,15 +42,14 @@ const TitleText = styled.span`
 `;
 const StepImage = styled.img`
     width: 70vw;
-    height: 35vw;
-    margin-top: 1vh;
-    margin-bottom: 2vh;
+    height: 48%;
+    margin-top: 2%;
+    margin-bottom: 2%;
 `;
 const StepTextBox = styled.div`
     width: 70vw;
-    height: 20vh;
+    height: 22%;
     background-color: rgba(0, 0, 0, 0.5);
-    margin-bottom: 0.5vh;
     border-radius: 8px;
 `;
 const StepText = styled.div`
@@ -58,10 +59,10 @@ const StepText = styled.div`
 `;
 const SkipButtonBox = styled.div`
     width: 70vw;
+    height: 10%;
     display: flex;
     justify-content: flex-end;
-    align-items: flex-end;
-    margin-top: 1.5vh;
+    align-items: center;
 `;
 const SkipButton = styled.span`
     display: flex;
@@ -151,6 +152,7 @@ function GameSettingComponent({settingList, infoList, startStep, setSettingStart
                     <KeyboardArrowLeft sx={{...MoveButtonIconStyle}}/>
                 </IconButton>
             </BackButtonBox>
+
             {/* 세팅 정보 */}
             <GameSettingContent>
                 <Title>
@@ -159,11 +161,13 @@ function GameSettingComponent({settingList, infoList, startStep, setSettingStart
                 </Title>
                 <StepImage src={settingList[step][0]}></StepImage>
                 <StepTextBox><StepText>{highlightedText}</StepText></StepTextBox>
-                {
-                    step !== settingList.length - 1
-                    &&
-                    <SkipButtonBox><SkipButton onClick={() => skip()}>Skip</SkipButton></SkipButtonBox>
-                }
+                <SkipButtonBox>
+                    {
+                        step !== settingList.length - 1
+                        &&
+                        <SkipButton onClick={() => skip()}>Skip</SkipButton>
+                    }
+                </SkipButtonBox>
             </GameSettingContent>
             {/* 앞으로 가기 버튼 */}
             <ForwardButtonBox>
