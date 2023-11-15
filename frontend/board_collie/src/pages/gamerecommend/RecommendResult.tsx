@@ -156,13 +156,6 @@ function Deck() {
     config: { friction: 50, tension: 500 },
   })) // Create a bunch of springs using the helpers above
 
-  useEffect(() => {
-    api.start(i => ({
-      ...to(i),
-      from: from(i),
-    }));
-  }, [externalRecommendedGames, api]);
-
   // 카드 클릭 이벤트를 처리합니다.
   const handleClick = (index : number) => {
     if (isSpread) {
@@ -305,7 +298,7 @@ export default function RecommendResult() {
 
   return (
     <Container>
-      <Deck/>
+      {externalRecommendedGames.length > 0 && <Deck />}
     </Container>
   )
 }
