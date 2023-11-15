@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import ChatbotQRComponent from '../../../components/tutorial/ChatbotQRComponent';
 import GameSettingComponent from "../../../components/tutorial/GameSettingComponent";
 import ImageAndContentComponent from '../../../components/tutorial/ImageAndContentComponent';
+import ImageAndContentRedTextComponent from '../../../components/tutorial/ImageAndContentRedTextComponent';
 import TitleAndContentAndOneButtonComponent from '../../../components/tutorial/TitleAndContentAndOneButtonComponent';
 import TitleAndThreeButtonComponent from '../../../components/tutorial/TitleAndThreeButtonComponent';
 import TitleAndContenAndTwoButtonComponent from '../../../components/tutorial/TitleAndContentAndTwoButtonComponent';
@@ -133,9 +134,9 @@ function ID27({setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) {
             7 // 다음 페이지 flow 번호
         ],
         [ // 7
-            'ImageAndContentComponent', // 템플릿
+            'ImageAndContentRedTextComponent', // 템플릿
             contentImage6, // image
-            '자신의 턴이 끝날 때는\n중앙에 놓은 모든 타일이\n3개 이상\n붙어있어야 합니다.', // content
+            '자신의 턴이 끝날 때는\n중앙에 놓은 <RedText>모든 타일이</RedText>\n<RedText>3개 이상</RedText>\n붙어있어야 합니다.', // content
             6, // 이전 페이지 flow 번호
             8 // 다음 페이지 flow 번호
         ],
@@ -159,9 +160,9 @@ function ID27({setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) {
             11 // 다음 페이지 flow 번호
         ],
         [ // 11
-            'ImageAndContentComponent', // 템플릿
+            'ImageAndContentRedTextComponent', // 템플릿
             contentImage8, // image
-            '등록하기 위해서는\n타일의 총합이\n30 이상이어야 합니다.', // content
+            '등록하기 위해서는\n타일의 총합이\n<RedText>30 이상</RedText>이어야 합니다.', // content
             10, // 이전 페이지 flow 번호
             12 // 다음 페이지 flow 번호
         ],
@@ -358,6 +359,15 @@ function ID27({setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) {
                         qrImg={flow[page][1]}
                         setPage={setPage}
                         prePage={flow[page][2]}
+                    />
+                :
+                (flow[page] && flow[page][0] === 'ImageAndContentRedTextComponent') ?
+                    <ImageAndContentRedTextComponent
+                        image={flow[page][1]}
+                        content={flow[page][2]}
+                        setPage={setPage}
+                        prePage={flow[page][3]}
+                        nextPage={flow[page][4]}
                     />
                 :
                 null
