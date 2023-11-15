@@ -205,9 +205,9 @@ function ID27({setBackgroundImage, bgmIsPlaying, setBgmIsPlaying}) {
             'TitleAndThreeButtonComponent', // 템플릿
             '타일을 모두 낸 사람은\n<RedText>루미큐브!</RedText>를\n외쳐주세요.', // title
             [ // 버튼 내용
-                [18, '루미큐브!'],
+                [20, '더 재밌게 플레이하기'],
                 [19, '질문 있어요!'],
-                [20, '더 재밌게 플레이하기']
+                [18, '루미큐브!'],
             ],
             16 // 이전 페이지 flow 번호
         ],
