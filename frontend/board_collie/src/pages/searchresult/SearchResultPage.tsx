@@ -9,6 +9,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import gameImg from '../../assets/splendor.png'
 import axios from 'axios';
 import { useSearch } from '../../contexts/SearchContext';
+import { HashLoader } from 'react-spinners';
 
 type TagInfo = {
   name: string;
@@ -59,6 +60,7 @@ const SearchResultsPage: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [selectedTagName, setSelectedTagName] = useState("");
   const [selectedTagDescription, setSelectedTagDescription] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const handleClose = () => setOpen(false);
   const handleTagClick = (tagName: string, tagDescription: string) => {
     setSelectedTagName(tagName);
@@ -110,6 +112,7 @@ const SearchResultsPage: React.FC = () => {
   
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const searchQuery = searchTag || query;
         const response = await axios.get(`${SERVER_API_URL}/game`, {
@@ -129,6 +132,8 @@ const SearchResultsPage: React.FC = () => {
       } catch (error) {
         console.error("Error fetching data: ", error);
         setResults([]);
+      } finally {
+        setIsLoading(false); 
       }
     };
 
@@ -197,10 +202,15 @@ const SearchResultsPage: React.FC = () => {
 
     <Grid container spacing={2}>
       <Grid item xs={9} style={{ overflowY: 'auto', maxHeight: '80vh', scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="hide-scrollbar">
-        {results.length === 0 ? (
-          <div style={centerStyle}>검색 결과가 없습니다.</div>
-        ) : (
-          
+      {isLoading ? (
+    // 데이터 로딩 중일 때 HashLoader 표시
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+      <HashLoader color="#36d7b7" />
+    </div>
+  ) : results.length === 0 ? (
+    // 검색 결과가 없을 때 메시지 표시
+    <div style={centerStyle}>검색 결과가 없습니다.</div>
+  ) : (
           <InfiniteScroll
           dataLength={visibleResults.length}
           next={loadMore}
