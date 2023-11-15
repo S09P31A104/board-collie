@@ -284,8 +284,10 @@ export default function RecommendResult() {
   }, [selectedButtons]);
 
   useEffect(() => {
-    // 내부 상태가 변경될 때마다 외부 배열을 업데이트
-    externalRecommendedGames.splice(0, externalRecommendedGames.length, ...recommendedGames);
+    // recommendedGames 배열에 데이터가 있을 때만 externalRecommendedGames 업데이트
+    if (recommendedGames.length > 0) {
+      externalRecommendedGames.splice(0, externalRecommendedGames.length, ...recommendedGames);
+    }
   }, [recommendedGames]);
 
   console.log("전달 받은 버튼 배열: ", selectedButtons);
