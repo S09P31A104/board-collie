@@ -126,7 +126,7 @@ const GameCard = ({ game, style, onClick }: { game: Game; style?: any; onClick?:
 
   return (
     <CardWrapper style={style} onClick={onClick}>
-      <Similarity>{Math.round(game.similarity * 100)}% 유사도</Similarity>
+      <Similarity>{Math.round((game.similarity + Number.EPSILON) * 10000) / 100}% 유사도</Similarity>
       <GameImage src={game.image} alt={game.name} />
       <GameTitle>{game.name}</GameTitle>
       <DetailButton onClick={() => navigate(`/game/${game.id}`)}>
@@ -172,7 +172,8 @@ function Deck() {
         // z-index를 업데이트
         const newZIndices = zIndices.map((_, i) => {
           if (i === index) {
-            return isCurrentCardZoomed ? i : 1000; // 이미 확대된 경우 원래 z-index, 아니면 1000
+            // return isCurrentCardZoomed ? i : 1000; // 이미 확대된 경우 원래 z-index, 아니면 1000
+            return newZoomed[index] ? 1000 : i; // 확대된 경우 1000, 아니면 원래 z-index
           }
           return i; // 다른 카드는 z-index를 i으로 설정
         });
@@ -286,11 +287,14 @@ export default function RecommendResult() {
   useEffect(() => {
     // recommendedGames 배열에 데이터가 있을 때만 externalRecommendedGames 업데이트
     if (recommendedGames.length > 0) {
-      externalRecommendedGames.splice(0, externalRecommendedGames.length, ...recommendedGames);
+      const reversedGames = [...recommendedGames].reverse();
+      externalRecommendedGames.splice(0, externalRecommendedGames.length, ...reversedGames);
     }
   }, [recommendedGames]);
 
   console.log("전달 받은 버튼 배열: ", selectedButtons);
+  console.log("추천 게임 리스트: ", recommendedGames);
+  console.log("추천 게임 리스트 2 : ", externalRecommendedGames);
 
   return (
     <Container>

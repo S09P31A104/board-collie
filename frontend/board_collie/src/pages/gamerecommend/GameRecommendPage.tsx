@@ -159,7 +159,7 @@ const GameRecommendPage: React.FC<{ players: number }> = ({ players }) => {
   // 질문 페이지가 아닌 경우에 자동으로 다음 페이지로 넘어가는 기능
   useEffect(() => {
     if ([0, 3, 7].includes(currentQuestion)) {
-      const delay = currentQuestion === 0 ? 3000 : 2500;
+      const delay = currentQuestion === 0 ? 2000 : 2500;
 
       const timer = setTimeout(() => {
         handleClick();
@@ -184,7 +184,7 @@ const GameRecommendPage: React.FC<{ players: number }> = ({ players }) => {
 
   // 버튼 내용을 저장하는 상태
   const buttonContents: ButtonContents = {
-    1: ['플레이 타임이 길어도 상관 없어요!', '플레이 타임은 짧았으면 좋겠어요!', '상관 없음'],
+    1: ['플레이 타임이 길었으면 좋겠어요!', '플레이 타임은 짧았으면 좋겠어요!', '상관 없음'],
     2: ['어려움', '보통', '쉬움'],
     4: ['경쟁', '협동', '상관 없음'],
     5: ['전략', '운빨', '상관 없음'],
@@ -286,7 +286,7 @@ const GameRecommendPage: React.FC<{ players: number }> = ({ players }) => {
     // ZoomIn 애니메이션이 끝난 후
     const zoomInTimer = setTimeout(() => {
       setZoomInDone(true);
-    }, 800); // ZoomIn 애니메이션의 길이
+    }, 0); // ZoomIn 애니메이션의 길이
     
     return () => clearTimeout(zoomInTimer);
   }, []);
@@ -296,7 +296,7 @@ const GameRecommendPage: React.FC<{ players: number }> = ({ players }) => {
     if (zoomInDone) {
       const fadeInTimer = setTimeout(() => {
         setFadeInDone(true);
-      }, 800); // FadeIn 애니메이션의 길이
+      }, 0); // FadeIn 애니메이션의 길이
 
       return () => clearTimeout(fadeInTimer);
     }
