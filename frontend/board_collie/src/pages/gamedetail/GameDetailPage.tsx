@@ -210,29 +210,44 @@ const GameDetailPage: React.FC = () => {
   {/* 재생버튼과 튜토리얼 텍스트를 포함하는 부모 Box */}
   <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginLeft: '20px' }}>
     {/* 연두색 박스와 재생 아이콘 */}
-    <Box
+    {/* 연두색 박스를 포함하는 흰색 박스 */}
+<Box
+  sx={{
+    width: '180px', 
+    height: '180px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white', // 흰색 배경
+    marginLeft: '20px'
+  }}
+>
+  {/* 연두색 박스 */}
+  <Box
+    sx={{
+      borderRadius: 7,
+      backgroundColor: '#EDFFD0',
+      padding: '16px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100px',
+      height: '100px',
+      position: 'relative',
+    }}
+    onClick={handlePlayButtonClick}
+  >
+    <PlayArrowIcon
       sx={{
-        borderRadius: 7,
-        backgroundColor: '#EDFFD0',
-        padding: '16px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100px',
-        height: '100px',
-        position: 'relative',
+        fontSize: 90, 
+        color: '#A1F38C', 
       }}
-      onClick={handlePlayButtonClick}
-    >
-      <PlayArrowIcon
-        sx={{
-          fontSize: 90, 
-          color: '#A1F38C', 
-        }}
-      />
-    </Box>
-    <Typography textAlign="center" sx={{ fontSize: '2rem', fontFamily: 'Jolly Lodger, cursive', mt: 2 }}>tutorial</Typography>
+    />
   </Box>
+</Box>
+    <Typography textAlign="center" sx={{ fontSize: '2rem', fontFamily: 'Jolly Lodger, cursive', ml: 2 }}>tutorial</Typography>
+</Box>
+  
 </Box>
 </Box>
       <Divider orientation="vertical" flexItem />
