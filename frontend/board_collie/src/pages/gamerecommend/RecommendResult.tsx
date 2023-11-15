@@ -41,14 +41,14 @@ const from = (_i: number) => ({ x: 0, rot: 0, scale: 1.5, y: -1500 })
 
 // This is being used down there in the view, it interpolates rotation and scale into a css transform
 const trans = (r: number, s: number, rotateX: number) =>
-`perspective(1500px) rotateX(${rotateX}deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
+  `perspective(1500px) rotateX(${rotateX}deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
 const spread = (i: number) => ({
-x: i * (window.innerWidth / (externalRecommendedGames.length + 1)) - window.innerWidth / 3,
-rot: 0,
-scale: 1,
-y: 0,
-delay: i * 30,
+  x: i * (window.innerWidth / (externalRecommendedGames.length + 1)) - window.innerWidth / 3,
+  rot: 0,
+  scale: 1,
+  y: 0,
+  delay: i * 30,
 });
 
 const Container = styled.div`
@@ -155,6 +155,13 @@ function Deck() {
     rotateX: zoomed[i] ? 0 : 30,
     config: { friction: 50, tension: 500 },
   })) // Create a bunch of springs using the helpers above
+
+  useEffect(() => {
+    api.start(i => ({
+      ...to(i),
+      from: from(i),
+    }));
+  }, [externalRecommendedGames, api]);
 
   // 카드 클릭 이벤트를 처리합니다.
   const handleClick = (index : number) => {
