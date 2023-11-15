@@ -3,6 +3,7 @@ import { KeyboardArrowLeft } from '@mui/icons-material';
 import styled from 'styled-components';
 import { useState, useEffect } from "react";
 import reactStringReplace from 'react-string-replace';
+import 'animate.css';
 
 /* 스타일 */
 const TitleAndImageAndContentAndOneButtonContainer = styled.div`
@@ -21,8 +22,8 @@ const MoveButtonStyle = {
     height: '70%',
 };
 const MoveButtonIconStyle = {
-    fontSize: '3.5vw',
-    color: '#F7EEF6',
+    fontSize: '6vw',
+    color: '#ffffff',
 };
 const MainContainer = styled.div`
     display: flex;
@@ -130,7 +131,12 @@ function TitleAndImageAndContentAndOneButtonComponent({title, image, content, bu
                 <Title>{title}</Title>
                 <Image src={image}/>
                 <Content><p>{highlightedContent}</p></Content>
-                <Button onClick={() => moveNextFlow(buttonPageInfo)}>{buttonTextInfo}</Button>
+                <Button
+                    onClick={() => moveNextFlow(buttonPageInfo)}
+                    className='animate__animated animate__pulse animate__repeat-2'
+                >
+                    {buttonTextInfo}
+                </Button>
             </MainContainer>
 
             {/* 앞으로 가기 버튼 */}
