@@ -1,9 +1,10 @@
 /* eslint-disable */
-
 import React, { useState } from 'react';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
-import axios from 'axios';
+import { Typography, IconButton } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 // router
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -114,10 +115,10 @@ interface NavBarProps {
 }
 
 
-function NavBar({ players } : NavBarProps) {
+function NavBar({ players: initialPlayers } : NavBarProps) {
 
     const navigate = useNavigate();
-
+    const [players, setPlayers] = useState(initialPlayers); 
     const [modalOpen, setModalOpen] = useState(false); 
     const [time, setTime] = useState(localStorage.getItem('time') || '00:00');
 
@@ -139,20 +140,25 @@ function NavBar({ players } : NavBarProps) {
         localStorage.removeItem('players');
         localStorage.removeItem('isActive');
         localStorage.removeItem('time');
-
-        // // axios를 사용하여 이용시간 POST
-        // try {
-        // await axios.post('YOUR_API_ENDPOINT', {
-        //     time,
-        //     // 다른 필요한 데이터
-        // });
-        // } catch (error) {
-        // console.error('Failed to post time:', error);
-        // }
-
-        // Lobby로 이동
         navigate('/');
     };
+    const [playerSelectModalOpen, setPlayerSelectModalOpen] = useState(false);
+
+  const handlePlayersNumberClick = () => {
+    setPlayerSelectModalOpen(true);
+  };
+
+  const handlePlayerSelectModalClose = () => {
+    setPlayerSelectModalOpen(false);
+  };
+
+  const incrementPlayers = () => {
+    if (players < 8) setPlayers(prev => prev + 1);
+  };
+  
+  const decrementPlayers = () => {
+    if (players > 1) setPlayers(prev => prev - 1);
+  };
 
     return (
         <>
@@ -162,7 +168,7 @@ function NavBar({ players } : NavBarProps) {
                 <RightSection>
                     <ColumnWrapper>
                         <InnerWrapper><Timer /></InnerWrapper>
-                        <InnerWrapper><PlayersNumber>{`플레이 인원 : ${players} 인`}</PlayersNumber></InnerWrapper>
+                        <InnerWrapper><PlayersNumber onClick={handlePlayersNumberClick}>{`플레이 인원 : ${players} 인`}</PlayersNumber></InnerWrapper>
                     </ColumnWrapper>
                     <PowerSettingsNew style={{ fontSize: 40, padding: '0 1vw' }} onClick={openModal} />
                     <Modal
@@ -178,6 +184,55 @@ function NavBar({ players } : NavBarProps) {
                             </ButtonWrapper>
                         </ModalContent>
                     </Modal>
+                    
+                    <Modal
+  open={playerSelectModalOpen}
+  onClose={handlePlayerSelectModalClose}
+>
+  <ModalContent>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+        <IconButton 
+          onClick={decrementPlayers} 
+          disabled={players === 1} 
+          style={{ backgroundColor: 'black', color: 'white', width: '50px', height: '50px', marginRight: '20px' }}
+        >
+          <RemoveIcon />
+        </IconButton>
+        <Typography 
+          style={{
+            minWidth: '50px', 
+            textAlign: 'center', 
+            lineHeight: '50px', 
+            fontSize: '30px',
+            margin: '0 20px',
+          }}
+        >
+          {players} 인
+        </Typography>
+        <IconButton 
+          onClick={incrementPlayers} 
+          disabled={players === 8} 
+          style={{ backgroundColor: 'black', color: 'white', width: '50px', height: '50px', marginLeft: '20px' }}
+        >
+          <AddIcon />
+        </IconButton>
+      </div>
+      <Button 
+        onClick={handlePlayerSelectModalClose}
+        style={{
+          backgroundColor: '#CCF38C', 
+          color: 'black', 
+          fontFamily: 'Jua, sans-serif', 
+          fontSize: '1.3rem'
+        }}
+      >
+        확인
+      </Button>
+    </div>
+  </ModalContent>
+</Modal>
+
                 </RightSection>
             </NavBarContainer>
         </>
