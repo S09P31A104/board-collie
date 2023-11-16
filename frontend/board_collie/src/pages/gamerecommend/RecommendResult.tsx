@@ -27,7 +27,6 @@ interface Game {
 
 const externalRecommendedGames: Game[] = [];
 
-
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
 const to = (i: number) => ({
   x: 0,
@@ -277,6 +276,7 @@ export default function RecommendResult() {
   const location = useLocation();
   const { selectedButtons } = location.state || {}; // selectedButtons가 undefined일 경우를 대비한 기본값 설정
   const [recommendedGames, setRecommendedGames] = useState<Game[]>([]);
+  const [deckKey, setDeckKey] = useState(0); // Deck 컴포넌트의 키 값으로 사용될 상태
 
   useEffect(() => {
     if (selectedButtons) {
@@ -299,6 +299,7 @@ export default function RecommendResult() {
     if (recommendedGames.length > 0) {
       const reversedGames = [...recommendedGames].reverse();
       externalRecommendedGames.splice(0, externalRecommendedGames.length, ...reversedGames);
+      setDeckKey(prevKey => prevKey + 1); // 키 값을 변경하여 Deck 컴포넌트의 재렌더링 유도
     }
   }, [recommendedGames]);
 
@@ -308,7 +309,7 @@ export default function RecommendResult() {
 
   return (
     <Container>
-      {externalRecommendedGames.length > 0 && <Deck />}
+      {externalRecommendedGames.length > 0 && <Deck key={deckKey} />}
     </Container>
   )
 }
