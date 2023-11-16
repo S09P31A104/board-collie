@@ -18,19 +18,19 @@ import TutorialStartComponent from "../../../components/tutorial/TutorialStartCo
 const title = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/title.png';
 const background = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/background.jfif';
 const chatbot = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/chatbot/qr/QR27.jpg';
-const setting1 = process.env.PUBLIC_URL + "/tutorial/rummikub/setting1.png"; // 임시
-const setting2 = process.env.PUBLIC_URL + "/tutorial/rummikub/setting2.png"; // 임시
-const setting3 = process.env.PUBLIC_URL + "/tutorial/rummikub/setting3.png"; // 임시
+const setting1 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/setting1.jpg';
+const setting2 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/setting2.jpg';
+const setting3 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/setting3.png';
 const setting4 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/setting4.jpg';
-const info1 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/title.png'; // 임시
-const info2 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/title.png'; // 임시
-const info3 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/title.png'; // 임시
+const info1 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/info1.jpg';
+const info2 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/info2.jpg';
+const info3 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/info3.jpg';
 const contentImage1 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage1.jpg';
 const contentImage2 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage2.jpg';
 const contentImage3 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage3.png';
 const contentImage4 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage4.png';
 const contentImage5 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage5.png';
-const contentImage6 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage6.png"; // 임시
+const contentImage6 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage6.jpg';
 const contentImage7 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage7.png';
 const contentImage8 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/27/contentImage8.png';
 
