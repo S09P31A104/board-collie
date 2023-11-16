@@ -95,7 +95,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ numberOfPlayers, setNumberOfPlaye
                 key={tag} 
                 label={tag} 
                 onClick={(event) => handleTagClick(event, tag)} 
-                style={{ margin: '4px' }}
+                style={{ margin: '4px', backgroundColor: tagFilter === tag ? '#4caf50' : '#FFE090',color: tagFilter === tag ? 'white' : 'black' }}
                 variant={tagFilter === tag ? 'filled' : 'outlined'}
               />
             ))}
@@ -109,7 +109,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ numberOfPlayers, setNumberOfPlaye
         key={tag} 
         label={tag} 
         onClick={(event) => handleTagClick(event, tag)} 
-        style={{ margin: '4px' }}
+        style={{ margin: '4px', backgroundColor: tagFilter === tag ? '#4caf50' : '#FFE090',color: tagFilter === tag ? 'white' : 'black' }}
         variant={tagFilter === tag ? 'filled' : 'outlined'}
       />
     ))}
