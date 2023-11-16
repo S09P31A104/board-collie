@@ -25,7 +25,9 @@ interface Game {
   similarity: number;
 }
 
-const externalRecommendedGames: Game[] = [];
+interface DeckProps {
+  recommendedGames: Game[];
+}
 
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
 const to = (i: number) => ({
@@ -43,7 +45,7 @@ const trans = (r: number, s: number, rotateX: number) =>
   `perspective(1500px) rotateX(${rotateX}deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
 const spread = (i: number) => ({
-  x: i * (window.innerWidth / (externalRecommendedGames.length + 1)) - window.innerWidth / 3,
+  x: i * (window.innerWidth / (6 + 1)) - window.innerWidth / 3,
   rot: 0,
   scale: 1,
   y: 0,
@@ -138,13 +140,13 @@ const GameCard = ({ game, style, onClick }: { game: Game; style?: any; onClick?:
 // GameCard를 animated 컴포넌트로 변경
 const AnimatedGameCard = animated(GameCard);
 
-function Deck() {
-  const [zoomed, setZoomed] = useState(new Array(externalRecommendedGames.length).fill(false));
+function Deck({ recommendedGames }: DeckProps) {
+  const [zoomed, setZoomed] = useState(new Array(recommendedGames.length).fill(false));
   const [isSpread, setIsSpread] = useState(false);
-  const [zIndices, setZIndices] = useState(Array(externalRecommendedGames.length).fill(0));
+  const [zIndices, setZIndices] = useState(Array(recommendedGames.length).fill(0));
 
   const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
-  const [props, api] = useSprings(externalRecommendedGames.length, i => ({
+  const [props, api] = useSprings(recommendedGames.length, i => ({
     ...to(i),
     from: from(i),
 
@@ -156,13 +158,13 @@ function Deck() {
   })) // Create a bunch of springs using the helpers above
 
   useEffect(() => {
-    if (externalRecommendedGames.length > 0) {
+    if (recommendedGames.length > 0) {
       api.start(i => ({
         ...to(i),
         from: from(i)
       }));
     }
-  }, [externalRecommendedGames, api]); // externalRecommendedGames 배열이 변경될 때 useEffect 실행
+  }, [recommendedGames, api]); // recommendedGames 배열이 변경될 때 useEffect 실행
   
 
   // 카드 클릭 이벤트를 처리합니다.
@@ -240,12 +242,12 @@ function Deck() {
       }
     })
 
-    if (!down && gone.size === externalRecommendedGames.length){
+    if (!down && gone.size === recommendedGames.length){
       setTimeout(() => {
         gone.clear()
         setIsSpread(true); // spread 상태를 true로 설정
 
-        setZoomed(new Array(externalRecommendedGames.length).fill(false)); // zoomed 상태를 초기화합니다.
+        setZoomed(new Array(recommendedGames.length).fill(false)); // zoomed 상태를 초기화합니다.
 
         api.start(i => ({
           ...spread(i),
@@ -263,7 +265,7 @@ function Deck() {
         <DeckDiv key={i} style={{ x, y, zIndex: zIndices[i] }}>
           <CardWrapper {...bind(i)} style={{ transform: interpolate([rot, scale], (r, s) => trans(r, s, zoomed[i] ? 0 : 30)) }} onClick={() => handleClick(i)}>
             <AnimatedGameCard
-              game={externalRecommendedGames[i]}
+              game={recommendedGames[i]}
             />
           </CardWrapper>
         </DeckDiv>
@@ -276,7 +278,6 @@ export default function RecommendResult() {
   const location = useLocation();
   const { selectedButtons } = location.state || {}; // selectedButtons가 undefined일 경우를 대비한 기본값 설정
   const [recommendedGames, setRecommendedGames] = useState<Game[]>([]);
-  const [deckKey, setDeckKey] = useState(0); // Deck 컴포넌트의 키 값으로 사용될 상태
 
   useEffect(() => {
     if (selectedButtons) {
@@ -294,22 +295,12 @@ export default function RecommendResult() {
     }
   }, [selectedButtons]);
 
-  useEffect(() => {
-    // recommendedGames 배열에 데이터가 있을 때만 externalRecommendedGames 업데이트
-    if (recommendedGames.length > 0) {
-      const reversedGames = [...recommendedGames].reverse();
-      externalRecommendedGames.splice(0, externalRecommendedGames.length, ...reversedGames);
-      setDeckKey(prevKey => prevKey + 1); // 키 값을 변경하여 Deck 컴포넌트의 재렌더링 유도
-    }
-  }, [recommendedGames]);
-
   console.log("전달 받은 버튼 배열: ", selectedButtons);
   console.log("추천 게임 리스트: ", recommendedGames);
-  console.log("추천 게임 리스트 2 : ", externalRecommendedGames);
 
   return (
     <Container>
-      {externalRecommendedGames.length > 0 && <Deck key={deckKey} />}
+      <Deck recommendedGames={recommendedGames} />
     </Container>
   )
 }
