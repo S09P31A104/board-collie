@@ -20,16 +20,16 @@ import TutorialStartComponent from "../../../components/tutorial/TutorialStartCo
 const title = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/33/title.png';
 const background = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/33/background.jpg';
 const chatbot = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/chatbot/qr/QR33.jpg';
-const setting1 = process.env.PUBLIC_URL + "/tutorial/rummikub/setting1.png"; // 임시
-const setting2 = process.env.PUBLIC_URL + "/tutorial/rummikub/setting2.png"; // 임시
-const setting3 = process.env.PUBLIC_URL + "/tutorial/rummikub/setting3.png"; // 임시
-const info1 = process.env.PUBLIC_URL + "/tutorial/mahe/title.png"; // 임시
-const info2 = process.env.PUBLIC_URL + "/tutorial/mahe/title.png"; // 임시
-const info3 = process.env.PUBLIC_URL + "/tutorial/mahe/title.png"; // 임시
-const info4 = process.env.PUBLIC_URL + "/tutorial/mahe/title.png"; // 임시
-const contentImage1 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage1.jpg"; // 임시
-const contentImage2 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage1.jpg"; // 임시
-const contentImage3 = process.env.PUBLIC_URL + "/tutorial/rummikub/contentImage1.jpg"; // 임시
+const setting1 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/33/setting1.jpg';
+const setting2 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/33/setting2.png';
+const setting3 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/33/setting3.png';
+const info1 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/33/info1.jpg';
+const info2 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/33/setting1.jpg';
+const info3 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/33/info3.jpg';
+const info4 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/33/info4.jpg';
+const contentImage1 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/33/contentImage1.jpg';
+const contentImage2 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/33/contentImage2.jpg';
+const contentImage3 = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/33/contentImage3.jpg';
 
 /* bgm */
 const backgroundMusic = 'https://s3.ap-northeast-2.amazonaws.com/boardcollie.com/tutorial/33/bgm.mp3';
