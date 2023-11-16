@@ -137,13 +137,10 @@ const GameCard = ({ game, style, onClick }: { game: Game; style?: any; onClick?:
   );
 };
 
-// GameCard를 animated 컴포넌트로 변경
-const AnimatedGameCard = animated(GameCard);
-
 function Deck({ recommendedGames }: DeckProps) {
   const [zoomed, setZoomed] = useState(new Array(recommendedGames.length).fill(false));
   const [isSpread, setIsSpread] = useState(false);
-  const [zIndices, setZIndices] = useState(Array(recommendedGames.length).fill(0));
+  const [zIndices, setZIndices] = useState(recommendedGames.map((_, i) => i));
 
   const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
   const [props, api] = useSprings(recommendedGames.length, i => ({
@@ -153,69 +150,54 @@ function Deck({ recommendedGames }: DeckProps) {
     // 클릭된 카드가 확대되면 scale을 증가시키고 rotateX를 0으로 설정합니다.
     scale: zoomed[i] ? 1.2 : 1,
     rot: zoomed[i] ? 0 : -10 + Math.random() * 20,
-    rotateX: zoomed[i] ? 0 : 30,
     config: { friction: 50, tension: 500 },
   })) // Create a bunch of springs using the helpers above
 
-  useEffect(() => {
-    if (recommendedGames.length > 0) {
-      api.start(i => ({
-        ...to(i),
-        from: from(i)
-      }));
-    }
-  }, [recommendedGames, api]); // recommendedGames 배열이 변경될 때 useEffect 실행
-  
-
   // 카드 클릭 이벤트를 처리합니다.
   const handleClick = (index : number) => {
-    if (isSpread) {
-      // Spread 상태에서 이미 확대된 카드가 있는지 확인합니다.
-      const alreadyZoomedIndex = zoomed.findIndex(z => z);
-      const isCurrentCardZoomed = zoomed[index];
+    const alreadyZoomedIndex = zoomed.findIndex(z => z);
+    const isCurrentCardZoomed = zoomed[index];
 
-      // 이미 확대된 카드가 없거나 현재 클릭된 카드가 이미 확대된 카드인 경우에만 동작합니다.
-      if (alreadyZoomedIndex === -1 || isCurrentCardZoomed) {
-        // 클릭된 카드의 확대 상태를 토글합니다.
-        const newZoomed = zoomed.map((z, i) => (i === index ? !z : z));
+    if (alreadyZoomedIndex === -1 || isCurrentCardZoomed) {
+      // 클릭된 카드의 확대 상태를 토글합니다.
+      const newZoomed = zoomed.map((z, i) => (i === index ? !z : z));
+      setZoomed(newZoomed);
+
+      if (isSpread) {
+          const newZIndices = [...zIndices];
+          newZIndices[index] = newZoomed[index] ? 10 : 0; // 선택된 카드의 zIndex를 조정해서 다른 카드들보다 앞에 위치하도록 / 선택되지 않은 카드들은 모두 zIndex 0으로
+          setZIndices(newZIndices);
+
+          api.start(i => {
+            if (index !== i) return;
+            return {
+              x: newZoomed[index] ? 0 : spread(i).x,
+              y: newZoomed[index] ? 50 : 0, // 확대된 카드를 위로 이동
+              scale: newZoomed[index] ? 1.2 : 1, // 클릭 시 스케일을 토글합니다.
+              immediate: false,
+            };
+          });
+      } else {
+        const newZoomed = new Array(recommendedGames.length).fill(false); // 모든 요소를 false로 초기화
+        newZoomed[index] = !zoomed[index]; // 현재 클릭된 카드만 토글
         setZoomed(newZoomed);
-
-        // z-index를 업데이트
-        const newZIndices = zIndices.map((_, i) => {
-          if (i === index) {
-            // return isCurrentCardZoomed ? i : 1000; // 이미 확대된 경우 원래 z-index, 아니면 1000
-            return newZoomed[index] ? 1000 : i; // 확대된 경우 1000, 아니면 원래 z-index
-          }
-          return i; // 다른 카드는 z-index를 i으로 설정
-        });
-        setZIndices(newZIndices);
 
         api.start(i => {
           if (index !== i) return;
           return {
-            x: newZoomed[index] ? 0 : spread(i).x,
-            y: newZoomed[index] ? 50 : 0, // 확대된 카드를 위로 이동
-            scale: newZoomed[index] ? 1.2 : 1, // 클릭 시 스케일을 토글합니다.
+            y: newZoomed[index] ? 50 : -4, // 확대된 카드는 y 위치를 50으로, 아니면 0으로
+            scale: newZoomed[index] ? 1.2 : 1, // 새로운 zoomed 상태에 따라 스케일을 설정
+            rot: newZoomed[index] ? 0 : -10 + Math.random() * 20, // 새로운 zoomed 상태에 따라 회전 값을 설정
             immediate: false,
           };
         });
       }
-    } else {
-      // 선택된 카드의 확대 상태를 토글합니다.
-      setZoomed(zoomed.map((z, i) => (i === index ? !z : z)));
-      // api를 사용하여 선택된 카드의 스프링 속성을 업데이트합니다.
-      api.start(i => {
-        if (index !== i) return;
-        const newY = zoomed[i] ? -4 : 50;
-        return {
-          y: newY,
-          scale: zoomed[i] ? 1 : 1.2, // 클릭 시 스케일을 토글합니다.
-          rot: zoomed[i] ? -10 + Math.random() * 20 : 0, // 클릭 시 회전 값을 토글합니다.
-          rotateX: zoomed[i] ? 30 : 0,
-        };
-      });
+
+      const rotateXValue = newZoomed[index] ? 0 : 30; // rotateX 계산
+      console.log(`Card ${index} rotateX: ${rotateXValue}`); // rotateX 로그 출력
+      console.log(zoomed)
     }
-  };
+  }
 
   // React Spring의 동작 (useDrag) 정의 파트
   const bind = useDrag(({ args: [index], down, movement: [mx], direction: [xDir], velocity }) => {
@@ -225,7 +207,16 @@ function Deck({ recommendedGames }: DeckProps) {
     const trigger = velocity > 0.2 // 강하게 drag 시 spin (돌면서) 퇴장
     const dir = xDir < 0 ? -1 : 1 // 퇴장 방향은 오직 좌우로만
 
-    if (!down && trigger) gone.add(index) // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
+    if (!down && trigger) {
+      gone.add(index) // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
+
+      // isSpread가 false이고, 카드가 gone에 추가되면, 해당 카드의 선택을 해제합니다.
+      if (!isSpread) {
+        const newZoomed = [...zoomed];
+        newZoomed[index] = false;
+        setZoomed(newZoomed);
+      }
+    } 
     
     api.start(i => {
       if (index !== i) return // We're only interested in changing spring-data for the current spring
@@ -261,17 +252,15 @@ function Deck({ recommendedGames }: DeckProps) {
   // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
   return (
     <>
-      {props.map(({ x, y, rot, scale }, i) => (
+     {props.map(({ x, y, rot, scale }, i) => (
         <DeckDiv key={i} style={{ x, y, zIndex: zIndices[i] }}>
           <CardWrapper {...bind(i)} style={{ transform: interpolate([rot, scale], (r, s) => trans(r, s, zoomed[i] ? 0 : 30)) }} onClick={() => handleClick(i)}>
-            <AnimatedGameCard
-              game={recommendedGames[i]}
-            />
+            <GameCard game={recommendedGames[i]} />
           </CardWrapper>
         </DeckDiv>
       ))}
     </>
-  )  
+  )
 }
 
 export default function RecommendResult() {
