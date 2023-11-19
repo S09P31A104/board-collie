@@ -8,6 +8,9 @@ import styled from 'styled-components'
 
 import { fetchRecommendedGames } from '../../apis/gamerecommend/GameRecommendAPI'
 
+// images
+import cardPattern from '../../assets/card_pattern.png';
+
 /**
  * Recommend Result 
  *
@@ -78,8 +81,13 @@ const CardWrapper = styled(animated.div)`
   justify-content: center; // 수평 중앙 정렬
 
   background-color: white;
-  width: 45vh;
-  height: 65vh;
+  background-image: url(${cardPattern}); // cardPattern 이미지로 배경 설정
+  background-size: contain; // 배경 이미지가 카드를 완전히 커버하도록 설정
+  background-repeat: no-repeat; // 배경 이미지가 반복되지 않도록 설정
+  background-position: center; // 이미지를 카드 중앙에 위치시킴
+
+  width: 39vh;
+  height: 64vh;
   will-change: transform;
   border-radius: 10px;
   box-shadow: 0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);
@@ -96,6 +104,11 @@ const GameImage = styled.img`
 
 const GameTitle = styled.div`
   margin-top: 10px; 
+  background: rgba(255, 255, 255, 0.8);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
 `;
 
 const Similarity = styled.div`
@@ -110,9 +123,9 @@ const Similarity = styled.div`
 `;
 
 const DetailButton = styled.button`
-  background-color: #007bff;
+  background-color: #99582a;
   color: white;
-  padding: 10px 20px;
+  padding: 1.5vh 4vw;
   border: none;
   border-radius: 5px;
   margin-top: 10px;
@@ -127,11 +140,11 @@ const GameCard = ({ game, style, onClick }: { game: Game; style?: any; onClick?:
 
   return (
     <CardWrapper style={style} onClick={onClick}>
-      <Similarity>{Math.round((game.similarity + Number.EPSILON) * 10000) / 100}% 유사도</Similarity>
+      <Similarity>보더콜리 추천도 : {Math.round((game.similarity + Number.EPSILON) * 10000) / 100}%</Similarity>
       <GameImage src={game.image} alt={game.name} />
       <GameTitle>{game.name}</GameTitle>
       <DetailButton onClick={() => navigate(`/game/${game.id}`)}>
-        Detail
+        게임 상세 페이지로 이동
       </DetailButton>
     </CardWrapper>
   );
@@ -272,7 +285,8 @@ export default function RecommendResult() {
     if (selectedButtons) {
       fetchRecommendedGames(selectedButtons).then((games) => {
         if (games) {
-          const newCards = games.map(game => ({
+          const reversedGames = [...games].reverse();
+          const newCards = reversedGames.map(game => ({
             id: game.id,
             name: game.name,
             image: game.image || '기본 이미지 URL',
