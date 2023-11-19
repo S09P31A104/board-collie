@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
@@ -28,6 +28,54 @@ import { fetchGameDetail, Game } from '../../apis/gamedetail/GameDetailAPI';
  * 1. stt
  * 2. tts
  */
+
+declare global {
+  interface Window {
+    webkitSpeechRecognition: new () => SpeechRecognition;
+  }
+
+  interface SpeechRecognition extends EventTarget {
+      new(): SpeechRecognition;
+      continuous: boolean;
+      interimResults: boolean;
+      lang: string;
+      onstart: (this: SpeechRecognition, ev: Event) => any;
+      onend: (this: SpeechRecognition, ev: Event) => any;
+      onresult: (this: SpeechRecognition, ev: SpeechRecognitionEvent) => any;
+      start(): void;
+      stop(): void;
+  }
+
+  interface SpeechRecognitionEvent extends Event {
+      readonly resultIndex: number;
+      readonly results: SpeechRecognitionResultList;
+  }
+
+  interface SpeechRecognitionResultList {
+      readonly length: number;
+      item(index: number): SpeechRecognitionResult;
+  }
+
+  interface SpeechRecognitionResult {
+      readonly isFinal: boolean;
+      readonly length: number;
+      item(index: number): SpeechRecognitionAlternative;
+  }
+
+  interface SpeechRecognitionAlternative {
+      readonly transcript: string;
+      readonly confidence: number;
+  }
+}
+
+export {};
+
+// 커스텀 타입 정의
+interface ISpeechRecognition extends SpeechRecognition {
+  new(): ISpeechRecognition;
+}
+
+declare var webkitSpeechRecognition: ISpeechRecognition;
 
 const SERVER_API_URL = `${process.env.REACT_APP_API_SERVER_URL}`;
 
@@ -116,7 +164,7 @@ const TalkText = styled.div`
   padding: 0.1em;
   text-align: left;
   line-height: 1.5em;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 550;
   font-family: 'Arial, sans-serif'; 
 
@@ -253,27 +301,6 @@ const AnimatedTalkText: React.FC<{ text: string }> = ({ text }) => (
   </TalkText>
 );
 
-// InputArea 내부에 InputField와 SendButton을 배치합니다.
-const InputAreaWithButton: React.FC<{ onSend: () => void, text: string, setText: (text: string) => void }> = ({ onSend, text, setText }) => (
-  <InputArea>
-    <InputField
-      type="text"
-      value={text}
-      onChange={(e) => setText(e.target.value)}
-      placeholder="Message"
-      onKeyDown={(e) => e.key === 'Enter' && onSend()}
-    />
-
-    <MicButton>
-      <MicIcon style={{ color: 'gray' }} />
-    </MicButton>
-
-    <SendButton onClick={onSend}>
-      <SendIcon style={{ color: 'white' }} />
-    </SendButton>
-  </InputArea>
-);
-
 interface Question {
   id: string;
   text: string;
@@ -295,6 +322,13 @@ const ChatBotPage: React.FC = () => {
   const [title, setTitle] = useState<string | null>(null); 
 
   const [isLoading, setIsLoading] = React.useState(false);
+
+  // STT를 위한 상태 및 변수들
+  const [isListening, setIsListening] = useState(false);
+  const [recognizedText, setRecognizedText] = useState('');
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
+
+  const [isSTTActive, setIsSTTActive] = useState(false); // STT 모드 상태 추가
 
   // 뷰포트 높이 설정 함수
   const setScreenSize = () => {
@@ -347,6 +381,10 @@ const ChatBotPage: React.FC = () => {
   }, [title]); // title이 바뀔 때마다 이 로직을 실행합니다.
 
   const [inputText, setInputText] = React.useState('');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputText(e.target.value);
+  };
 
   const handleSend = async () => {
 
@@ -440,6 +478,79 @@ const ChatBotPage: React.FC = () => {
     fetchUUID();
   }, []);
 
+  // STT Code
+  useEffect(() => {
+    // Web Speech API 초기화
+    if ('webkitSpeechRecognition' in window) {
+        const recognition = new window.webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = 'ko-KR';
+
+        recognition.onstart = () => {
+            setIsListening(true);
+        };
+
+        recognition.onend = () => {
+            setIsListening(false);
+        };
+
+        recognition.onresult = (event) => {
+          let finalTranscript = '';
+          for (let i = event.resultIndex; i < event.results.length; ++i) {
+            const transcript = event.results[i][0].transcript;
+            if (event.results[i].isFinal) {
+              finalTranscript += transcript;
+            }
+          }
+          
+          if (finalTranscript) {
+            setInputText(prev => prev + finalTranscript); // 기존 텍스트에 인식된 텍스트 추가
+          }
+        };
+      
+        recognitionRef.current = recognition;
+    } else {
+        alert('크롬에서만 동작합니다.');
+    }
+  }, []);
+
+  // 마이크 버튼 클릭 이벤트 핸들러
+  const handleMicClick = () => {
+    setIsSTTActive(!isSTTActive); // STT 모드 상태 변경
+    if (recognitionRef.current) {
+        if (isSTTActive) {
+            recognitionRef.current.stop();
+            setInputText(''); // 음성 인식 중지 시 입력 필드 초기화
+        } else {
+            setRecognizedText('');
+            recognitionRef.current.start();
+        }
+    }
+  };
+
+  // InputArea 내부에 InputField와 SendButton을 배치합니다.
+  const InputAreaWithButton: React.FC<{ onSend: () => void }> = ({ onSend }) => (
+    <InputArea>
+      <InputField
+        type="text"
+        value={inputText}
+        onChange={handleInputChange}
+        placeholder="Message"
+        onKeyDown={(e) => e.key === 'Enter' && onSend()}
+        disabled={isSTTActive} // STT 모드일 때 입력 필드 비활성화
+      />
+
+      <MicButton onClick={handleMicClick}>
+        <MicIcon style={{ color: isSTTActive ? 'red' : 'gray' }} />
+      </MicButton>
+
+      <SendButton onClick={onSend} disabled={isSTTActive}> 
+        <SendIcon style={{ color: 'white' }} />
+      </SendButton>
+    </InputArea>
+  );
+
   return (
     <ChatRoomContainer>
       {/* 로딩 상태일 때만 로딩 컴포넌트를 렌더링 */}
@@ -457,7 +568,7 @@ const ChatBotPage: React.FC = () => {
         {renderMessages()}
       </MessageList>
 
-      <InputAreaWithButton onSend={handleSend} text={inputText} setText={setInputText} />
+      <InputAreaWithButton onSend={handleSend} />
 
     </ChatRoomContainer>
   );
