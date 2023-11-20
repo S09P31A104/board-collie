@@ -5,7 +5,7 @@ import { useSpring, useSprings, animated, to as interpolate } from '@react-sprin
 import { useDrag } from 'react-use-gesture'
 import { useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-
+import axios from 'axios';
 import { fetchRecommendedGames } from '../../apis/gamerecommend/GameRecommendAPI'
 
 // images
@@ -30,6 +30,7 @@ interface Game {
 
 interface DeckProps {
   recommendedGames: Game[];
+  playTimes: { [key: number]: number };
 }
 
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
@@ -135,14 +136,15 @@ const DetailButton = styled.button`
   }
 `;
 
-const GameCard = ({ game, style, onClick }: { game: Game; style?: any; onClick?: () => void }) => {
+const GameCard = ({ game, style, onClick, playTimes }: { game: Game; style?: any; onClick?: () => void, playTimes: { [key: number]: number };}) => {
   const navigate = useNavigate();
-
+ 
   return (
     <CardWrapper style={style} onClick={onClick}>
       <Similarity>보더콜리 추천도 : {Math.round((game.similarity + Number.EPSILON) * 10000) / 100}%</Similarity>
       <GameImage src={game.image} alt={game.name} />
       <GameTitle>{game.name}</GameTitle>
+      <div>플레이타임: {playTimes[game.id]}분</div>
       <DetailButton onClick={() => navigate(`/game/${game.id}`)}>
         게임 상세 페이지로 이동
       </DetailButton>
@@ -150,7 +152,7 @@ const GameCard = ({ game, style, onClick }: { game: Game; style?: any; onClick?:
   );
 };
 
-function Deck({ recommendedGames }: DeckProps) {
+function Deck({ recommendedGames, playTimes }: DeckProps) {
   const [zoomed, setZoomed] = useState(new Array(recommendedGames.length).fill(false));
   const [isSpread, setIsSpread] = useState(false);
   const [zIndices, setZIndices] = useState(recommendedGames.map((_, i) => i));
@@ -268,7 +270,7 @@ function Deck({ recommendedGames }: DeckProps) {
      {props.map(({ x, y, rot, scale }, i) => (
         <DeckDiv key={i} style={{ x, y, zIndex: zIndices[i] }}>
           <CardWrapper {...bind(i)} style={{ transform: interpolate([rot, scale], (r, s) => trans(r, s, zoomed[i] ? 0 : 30)) }} onClick={() => handleClick(i)}>
-            <GameCard game={recommendedGames[i]} />
+            <GameCard game={recommendedGames[i]}  playTimes={playTimes}/>
           </CardWrapper>
         </DeckDiv>
       ))}
@@ -280,7 +282,7 @@ export default function RecommendResult() {
   const location = useLocation();
   const { selectedButtons } = location.state || {}; // selectedButtons가 undefined일 경우를 대비한 기본값 설정
   const [recommendedGames, setRecommendedGames] = useState<Game[]>([]);
-
+  const [playTimes, setPlayTimes] = useState({}); 
   useEffect(() => {
     if (selectedButtons) {
       fetchRecommendedGames(selectedButtons).then((games) => {
@@ -297,13 +299,30 @@ export default function RecommendResult() {
       });
     }
   }, [selectedButtons]);
+  const SERVER_API_URL = `${process.env.REACT_APP_API_SERVER_URL}`;
+  const fetchPlayTime = async (gameId: number) => {
+    try {
+      const response = await axios.get(`${SERVER_API_URL}/game/detail/${gameId}`);
+      if (response.data.success) {
+        const playTime = response.data.data.playTime;
+        setPlayTimes(prev => ({ ...prev, [gameId]: playTime }));
+      }
+    } catch (error) {
+      console.error("플레이타임 정보를 가져오는데 실패했습니다.", error);
+    }
+  };
+  useEffect(() => {
+    recommendedGames.forEach(game => {
+      fetchPlayTime(game.id);
+    });
+  }, [recommendedGames]);
 
   console.log("전달 받은 버튼 배열: ", selectedButtons);
   console.log("추천 게임 리스트: ", recommendedGames);
 
   return (
     <Container>
-      <Deck recommendedGames={recommendedGames} />
+      <Deck recommendedGames={recommendedGames} playTimes={playTimes}/>
     </Container>
   )
 }
