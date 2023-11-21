@@ -1,0 +1,8 @@
+.venv
+.idea
+Crawler/secret.py
+Crawler/chromedriver.exe
+Crawler/*.csv
+Crawler/*.html
+S3/s3_secret.py
+secret.py
