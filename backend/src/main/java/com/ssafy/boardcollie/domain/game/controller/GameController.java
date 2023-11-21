@@ -35,7 +35,6 @@ public class GameController {
 
         GameDetailResponseDto gameDetail = gameService.getGameDetail(gameId);
         return JsonResponse.ok("게임 디테일 반환 성공!",gameDetail);
-
     }
 
 }
