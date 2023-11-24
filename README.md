@@ -1,577 +1,274 @@
-// /* eslint-disable */
-
-// import React, {useEffect, useState, useRef} from 'react';
-// import styled from 'styled-components';
-// import axios from 'axios';
-// import { v4 as uuidv4 } from 'uuid';
-// import { TypeAnimation } from 'react-type-animation';
-// import { PacmanLoader } from 'react-spinners';
-// import { useParams } from 'react-router-dom';
-
-// // images
-// import iconLogo from '../../assets/logo.png'
-// import chatIcon from '../../assets/chat_icon.png';
-
-// // icon
-// import LogoutIcon from '@mui/icons-material/Logout';
-// import SendIcon from '@mui/icons-material/Send';
-// import MicIcon from '@mui/icons-material/Mic';
-
-// // apis
-// import { fetchGameDetail, Game } from '../../apis/gamedetail/GameDetailAPI';
-
-// /**
-//  * ChatBot 
-//  *
-//  * @author 허주혁
-//  * @todo 
-//  * 1. stt
-//  * 2. tts
-//  */
-
-// declare global {
-//   interface Window {
-//     webkitSpeechRecognition: new () => SpeechRecognition;
-//   }
-
-//   interface SpeechRecognition extends EventTarget {
-//       new(): SpeechRecognition;
-//       continuous: boolean;
-//       interimResults: boolean;
-//       lang: string;
-//       onstart: (this: SpeechRecognition, ev: Event) => any;
-//       onend: (this: SpeechRecognition, ev: Event) => any;
-//       onresult: (this: SpeechRecognition, ev: SpeechRecognitionEvent) => any;
-//       start(): void;
-//       stop(): void;
-//   }
-
-//   interface SpeechRecognitionEvent extends Event {
-//       readonly resultIndex: number;
-//       readonly results: SpeechRecognitionResultList;
-//   }
-
-//   interface SpeechRecognitionResultList {
-//       readonly length: number;
-//       item(index: number): SpeechRecognitionResult;
-//   }
-
-//   interface SpeechRecognitionResult {
-//       readonly isFinal: boolean;
-//       readonly length: number;
-//       item(index: number): SpeechRecognitionAlternative;
-//   }
-
-//   interface SpeechRecognitionAlternative {
-//       readonly transcript: string;
-//       readonly confidence: number;
-//   }
-// }
-
-// export {};
-
-// // 커스텀 타입 정의
-// interface ISpeechRecognition extends SpeechRecognition {
-//   new(): ISpeechRecognition;
-// }
-
-// declare var webkitSpeechRecognition: ISpeechRecognition;
-
-// const SERVER_API_URL = `${process.env.REACT_APP_API_SERVER_URL}`;
-
-// // 채팅방 컨테이너
-// const ChatRoomContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   border: 1px solid #ccc;
-//   height: calc(var(--vh, 1vh) * 100);
-//   width: 100vw;
-//   overflow: hidden;
-// `;
-
-// const Padding = styled.div`
-//   height: 9vh;
-// `;
-
-// // NavBar
-// const NavBarContainer = styled.div`
-//   width: 100%;
-//   height: 9vh;
-
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-
-//   background-color: #EDFFD0;
-//   color: black;
-
-//   // NabBar 내부의 레이아웃 조정
-//   display: flex;
-//   justify-content: space-between; // NavBar 내의 콘텐츠를 균등하게 분배하여 간격 생성
-//   align-items: center; // NavBar 내 항목들 수직 가운데 정렬
-
-//   padding: 0 0px;
-//   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
-// `;
-
-// const Logo = styled.div`
-//   background-image: url(${iconLogo});
-//   background-size: contain;
-//   background-repeat: no-repeat;
-//   width: 15vw;  
-//   height: 8vh;
-//   padding: 0 1vw;
-// `;
-
-// const GameName = styled.div`
-//   padding: 0 1vw;
-//   font-size: 1.3rem;
-//   font-weight: bold;
-//   fontFamily: 'Jolly Lodger, cursive',
-// `;
-
-// // ChatBubble
-// // 공통 채팅 버블 스타일
-// const ChatBubbleBlock = styled.div`
-//   max-width: 70%;
-//   padding: 5px 10px;
-//   border-radius: 7px;
-//   margin-bottom: 15px;
-//   white-space: pre-wrap;
-//   overflow-wrap: break-word;
-// `;
-
-// // 질문 버블 스타일
-// const QuestionBubble = styled(ChatBubbleBlock)`
-//   align-self: flex-end;
-//   background-color: #dcf8c6;
-// `;
-
-// // 답변과 챗 아이콘을 포함하는 컨테이너 스타일
-// const AnswerContainer = styled.div`
-//   display: flex;
-//   align-items: center;
-//   align-self: flex-start;
-//   // margin-bottom: 10px;
-// `;
-
-// // 답변 버블 스타일
-// const AnswerBubble = styled(ChatBubbleBlock)`
-//   background-color: #E9E9EB;
-// `;
-
-// const TalkText = styled.div`
-//   padding: 0.1em;
-//   text-align: left;
-//   line-height: 1.5em;
-//   font-size: 0.8rem;
-//   font-weight: 550;
-//   font-family: 'Arial, sans-serif'; 
-
-//   p {
-//     margin-top: 0;
-//     margin-bottom: 0;
-//   }
-// `;
-
-// // 챗 아이콘 스타일
-// const ChatIcon = styled.div`
-//   background-image: url(${chatIcon});
-//   background-size: contain;
-//   background-repeat: no-repeat;
-//   width: 12vw;
-//   height: 10vh;
-//   display: block;
-//   margin-right: 0.7rem;
-// `;
-
-
-// // 메시지 목록 영역
-// const MessageList = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   padding: 10px;
-//   overflow-y: auto;
-//   flex: 1;
-//   padding-bottom: 70px; // 입력 필드 높이 + 여백을 고려하여 설정
-// `;
-
-// // 입력 영역
-// const InputArea = styled.div`
-//   display: flex;
-//   align-items: center;
-//   border: 2px solid #ADC178; // 두꺼운 태두리 적용
-//   border-radius: 20px; // 모서리를 둥글게
-//   background-color: #ffffff; // 내부 배경색 하얀색
-//   padding: 5px; // 패딩으로 내부 여백을 조금 줌
-//   margin: 10px; // 주변 여백 추가
-
-//   position: fixed; // 위치 고정
-//   bottom: 0; // 화면 하단에 위치
-//   left: 0; // 화면 왼쪽에 위치
-//   width: calc(100% - 20px); // 너비를 화면 크기에 맞춤
-//   box-sizing: border-box; // padding과 border가 width에 포함되도록 설정
-// `;
-
-// // 입력 필드
-// const InputField = styled.input`
-//   flex: 1;
-//   border: none;
-//   background-color: #EDFFD0; // 배경색 적용
-//   border-radius: 15px; // 입력 필드 모서리 둥글게
-//   padding: 10px 15px; // 좌우 패딩으로 너비 조정
-//   margin-right: 10px; // 버튼과의 간격
-//   font-size: 1rem; // 글씨 크기 조정
-//   &::placeholder {
-//     color: #a8a8a8; // 플레이스홀더 글씨색
-//   }
-//   &:focus {
-//     outline: none;
-//   }
-// `;
-
-// // 전송 버튼
-// const SendButton = styled.button`
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   width: 40px; // 버튼 너비
-//   height: 40px; // 버튼 높이
-//   border: none;
-//   background-color: #858E99;
-//   border-radius: 50%; // 원형 버튼으로 만들기
-//   padding: 0;
-//   &:hover {
-//     background-color: #6c757d; // 호버 시 색상 변경
-//   }
-// `;
-
-// // 마이크 버튼
-// const MicButton = styled.button`
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   width: 40px;
-//   height: 40px;
-//   border: none;
-//   background-color: #e0e0e0;
-//   border-radius: 50%;
-//   margin-right: 10px;
-// `;
-
-// // 로딩 컴포넌트 스타일
-// const LoadingOverlay = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-//   background-color: rgba(0, 0, 0, 0.5); // 반투명 배경
-//   z-index: 9999; // 상위에 표시
-// `;
-
-// // 로딩 컴포넌트
-// const LoadingSpinner = () => (
-//   <LoadingOverlay>
-//     <PacmanLoader />
-//   </LoadingOverlay>
-// );
-
-// // 답변 버블과 챗 아이콘을 포함하는 컴포넌트
-// const AnswerBubbleWithIcon: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-//   <AnswerContainer>
-//     <ChatIcon />
-//     <AnswerBubble>
-//       {children}
-//     </AnswerBubble>
-//   </AnswerContainer>
-// );
-
-// // 애니메이션 효과가 적용된 TalkText 컴포넌트
-// const AnimatedTalkText: React.FC<{ text: string }> = ({ text }) => (
-//   <TalkText>
-//     <TypeAnimation
-//       cursor={false}
-//       sequence={[text]}
-//       wrapper="p"
-//     />
-//   </TalkText>
-// );
-
-// interface Question {
-//   id: string;
-//   text: string;
-// }
-
-// interface Answer {
-//   id: string;
-//   text: string;
-// }
-
-// // 채팅방 컴포넌트
-// const ChatBotPage: React.FC = () => {
-//   const { id } = useParams<{ id: string }>();
-//   const gameId = parseInt(id ?? "0"); // useParams로 받은 id를 정수로 변환
-
-//   const [uuid, setUuid] = useState<string | null>(null);
-
-//   const [gamedetail, setGameDetail] = useState<Game | null>(null); // 게임 상세 정보를 저장할 상태 추가
-//   const [title, setTitle] = useState<string | null>(null); 
-
-//   const [isLoading, setIsLoading] = React.useState(false);
-
-//   // STT를 위한 상태 및 변수들
-//   const [isListening, setIsListening] = useState(false);
-//   const [recognizedText, setRecognizedText] = useState('');
-//   const recognitionRef = useRef<SpeechRecognition | null>(null);
-
-//   const [isSTTActive, setIsSTTActive] = useState(false); // STT 모드 상태 추가
-
-//   // 뷰포트 높이 설정 함수
-//   const setScreenSize = () => {
-//     let vh = window.innerHeight * 0.01;
-//     document.documentElement.style.setProperty('--vh', `${vh}px`);
-//   };
-
-//   useEffect(() => {
-//     // 컴포넌트가 마운트될 때 뷰포트 높이 설정
-//     setScreenSize();
-
-//     // 윈도우 크기가 변경될 때마다 뷰포트 높이 다시 설정
-//     window.addEventListener('resize', setScreenSize);
-
-//     // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
-//     return () => window.removeEventListener('resize', setScreenSize);
-//   }, []);
-
-//   // gameId 변경 시 또는 컴포넌트 마운트 시 게임 상세 정보 가져오기
-//   useEffect(() => {
-//     const loadGameDetail = async () => {
-//       const gameData = await fetchGameDetail(gameId);
-//       if (gameData) {
-//         setGameDetail(gameData); // 게임 상세 정보 상태 업데이트
-//         setTitle(gameData.name); // 게임 이름을 title 상태로 설정
-//       }
-//     };
-
-//     if (gameId || gameId === 0) {
-//       loadGameDetail();
-//     }
-//   }, [gameId]);
-
-//   // 종료 : 현재 창 닫기
-//   const handleClose = () => {
-//     window.close();
-//   };
-
-//   const [questions, setQuestions] = React.useState<Question[]>([]);
-
-//   const [answers, setAnswers] = React.useState<Answer[]>([]);
-
-//   useEffect(() => {
-//     // title이 null이 아니라면 첫 번째 답변을 설정합니다.
-//     if (title) {
-//       setAnswers([
-//         { id: uuidv4(), text: `게임 : ${title}\n상세한 게임룰이나 헷갈리는 규칙이 있을 경우 질문 주세요!`},
-//       ]);
-//     }
-//   }, [title]); // title이 바뀔 때마다 이 로직을 실행합니다.
-
-//   const [inputText, setInputText] = React.useState('');
-
-//   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     setInputText(e.target.value);
-//   };
-
-//   const handleSend = async () => {
-
-//     if (inputText.trim() && uuid) {
-//       const newQuestion: Question = {
-//         id: uuidv4(),
-//         text: inputText,
-//       };
-//       setQuestions([...questions, newQuestion]);
-
-//       try {
-//         setIsLoading(true); // 로딩 시작
-
-//         // POST 요청으로 챗봇에 질문을 보내고 답변을 받습니다.
-//         const postResponse = await axios.post(`${SERVER_API_URL}/chatbot/question`, {
-//           gameId: gameId, // 게임 ID
-//           prompt: inputText, // 사용자가 입력한 텍스트
-//           uuid: uuid, // UUID
-//         });
-
-//         if (postResponse.data.success) {
-//           const receivedAnswer: Answer = {
-//             id: uuidv4(),
-//             text: postResponse.data.data, // 서버로부터 받은 답변
-//           };
-//           setAnswers([...answers, receivedAnswer]);
-//         } else {
-//           console.error(postResponse.data.message);
-//         }
-//       } catch (error) {
-//         console.error('질문을 보내고 답변을 받는 중 오류가 발생했습니다', error);
-//       } finally {
-//         setIsLoading(false); // 로딩 종료
-//       }
-
-//       setInputText(''); // 입력 필드 초기화
-//     }
-//   };
-
-//   // 질문과 답변을 번갈아 출력하는 함수
-//   const renderMessages = () => {
-//     const messageItems = [];
-    
-//     // 항상 answers의 첫 번째 항목을 먼저 표시
-//     if (answers.length > 0) {
-//       messageItems.push(
-//         <AnswerBubbleWithIcon key={answers[0].id}>
-//           <AnimatedTalkText text={answers[0].text} />
-//         </AnswerBubbleWithIcon>
-//       );
-//     }
-
-//     // 그 다음부터는 questions와 answers를 번갈아가면서 표시
-//     for (let i = 0; i < questions.length; i++) {
-//       messageItems.push(
-//         <QuestionBubble key={questions[i].id}>
-//           <TalkText>
-//             {questions[i].text}
-//           </TalkText>
-//         </QuestionBubble>
-//       );
-
-//       if (answers[i + 1]) { // +1은 첫 번째 답변은 이미 표시했기 때문에
-//         messageItems.push(
-//           <AnswerBubbleWithIcon key={answers[i + 1].id}>
-//             <AnimatedTalkText text={answers[i + 1].text} />
-//           </AnswerBubbleWithIcon>
-//         );
-//       }
-//     }
-
-//     return messageItems;
-//   };
-
-//   // 서버로부터 UUID 가져오기
-//   useEffect(() => {
-//     const fetchUUID = async () => {
-//       try {
-//         const response = await axios.get(`${SERVER_API_URL}/chatbot/id`);
-//         if (response.data.success) {
-//           // 'data' 필드의 값을 UUID 상태로 설정
-//           setUuid(response.data.data);
-//         } else {
-//           console.error(response.data.message);
-//         }
-//       } catch (error) {
-//         console.error("UUID를 가져오는데 실패했습니다.", error);
-//       }
-//     };
-    
-//     fetchUUID();
-//   }, []);
-
-//   // STT Code
-//   useEffect(() => {
-//     // Web Speech API 초기화
-//     if ('webkitSpeechRecognition' in window) {
-//         const recognition = new window.webkitSpeechRecognition();
-//         recognition.continuous = true;
-//         recognition.interimResults = true;
-//         recognition.lang = 'ko-KR';
-
-//         recognition.onstart = () => {
-//             setIsListening(true);
-//         };
-
-//         recognition.onend = () => {
-//             setIsListening(false);
-//         };
-
-//         recognition.onresult = (event) => {
-//           let finalTranscript = '';
-//           for (let i = event.resultIndex; i < event.results.length; ++i) {
-//             const transcript = event.results[i][0].transcript;
-//             if (event.results[i].isFinal) {
-//               finalTranscript += transcript;
-//             }
-//           }
-          
-//           if (finalTranscript) {
-//             setInputText(prev => prev + finalTranscript); // 기존 텍스트에 인식된 텍스트 추가
-//           }
-//         };
-      
-//         recognitionRef.current = recognition;
-//     } else {
-//         alert('크롬에서만 동작합니다.');
-//     }
-//   }, []);
-
-//   // 마이크 버튼 클릭 이벤트 핸들러
-//   const handleMicClick = () => {
-//     setIsSTTActive(!isSTTActive); // STT 모드 상태 변경
-//     if (recognitionRef.current) {
-//         if (isSTTActive) {
-//             recognitionRef.current.stop();
-//             setInputText(''); // 음성 인식 중지 시 입력 필드 초기화
-//         } else {
-//             setRecognizedText('');
-//             recognitionRef.current.start();
-//         }
-//     }
-//   };
-
-//   // InputArea 내부에 InputField와 SendButton을 배치합니다.
-//   const InputAreaWithButton: React.FC<{ onSend: () => void }> = ({ onSend }) => (
-//     <InputArea>
-//       <InputField
-//         type="text"
-//         value={inputText}
-//         onChange={handleInputChange}
-//         placeholder="Message"
-//         onKeyDown={(e) => e.key === 'Enter' && onSend()}
-//         disabled={isSTTActive} // STT 모드일 때 입력 필드 비활성화
-//       />
-
-//       <MicButton onClick={handleMicClick}>
-//         <MicIcon style={{ color: isSTTActive ? 'red' : 'gray' }} />
-//       </MicButton>
-
-//       <SendButton onClick={onSend} disabled={isSTTActive}> 
-//         <SendIcon style={{ color: 'white' }} />
-//       </SendButton>
-//     </InputArea>
-//   );
-
-//   return (
-//     <ChatRoomContainer>
-//       {/* 로딩 상태일 때만 로딩 컴포넌트를 렌더링 */}
-//       {isLoading && <LoadingSpinner />}
-
-//       <Padding />
-
-//       <NavBarContainer>
-//         <Logo />
-//         <GameName>{`${title}`}</GameName>
-//         <LogoutIcon style={{ fontSize: 27, padding: '0 2vw'}} onClick={handleClose} />
-//       </NavBarContainer>
-
-//       <MessageList>
-//         {renderMessages()}
-//       </MessageList>
-
-//       <InputAreaWithButton onSend={handleSend} />
-
-//     </ChatRoomContainer>
-//   );
-// };
-
-// export default ChatBotPage;
+![board-collie](https://github.com/S09P31A104/board-collie/blob/master/assets/Boardcollie_%EC%B5%9C%EC%A2%85%EB%B0%9C%ED%91%9C.jpg)
+
+
+<div align=center>
+    <p>
+        정신없이 먹은 식사
+        <br><br>
+        건강해지고 싶은 당신을 위해
+        <br><br>
+        식단과 운동을 기록하고
+        <br><br>
+        식단을 추천받고
+        <br><br>
+        친구들과 식단을 공유할 수 있는
+        <br><br>
+        식단 기록 및 추천 서비스, <b>FNS</b> 입니다.
+    </p>
+    <a href="https://j9a403.p.ssafy.io/"><del>[ FNS 서비스 바로가기 ]</del></a>
+    <br>
+    <a href="https://youtu.be/Qx0bN870C4I">[ FNS 홍보영상 바로가기 ]</a>
+</div>
+
+<br>
+<br>
+
+## ⭐ 프로젝트 정보
+
+- 프로젝트 기간 : 2023/10/10 ~ 2023/11/24
+- 배포 기간 : 2023/10/24 ~ 2023/11/30
+> GitLab에서 프로젝트를 진행한 후, GitHub으로 옮겨왔습니다.
+
+
+<br>
+<br>
+
+## ⭐ 프로젝트 주요 기능
+
+### 튜토리얼
+
+> 게임 진행과정을 초보자도 따라갈 수 있게 튜토리얼을 제작했습니다 <br>
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EC%8A%A4%ED%94%8C%EB%A0%8C%EB%8D%94%20%ED%8A%9C%ED%86%A0%EB%A6%AC%EC%96%BC.gif"/>
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EB%A7%88%ED%97%A4.gif" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EB%A3%A8%EB%AF%B8%ED%81%90%EB%B8%8C.gif"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <span>스플렌더</span>
+    </td>
+    <td align="center">
+      <span>마헤</span>
+    </td>
+    <td align="center">
+      <span>루미큐브</span>
+    </td>
+  </tr>
+</table>
+
+### 보드게임 추천
+
+> 간단한 설문을 통해 사용자의 관심사를 분석하고 일치율이 가장 높은 6종류의 보드게임 추천합니다. <br>
+> 게임의 디테일 페이지에서 해당 게임과 유사한 게임들을 추천받을 수 있습니다. <br>
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EA%B2%8C%EC%9E%84%20%EC%B6%94%EC%B2%9C.gif" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EC%9C%A0%EC%82%AC%ED%95%9C%20%EA%B2%8C%EC%9E%84.gif" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <span>설문을 통한 추천</span>
+    </td>
+    <td align="center">
+      <span>유사한 게임 추천</span>
+    </td>
+  </tr>
+</table>
+
+### 태그 검색 및 QR을 통한 챗봇
+
+> 전날 섭취한 식단을 고려한 오늘의 식단을 추천해줍니다. <br>
+> 식단 섭취량을 조절해서 저장하고 섭취 칼로리를 확인할 수 있습니다. <br>
+> 설정해놓은 칼로리, 탄수화물, 단백질, 지방 조건에 알맞는 음식을 검색해줍니다.
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/S09P22A403/fns/blob/master/assets/%EC%8B%9D%EB%8B%A8%20%EC%B6%94%EC%B2%9C.gif" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P22A403/fns/blob/master/assets/%EC%8B%9D%EB%8B%A8%20%EC%A0%80%EC%9E%A5-%20%EC%B5%9C%EC%A2%85.gif" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P22A403/fns/blob/master/assets/FNS_%EC%9D%8C%EC%8B%9D%EA%B2%80%EC%83%89.gif" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <span>식단 추천</span>
+    </td>
+    <td align="center">
+      <span>식단 저장</span>
+    </td>
+    <td align="center">
+      <span>음식 검색</span>
+    </td>
+  </tr>
+</table>
+
+<br>
+<br>
+
+## 기술 스택
+
+<h3 align="center">Back-end</h3>
+<p align="center">
+    <img src="https://img.shields.io/badge/Java-007396?&logo=java&logoColor=white">
+    <img src="https://img.shields.io/badge/SpringBoot-6DB33F?&logo=springboot&logoColor=white">
+    <img src="https://img.shields.io/badge/Gradle-02303A?&logo=gradle&logoColor=white">
+    <img src="https://img.shields.io/badge/SpringSecurity-6DB33F?&logo=springsecurity&logoColor=white">
+    <img src="https://img.shields.io/badge/JWT-000000?&logo=jsonwebtokens&logoColor=white">
+    <br>
+    <img src="https://img.shields.io/badge/Hibernate-59666C?&logo=hibernate&logoColor=white">
+    <img src="https://img.shields.io/badge/MySQL-4479A1?&logo=mysql&logoColor=white">
+    <img src="https://img.shields.io/badge/Redis-DC382D?&logo=redis&logoColor=white">
+    <img src="https://img.shields.io/badge/H2-FF9900?&logo=h2&logoColor=white">
+    <img src="https://img.shields.io/badge/Swagger-85EA2D?&logo=swagger&logoColor=white">
+    <br>
+    <img src="https://img.shields.io/badge/Python-3776AB?&logo=python&logoColor=white">
+    <img src="https://img.shields.io/badge/Selenium-43B02A?&logo=selenium&logoColor=white">
+</p>
+
+<h3 align="center">Front-end</h3>
+<p align="center">
+    <img src="https://img.shields.io/badge/Node.js-339933?&logo=nodedotjs&logoColor=white">
+    <img src="https://img.shields.io/badge/React-61DAFB?&logo=react&logoColor=white">
+    <img src="https://img.shields.io/badge/PWA-5A0FC8?&logo=pwa&logoColor=white">
+    <img src="https://img.shields.io/badge/TypeScript-3178C6?&logo=typescript&logoColor=white">
+    <img src="https://img.shields.io/badge/Redux-764ABC?&logo=redux&logoColor=white">
+    <img src="https://img.shields.io/badge/axios-5A29E4?&logo=axios&logoColor=white">
+    <img src="https://img.shields.io/badge/ReactRouter-CA4245?&logo=reactrouter&logoColor=white">
+    <br>
+    <img src="https://img.shields.io/badge/ESLint-4B32C3?&logo=eslint&logoColor=white">
+    <img src="https://img.shields.io/badge/Prettier-F7B93E?&logo=prettier&logoColor=white">
+    <img src="https://img.shields.io/badge/Mui-007FFF?&logo=mui&logoColor=white">
+    <img src="https://img.shields.io/badge/styledcomponents-DB7093?&logo=styledcomponents&logoColor=white">
+    <img src="https://img.shields.io/badge/Chart.js-FF6384?&logo=chartdotjs&logoColor=white">
+</p>
+
+<h3 align="center">CI/CD</h3>
+<p align="center">
+    <img src="https://img.shields.io/badge/Docker-2496ED?&logo=docker&logoColor=white">
+    <img src="https://img.shields.io/badge/Jenkins-D24939?&logo=jenkins&logoColor=white">
+    <img src="https://img.shields.io/badge/nginx-009639?&logo=nginx&logoColor=white">
+    <br>
+    <img src="https://img.shields.io/badge/ubuntu-E95420?&logo=ubuntu&logoColor=white">
+    <img src="https://img.shields.io/badge/amazon EC2-FF9900?&logo=amazon ec2&logoColor=white">
+    <img src="https://img.shields.io/badge/amazon RDS-527FFF?&logo=amazonrds&logoColor=white">
+    <img src="https://img.shields.io/badge/amazon S3-569A31?&logo=amazons3&logoColor=white">
+</p>
+
+<h3 align="center">Co-work tool</h3>
+<p align="center">
+    <img src="https://img.shields.io/badge/GitLab-FC6D26?&logo=GitLab&logoColor=white">
+    <img src="https://img.shields.io/badge/Notion-000000?&logo=Notion&logoColor=white">
+    <img src="https://img.shields.io/badge/Jira-0052CC?&logo=Jira Software&logoColor=white">
+    <img src="https://img.shields.io/badge/Postman-FF6C37?&logo=Postman&logoColor=white">
+    <img src="https://img.shields.io/badge/Figma-F24E1E?&logo=Figma&logoColor=white">
+    <img src="https://img.shields.io/badge/Mattermost-0058CC?&logo=Mattermost&logoColor=white">
+</p>
+
+<br>
+<br>
+
+## 멤버
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/sgkim6">
+        <img src="https://github.com/sgkim6.png" alt="김승규" />
+      </a>
+    </td>
+     <td align="center">
+      <a href="https://github.com/yygs321">
+        <img src="https://github.com/yygs321.png" alt="박소민" />
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Narn99">
+        <img src="https://github.com/Narn99.png" alt="구본웅" />
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/hyunin3">
+        <img src="https://github.com/hyunin3.png" alt="심현재" />
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/ImChrisKim">
+        <img src="https://github.com/ImChrisKim.png" alt="김성우" />
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/mycook3">
+        <img src="https://github.com/mycook3.png" alt="박지환" />
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/sgkim6">
+        <b>김승규</b>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/yygs321">
+        <b>박소민</b>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Narn99">
+        <b>구본웅</b>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/hyunin3">
+        <b>심현재</b>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/ImChrisKim">
+        <b>김성우</b>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/mycook3">
+        <b>박지환</b>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <span>Backend/Infra</span>
+    </td>
+    <td align="center">
+      <span>Backend</span>
+    </td>
+    <td align="center">
+      <span>Frontend</span>
+    </td>
+    <td align="center">
+      <span>Frontend</span>
+    </td>
+    <td align="center">
+      <span>Frontend</span>
+    </td>
+    <td align="center">
+      <span>Backend</span>
+    </td>
+  </tr>
+</table>
