@@ -39,7 +39,7 @@
 먼저 저희는, 보드게임 카페 서비스의 문제점을 크게 3가지로 정의했습니다.
 
 - **단방향 정보**
-    - 게임 시작 전, **설명서** 또는 **영상** 등의 일방적인 정보만 제공. 플레이 중 궁금한 점이 생길 경우, 그 설명이 설명서나 영상의 어느 부분에 있는지 찾아야 함.
+    - 게임 시작 전, **설명서** 또는 **영상** 등의 일방적인 정보만 제공. 플레이 중 궁금한 점이 생길 경우, 직원을 호출하거나 해당 내용이 설명서 또는 영상의 어느 부분에 있는지 일일히 찾아야 함.
 - **많은 게임, 부실한 추천**
     - 보드게임 카페는 평균 약 **300여 개**의 게임을 제공하지만, 단순히 매장 직원 추천 또는 인원수, 장르 별 **필터링 기능만 제공**. 개인화된 맞춤 추천이 없음.
 - **튜토리얼의 부재**
@@ -48,6 +48,41 @@
 그 후, 이러한 문제들을 하나씩 해결하는 방식으로 개발하였습니다.
 
 ## ⭐ 프로젝트 주요 기능
+
+### 1. 챗봇 서비스
+
+> **게임 상세 페이지** 및 **실물 게임 상자**에 부착된 QR을 스캔하여 모바일 챗봇 서비스를 이용할 수 있습니다. <br>
+> 사용자는 플레이 중 발생한 **궁금증**이나 **돌발상황**에 대해 자유롭게 질문할 수 있고, 이에 대한 답변을 즉각적으로 확인할 수 있습니다. <br>
+> 게임 디테일 페이지에 있는 QR을 찍으면 게임을 지정할 필요없이 바로 해당 게임에 대한 질문을 할 수 있습니다. <br>
+> 챗봇은 앞의 질문들을 포함하여 문맥을 유지하며 질문할 수 있습니다.
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%ED%83%9C%EA%B7%B8%20%EA%B2%80%EC%83%89.gif" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EC%B5%9C%EA%B7%BC%20%EB%B3%B8%20%EA%B2%8C%EC%9E%84.gif" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/docs/readme/assets/%EC%B1%97%EB%B4%87_%EC%8A%A4%ED%94%8C%EB%A0%8C%EB%8D%94.gif" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <span>태그 검색</span>
+    </td>
+    <td align="center">
+      <span>최근 본 게임</span>
+    </td>
+    <td align="center">
+      <span>챗봇 질의응답</span>
+    </td>
+  </tr>
+</table>
+
+<br>
+<br>
 
 ### 튜토리얼
 
@@ -102,40 +137,7 @@
   </tr>
 </table>
 
-### 태그 검색 및 QR을 통한 챗봇
 
-> 게임 태그 별로 게임을 모아볼 수 있습니다. <br>
-> 태그에 대한 설명을 제공합니다 <br>
-> 게임 디테일 페이지에 있는 QR을 찍으면 게임을 지정할 필요없이 바로 해당 게임에 대한 질문을 할 수 있습니다. <br>
-> 챗봇은 앞의 질문들을 포함하여 문맥을 유지하며 질문할 수 있습니다.
-
-<table>
-  <tr>
-    <td align="center">
-      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%ED%83%9C%EA%B7%B8%20%EA%B2%80%EC%83%89.gif" />
-    </td>
-    <td align="center">
-      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EC%B5%9C%EA%B7%BC%20%EB%B3%B8%20%EA%B2%8C%EC%9E%84.gif" />
-    </td>
-    <td align="center">
-      <img src="https://github.com/S09P31A104/board-collie/blob/docs/readme/assets/%EC%B1%97%EB%B4%87_%EC%8A%A4%ED%94%8C%EB%A0%8C%EB%8D%94.gif" />
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <span>태그 검색</span>
-    </td>
-    <td align="center">
-      <span>최근 본 게임</span>
-    </td>
-    <td align="center">
-      <span>챗봇 질의응답</span>
-    </td>
-  </tr>
-</table>
-
-<br>
-<br>
 
 ## 기술 스택
 
