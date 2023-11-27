@@ -101,6 +101,11 @@
   </tr>
 </table>
 
+해당 서비스에 대한 기술적인 부분이 포함된 회고록 링크 입니다.
+- <a href="https://careful-fan-de2.notion.site/3-4eb11124068746ffad1713ebd5cee890?pvs=4">3주차 주간 회고</a>
+- <a href="https://careful-fan-de2.notion.site/4-4a6957eb8594486eb690c59f299e3676?pvs=4">4주차 주간 회고</a>
+- <a href="https://careful-fan-de2.notion.site/5-5d222fb5651a421aa5177ddb72f4ed6d?pvs=4">5주차 주간 회고</a>
+
 <br>
 <br>
 
