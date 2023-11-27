@@ -155,7 +155,7 @@
 
 
 
-## 기술 스택
+## ⭐ 기술 스택
 
 <h3 align="center">Front-end</h3>
 <p align="center">
@@ -247,7 +247,7 @@
 <br>
 <br>
 
-## 멤버
+## ⭐ 멤버
 
 <table>
   <tr>
@@ -316,7 +316,7 @@
   </tr>
   <tr>
     <td align="center">
-      <span>Backend/Infra</span>
+      <span>PM/Backend(게임 추천)/Data Construction/Monitoring System</span>
     </td>
     <td align="center">
       <span>Backend/Infra</span>
