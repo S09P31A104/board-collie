@@ -2,22 +2,9 @@
 
 
 <div align=center>
-    <p>
-        정신없이 먹은 식사
-        <br><br>
-        건강해지고 싶은 당신을 위해
-        <br><br>
-        식단과 운동을 기록하고
-        <br><br>
-        식단을 추천받고
-        <br><br>
-        친구들과 식단을 공유할 수 있는
-        <br><br>
-        식단 기록 및 추천 서비스, <b>FNS</b> 입니다.
-    </p>
-    <a href="https://j9a403.p.ssafy.io/"><del>[ FNS 서비스 바로가기 ]</del></a>
+    <a href="https://boardcollie.com"><del>[ Board-collie 서비스 바로가기 ]</del></a>
     <br>
-    <a href="https://youtu.be/Qx0bN870C4I">[ FNS 홍보영상 바로가기 ]</a>
+    <a href="#">[ Board-collie 기획 발표영상 바로가기 ]</a>
 </div>
 
 <br>
