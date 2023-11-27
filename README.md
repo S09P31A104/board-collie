@@ -51,10 +51,11 @@
 
 ### 1. 챗봇 서비스
 
-> **게임 상세 페이지** 및 **실물 게임 상자**에 부착된 QR을 스캔하여 모바일 챗봇 서비스를 이용할 수 있습니다. <br>
-> 사용자는 플레이 중 발생한 **궁금증**이나 **돌발상황**에 대해 자유롭게 질문할 수 있고, 이에 대한 답변을 즉각적으로 확인할 수 있습니다. <br>
-> 게임 디테일 페이지에 있는 QR을 찍으면 게임을 지정할 필요없이 바로 해당 게임에 대한 질문을 할 수 있습니다. <br>
-> 챗봇은 앞의 질문들을 포함하여 문맥을 유지하며 질문할 수 있습니다.
+> **게임 상세 페이지** 및 **실물 게임 상자**에 부착된 QR을 스캔하여 모바일 챗봇 서비스를 이용할 수 있습니다.
+>
+> 해당 챗봇을 통해 사용자는 플레이 중 발생한 **궁금증**이나 **돌발상황**에 대해 자유롭게 질문할 수 있고, 이에 대한 답변을 즉각적으로 확인할 수 있습니다.
+>
+> 또한 질문의 답변이 명확하지 않거나 자세한 설명이 필요할 경우, 추가적인 질문을 통해 더욱 자세한 답변을 받을 수 있습니다.
 
 <table>
   <tr>
@@ -84,7 +85,37 @@
 <br>
 <br>
 
-### 튜토리얼
+### 2. 보드게임 추천
+
+> 간단한 설문을 통해 **내 취향에 맞는 보드게임**들을 추천받을 수 있습니다.
+> 
+> 사용자는 보드게임의 플레이 방식에 대한 **몇 가지의 설문**을 진행하고, 전체 보드게임 중 일치율이 가장 높은 **6종류**의 보드게임을 추천받을 수 있습니다.
+>
+> 또한 게임 상세 페이지에서 해당 게임과 유사한 **3종류**의 게임을 확인할 수도 있습니다.
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EA%B2%8C%EC%9E%84%20%EC%B6%94%EC%B2%9C.gif" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EC%9C%A0%EC%82%AC%ED%95%9C%20%EA%B2%8C%EC%9E%84.gif" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <span>설문을 통한 추천</span>
+    </td>
+    <td align="center">
+      <span>유사한 게임 추천</span>
+    </td>
+  </tr>
+</table>
+
+<br>
+<br>
+
+### 3. 튜토리얼
 
 > 게임 진행과정을 초보자도 따라갈 수 있게 튜토리얼을 제작했습니다 <br>
 
@@ -113,29 +144,7 @@
   </tr>
 </table>
 
-### 보드게임 추천
 
-> 간단한 설문을 통해 사용자의 관심사를 분석하고 일치율이 가장 높은 6종류의 보드게임 추천합니다. <br>
-> 게임의 디테일 페이지에서 해당 게임과 유사한 게임들을 추천받을 수 있습니다. <br>
-
-<table>
-  <tr>
-    <td align="center">
-      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EA%B2%8C%EC%9E%84%20%EC%B6%94%EC%B2%9C.gif" />
-    </td>
-    <td align="center">
-      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EC%9C%A0%EC%82%AC%ED%95%9C%20%EA%B2%8C%EC%9E%84.gif" />
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <span>설문을 통한 추천</span>
-    </td>
-    <td align="center">
-      <span>유사한 게임 추천</span>
-    </td>
-  </tr>
-</table>
 
 
 
