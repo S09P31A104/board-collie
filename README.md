@@ -90,31 +90,32 @@
 
 ### 태그 검색 및 QR을 통한 챗봇
 
-> 전날 섭취한 식단을 고려한 오늘의 식단을 추천해줍니다. <br>
-> 식단 섭취량을 조절해서 저장하고 섭취 칼로리를 확인할 수 있습니다. <br>
-> 설정해놓은 칼로리, 탄수화물, 단백질, 지방 조건에 알맞는 음식을 검색해줍니다.
+> 게임 태그 별로 게임을 모아볼 수 있습니다. <br>
+> 태그에 대한 설명을 제공합니다 <br>
+> 게임 디테일 페이지에 있는 QR을 찍으면 게임을 지정할 필요없이 바로 해당 게임에 대한 질문을 할 수 있습니다. <br>
+> 챗봇은 앞의 질문들을 포함하여 문맥을 유지하며 질문할 수 있습니다.
 
 <table>
   <tr>
     <td align="center">
-      <img src="https://github.com/S09P22A403/fns/blob/master/assets/%EC%8B%9D%EB%8B%A8%20%EC%B6%94%EC%B2%9C.gif" />
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%ED%83%9C%EA%B7%B8%20%EA%B2%80%EC%83%89.gif" />
     </td>
     <td align="center">
-      <img src="https://github.com/S09P22A403/fns/blob/master/assets/%EC%8B%9D%EB%8B%A8%20%EC%A0%80%EC%9E%A5-%20%EC%B5%9C%EC%A2%85.gif" />
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EC%B5%9C%EA%B7%BC%20%EB%B3%B8%20%EA%B2%8C%EC%9E%84.gif" />
     </td>
     <td align="center">
-      <img src="https://github.com/S09P22A403/fns/blob/master/assets/FNS_%EC%9D%8C%EC%8B%9D%EA%B2%80%EC%83%89.gif" />
+      <img src="https://github.com/S09P31A104/board-collie/blob/docs/readme/assets/%EC%B1%97%EB%B4%87_%EC%8A%A4%ED%94%8C%EB%A0%8C%EB%8D%94.gif" />
     </td>
   </tr>
   <tr>
     <td align="center">
-      <span>식단 추천</span>
+      <span>태그 검색</span>
     </td>
     <td align="center">
-      <span>식단 저장</span>
+      <span>최근 본 게임</span>
     </td>
     <td align="center">
-      <span>음식 검색</span>
+      <span>챗봇 질의응답</span>
     </td>
   </tr>
 </table>
@@ -199,8 +200,8 @@
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/Narn99">
-        <img src="https://github.com/Narn99.png" alt="구본웅" />
+      <a href="https://github.com/ykm1256">
+        <img src="https://github.com/ykm1256.png" alt="윤경민" />
       </a>
     </td>
     <td align="center">
@@ -209,13 +210,13 @@
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/ImChrisKim">
-        <img src="https://github.com/ImChrisKim.png" alt="김성우" />
+      <a href="https://github.com/SeungAh-Yoo99">
+        <img src="https://github.com/SeungAh-Yoo99.png" alt="유승아" />
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/mycook3">
-        <img src="https://github.com/mycook3.png" alt="박지환" />
+      <a href="https://github.com/HJH13579">
+        <img src="https://github.com/HJH13579.png" alt="허주혁" />
       </a>
     </td>
   </tr>
@@ -229,29 +230,32 @@
       <a href="https://github.com/yygs321">
         <b>박소민</b>
       </a>
-    </td>
     <td align="center">
-      <a href="https://github.com/Narn99">
-        <b>구본웅</b>
+      <a href="https://github.com/ykm1256">
+        <b>윤경민</b>
       </a>
     </td>
     <td align="center">
       <a href="https://github.com/hyunin3">
         <b>심현재</b>
       </a>
+    </td>   
     </td>
     <td align="center">
-      <a href="https://github.com/ImChrisKim">
-        <b>김성우</b>
+      <a href="https://github.com/SeungAh-Yoo99">
+        <b>유승아</b>
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/mycook3">
-        <b>박지환</b>
+      <a href="https://github.com/HJH13579">
+        <b>허주혁</b>
       </a>
     </td>
   </tr>
   <tr>
+    <td align="center">
+      <span>Backend/Infra</span>
+    </td>
     <td align="center">
       <span>Backend/Infra</span>
     </td>
@@ -266,9 +270,6 @@
     </td>
     <td align="center">
       <span>Frontend</span>
-    </td>
-    <td align="center">
-      <span>Backend</span>
     </td>
   </tr>
 </table>
