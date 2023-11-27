@@ -1,4 +1,4 @@
-![board-collie](https://github.com/S09P31A104/board-collie/blob/master/assets/Boardcollie_%EC%B5%9C%EC%A2%85%EB%B0%9C%ED%91%9C.jpg)
+![board-collie](https://github.com/S09P31A104/board-collie/blob/docs/readme/assets/main2.png)
 
 
 <div align=center>
