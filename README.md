@@ -216,12 +216,11 @@
     <img src="https://img.shields.io/badge/Java-007396?&logo=java&logoColor=white">
     <img src="https://img.shields.io/badge/SpringBoot-6DB33F?&logo=springboot&logoColor=white">
     <img src="https://img.shields.io/badge/Gradle-02303A?&logo=gradle&logoColor=white">
-    <br>
     <img src="https://img.shields.io/badge/Hibernate-59666C?&logo=hibernate&logoColor=white">
     <img src="https://img.shields.io/badge/MySQL-4479A1?&logo=mysql&logoColor=white">
+    <br>
     <img src="https://img.shields.io/badge/Redis-DC382D?&logo=redis&logoColor=white">
     <img src="https://img.shields.io/badge/H2-FF9900?&logo=h2&logoColor=white">
-    <br>
     <img src="https://img.shields.io/badge/Python-3776AB?&logo=python&logoColor=white">
     <img src="https://img.shields.io/badge/Selenium-43B02A?&logo=selenium&logoColor=white">
 </p>
