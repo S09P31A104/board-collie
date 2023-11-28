@@ -4,7 +4,11 @@
 <div align=center>
     <a href="https://boardcollie.com"><del>[ Board-collie 서비스 바로가기 ]</del></a>
     <br>
-    <a href="#">[ Board-collie 기획 발표영상 바로가기 ]</a>
+    <br>
+    <a href="https://youtu.be/XCb1ZdXr9D0?feature=shared">[ UCC 영상 ]</a>  ||
+    <a href="https://youtu.be/jYRQnk7GAlM?feature=shared">[ 사용자 피드백 영상 ]</a> 
+    <br>
+    <a href="#">[ Board-collie 기획 발표영상 ]</a>
 </div>
 
 <br>
