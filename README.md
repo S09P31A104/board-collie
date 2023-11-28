@@ -187,11 +187,36 @@
 <br>
 <br>
 
-## ⭐ 협업 문서 작성
+## ⭐ 협업 문서 작성 및 Webhook 연결
 - <a href="https://www.notion.so/521a3c4269bb4639ab187111f6da3e97">팀 컨벤션</a>
 - <a href="https://www.notion.so/7ce5fe2125b14bdeace9db317ac99c9c">트러블 슈팅 일지</a>
 - <a href="https://www.notion.so/1a50b22f342541ae9696cb7011db42b8">배포 일지</a>
 - <a href="https://www.notion.so/API-cbc1465c7510479a9a4953ab899293ca">API 명세서</a>
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/docs/readme/assets/jenkins.png"/>
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/docs/readme/assets/gitlab.png" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/docs/readme/assets/error_log.png"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <span>Jenkins</span>
+    </td>
+    <td align="center">
+      <span>Gitlab</span>
+    </td>
+    <td align="center">
+      <span>Error log</span>
+    </td>
+  </tr>
+</table>
+
 <br>
 <br>
 
