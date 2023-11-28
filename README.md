@@ -141,7 +141,7 @@
 </table>
 
 > 해당 서비스에 대한 기술적인 부분이 포함된 회고록 링크 입니다.
-- <a href="https://careful-fan-de2.notion.site/3-c64a8f16f4ad4f379c091f5d8a6daf61?pvs=4">3주차 주간 회고</a>
+- <a href="https://careful-fan-de2.notion.site/3-c64a8f16f4ad4f379c091f5d8a6daf61?pvs=4" target="_blank">3주차 주간 회고</a>
 
 <br>
 <br>
