@@ -355,7 +355,7 @@
   </tr>
   <tr>
     <td align="center">
-      <span>PM<p/>Backend(게임 추천)  Monitoring System</span>
+      <span>PM<br>Backend<br>Monitoring System</span>
     </td>
     <td align="center">
       <span>Infra<p/>Backend</span>
