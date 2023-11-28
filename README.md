@@ -335,7 +335,7 @@
       <span>Frontend</span>
     </td>
     <td align="center">
-      <span>Frontend</span>
+      <span>Frontend(튜토리얼)</span>
     </td>
     <td align="center">
       <span>Frontend</span>
