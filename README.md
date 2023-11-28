@@ -1,155 +1,276 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
-<a name="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
+![board-collie](https://github.com/S09P31A104/board-collie/blob/docs/readme/assets/main2.png)
 
 
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-<div align="center">
-
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-
+<div align=center>
+    <a href="https://boardcollie.com"><del>[ Board-collie 서비스 바로가기 ]</del></a>
+    <br>
+    <br>
+    <a href="https://youtu.be/XCb1ZdXr9D0?feature=shared">[ UCC 영상 ]</a>  ||
+    <a href="https://youtu.be/jYRQnk7GAlM?feature=shared">[ 사용자 피드백 영상 ]</a> 
+    <br>
+    <a href="#">[ Board-collie 기획 발표영상 ]</a>
 </div>
 
-<!--
-!!! IMPORTANT !!!
-This README is an example of how you could professionally present your codebase. 
-Writing documentation is a crucial part of your work as a professional software developer and cannot be ignored. 
+<br>
+<br>
 
-You should modify this file to match your project and remove sections that don't apply.
+## ⭐ About Board-collie
+본 **Board-collie** 프로젝트는 기존 보드게임 카페 서비스의 문제점을 해결하여 매장 이용 고객들이 보드게임 카페를 더욱 편리하게 이용하고, <br>보드게임이라는 취미를 보다 더 쉽게 입문할 수 있게 하는 것을 목표로 진행되었습니다.
 
-REQUIRED SECTIONS:
-- Table of Contents
-- About the Project
-  - Built With
-  - Live Demo
-- Getting Started
-- Authors
-- Future Features
-- Contributing
-- Show your support
-- Acknowledgements
-- License
+- 프로젝트 기간 : 2023/10/10 ~ 2023/11/24
+- 배포 기간 : 2023/10/24 ~ 2023/11/30
+> GitLab에서 프로젝트를 진행한 후, GitHub으로 옮겨왔습니다.
 
-OPTIONAL SECTIONS:
-- FAQ
 
-After you're finished please remove all the comments and instructions!
+<br>
+<br>
 
-For more information on the importance of a professional README for your repositories: https://github.com/microverseinc/curriculum-transversal-skills/blob/main/documentation/articles/readme_best_practices.md
--->
+## ⭐ 기획 배경
 
-<div align="center">
-  <!-- You are encouraged to replace this logo with your own! Otherwise you can also remove it. -->
-  <img src="murple_logo.png" alt="logo" width="140"  height="auto" />
-  <br/>
+먼저 저희는, 보드게임 카페 서비스의 문제점을 크게 **3가지**로 정의했습니다.
+![board-collie](https://github.com/S09P31A104/board-collie/blob/docs/readme/assets/문제점.png)
 
-  <h3><b>Microverse README Template</b></h3>
+- **단방향 정보**
+    - 게임 시작 전, **설명서** 또는 **영상** 등의 일방적인 정보만 제공.
+    - 플레이 중 궁금한 점이 생길 경우, 직원을 호출하거나 해당 내용이 설명서 또는 영상의 어느 부분에 있는지 일일히 찾아야 함.
+- **많은 게임, 부실한 추천**
+    - 보드게임 카페는 평균 약 **300여 개**의 게임을 제공하지만, 단순히 매장 직원 추천 또는 인원수, 장르 별 **필터링 기능만 제공**.
+    - 개인화된 맞춤 추천이 없음.
+- **튜토리얼의 부재**
+    - 게임에 대한 영상 및 텍스트 기반의 **설명만 제공**. 실제로 플레이하면서 따라해볼 수 있는 기능은 제공하지 않음.
+      
+⇒ 해당 문제점들을 상세히 분석하여 사용자 입장에서의 요구사항을 정의, 이를 해결하는 방향으로 프로젝트를 진행하였습니다.
 
-</div>
+<br>
+<br>
 
-<!-- TABLE OF CONTENTS -->
+## ⭐ 프로젝트 주요 기능
 
-# 📗 Table of Contents
+### 1. 챗봇 서비스
 
-- [📖 About the Project](#about-project)
-  - [🛠 Built With](#built-with)
-    - [Tech Stack](#tech-stack)
-    - [Key Features](#key-features)
-  - [🚀 Live Demo](#live-demo)
-- [💻 Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Setup](#setup)
-  - [Install](#install)
-  - [Usage](#usage)
-  - [Run tests](#run-tests)
-  - [Deployment](#deployment)
-- [👥 Authors](#authors)
-- [🔭 Future Features](#future-features)
-- [🤝 Contributing](#contributing)
-- [⭐️ Show your support](#support)
-- [🙏 Acknowledgements](#acknowledgements)
-- [❓ FAQ (OPTIONAL)](#faq)
-- [📝 License](#license)
+> **게임 상세 페이지** 및 **실물 게임 상자**에 부착된 QR을 스캔하여 모바일 챗봇 서비스를 이용할 수 있습니다.
+>
+> 사용자는 플레이 중 발생한 **궁금증**이나 **돌발상황**에 대해 자유롭게 질문할 수 있고, 이에 대한 답변을 즉각적으로 확인할 수 있습니다.
+>
+> 질문의 답변이 명확하지 않거나 자세한 설명이 필요할 경우, 추가적인 질문을 통해 더욱 자세한 답변을 받을 수 있습니다.
 
-<!-- PROJECT DESCRIPTION -->
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/docs/readme/assets/detail.png" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/docs/readme/assets/%EC%A7%88%EB%AC%B8.png" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/docs/readme/assets/%EC%B1%97%EB%B4%87_%EC%8A%A4%ED%94%8C%EB%A0%8C%EB%8D%94.gif" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <span>디테일 페이지의 QR</span>
+    </td>
+    <td align="center">
+      <span>튜토리얼에서의 QR</span>
+    </td>
+    <td align="center">
+      <span>챗봇 질의응답</span>
+    </td>
+  </tr>
+</table>
 
-# 📖 [your_project_name] <a name="about-project"></a>
+<br>
+<br>
 
-> Describe your project in 1 or 2 sentences.
+### 2. 보드게임 추천
 
-**[your_project__name]** is a...
+> 간단한 설문을 통해 **내 취향에 맞는 보드게임**들을 추천받을 수 있습니다.
+> 
+> 사용자는 보드게임의 플레이 방식에 대한 **몇 가지의 설문**을 진행하고, 전체 보드게임 중 일치율이 가장 높은 **6종류**의 보드게임을 추천받을 수 있습니다.
+>
+> 게임 상세 페이지에서 해당 게임과 유사한 **3종류**의 게임을 확인할 수도 있습니다.
 
-## 🛠 Built With <a name="built-with"></a>
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EA%B2%8C%EC%9E%84%20%EC%B6%94%EC%B2%9C.gif" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EC%9C%A0%EC%82%AC%ED%95%9C%20%EA%B2%8C%EC%9E%84.gif" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <span>설문을 통한 추천</span>
+    </td>
+    <td align="center">
+      <span>유사한 게임 추천</span>
+    </td>
+  </tr>
+</table>
 
-### Tech Stack <a name="tech-stack"></a>
+> 해당 서비스에 대한 기술적인 부분이 포함된 회고록 링크 입니다.
+- <a href="https://careful-fan-de2.notion.site/3-4eb11124068746ffad1713ebd5cee890?pvs=4">3주차 주간 회고</a>
+- <a href="https://careful-fan-de2.notion.site/4-4a6957eb8594486eb690c59f299e3676?pvs=4">4주차 주간 회고</a>
+- <a href="https://careful-fan-de2.notion.site/5-5d222fb5651a421aa5177ddb72f4ed6d?pvs=4">5주차 주간 회고</a>
 
-> Describe the tech stack and include only the relevant sections that apply to your project.
+<br>
+<br>
 
-<h3 align="center">Backend</h3>
-<p align="center">
-    <img src="https://img.shields.io/badge/Java-007396?&logo=java&logoColor=white">
-    <img src="https://img.shields.io/badge/SpringBoot-6DB33F?&logo=springboot&logoColor=white">
-    <img src="https://img.shields.io/badge/Gradle-02303A?&logo=gradle&logoColor=white">
-    <img src="https://img.shields.io/badge/SpringSecurity-6DB33F?&logo=springsecurity&logoColor=white">
-    <img src="https://img.shields.io/badge/JWT-000000?&logo=jsonwebtokens&logoColor=white">
-    <br>
-    <img src="https://img.shields.io/badge/Hibernate-59666C?&logo=hibernate&logoColor=white">
-    <img src="https://img.shields.io/badge/MySQL-4479A1?&logo=mysql&logoColor=white">
-    <img src="https://img.shields.io/badge/Redis-DC382D?&logo=redis&logoColor=white">
-    <img src="https://img.shields.io/badge/H2-FF9900?&logo=h2&logoColor=white">
-    <img src="https://img.shields.io/badge/Swagger-85EA2D?&logo=swagger&logoColor=white">
-    <br>
-    <img src="https://img.shields.io/badge/Python-3776AB?&logo=python&logoColor=white">
-    <img src="https://img.shields.io/badge/Selenium-43B02A?&logo=selenium&logoColor=white">
-    <img src="https://img.shields.io/badge/WebRTC-333333?&logo=webrtc&logoColor=white">
-    <img src="https://img.shields.io/badge/OpenVidu-5294E2?&logo=openvidu&logoColor=white">
-</p>
+### 3. 튜토리얼
 
-<h3 align="center">Frontend</h3>
+> 튜토리얼 기능을 통해 게임 플레이 중 발생할 수 있는 상황에 대해 알맞은 **설명**과 **선택지**를 제공합니다.
+>
+> 사용자는 **상황에 대한 설명**과 해당 상황에 **취할 수 있는 행동**을 선택지로 제공받게 되고, 이를 단순히 터치하는 것 만으로 마치 온라인 게임의 **튜토리얼 시스템**을 이용하는 듯한 경험을 느낄 수 있습니다.
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EC%8A%A4%ED%94%8C%EB%A0%8C%EB%8D%94%20%ED%8A%9C%ED%86%A0%EB%A6%AC%EC%96%BC.gif"/>
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EB%A7%88%ED%97%A4.gif" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EB%A3%A8%EB%AF%B8%ED%81%90%EB%B8%8C.gif"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <span>스플렌더</span>
+    </td>
+    <td align="center">
+      <span>마헤</span>
+    </td>
+    <td align="center">
+      <span>루미큐브</span>
+    </td>
+  </tr>
+</table>
+
+> 해당 서비스에 대한 기술적인 부분이 포함된 회고록 링크 입니다.
+- <a href="https://careful-fan-de2.notion.site/3-c64a8f16f4ad4f379c091f5d8a6daf61?pvs=4">3주차 주간 회고</a>
+
+<br>
+<br>
+
+### 4. 기타 - 게임 검색 및 상세 페이지
+
+> 검색페이지 <br>
+> 찾고 싶은 게임을 **제목** 또는 게임의 **태그**로 검색하고, 필터 기능을 통해 **필터링**할 수 있습니다.<br>
+> **우측**에서 **최근 본 게임**을 확인할 수 있습니다.
+
+> 상세 페이지<br>
+> **좌측**에는 **챗봇 QR코드**, **튜토리얼 및 YouTube 설명영상 바로가기 링크**가 제공됩니다.<br>
+> **우측**에는 게임의 **테마** 및 **진행방식** 분류, 게임에 대한 **유저평** 요약, 해당 게임과 **유사한 다른 게임**을 확인할 수 있습니다.
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%ED%83%9C%EA%B7%B8%20%EA%B2%80%EC%83%89.gif"/>
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EC%B5%9C%EA%B7%BC%20%EB%B3%B8%20%EA%B2%8C%EC%9E%84.gif" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EC%9C%A0%ED%8A%9C%EB%B8%8C%20%ED%8A%9C%ED%86%A0%EB%A6%AC%EC%96%BC.gif"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <span>태그 검색</span>
+    </td>
+    <td align="center">
+      <span>최근 본 게임</span>
+    </td>
+    <td align="center">
+      <span>상세 페이지 유튜브 연결</span>
+    </td>
+  </tr>
+</table>
+<br>
+<br>
+
+## ⭐ 협업 문서 작성 및 Webhook 연결
+- <a href="https://www.notion.so/521a3c4269bb4639ab187111f6da3e97">팀 컨벤션</a>
+- <a href="https://www.notion.so/7ce5fe2125b14bdeace9db317ac99c9c">트러블 슈팅 일지</a>
+- <a href="https://www.notion.so/1a50b22f342541ae9696cb7011db42b8">배포 일지</a>
+- <a href="https://www.notion.so/API-cbc1465c7510479a9a4953ab899293ca">API 명세서</a>
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/docs/readme/assets/jenkins.png"/>
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/docs/readme/assets/gitlab.png" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/docs/readme/assets/error_log.png"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <span>Jenkins</span>
+    </td>
+    <td align="center">
+      <span>Gitlab</span>
+    </td>
+    <td align="center">
+      <span>Error log</span>
+    </td>
+  </tr>
+</table>
+
+<br>
+<br>
+
+## ⭐ 기술 스택
+
+<h3 align="center">Front-end</h3>
 <p align="center">
     <img src="https://img.shields.io/badge/Node.js-339933?&logo=nodedotjs&logoColor=white">
     <img src="https://img.shields.io/badge/React-61DAFB?&logo=react&logoColor=white">
     <img src="https://img.shields.io/badge/PWA-5A0FC8?&logo=pwa&logoColor=white">
     <img src="https://img.shields.io/badge/TypeScript-3178C6?&logo=typescript&logoColor=white">
     <img src="https://img.shields.io/badge/Redux-764ABC?&logo=redux&logoColor=white">
+    <br>
     <img src="https://img.shields.io/badge/axios-5A29E4?&logo=axios&logoColor=white">
     <img src="https://img.shields.io/badge/ReactRouter-CA4245?&logo=reactrouter&logoColor=white">
-    <br>
-    <img src="https://img.shields.io/badge/ESLint-4B32C3?&logo=eslint&logoColor=white">
-    <img src="https://img.shields.io/badge/Prettier-F7B93E?&logo=prettier&logoColor=white">
     <img src="https://img.shields.io/badge/Mui-007FFF?&logo=mui&logoColor=white">
     <img src="https://img.shields.io/badge/styledcomponents-DB7093?&logo=styledcomponents&logoColor=white">
-    <img src="https://img.shields.io/badge/Chart.js-FF6384?&logo=chartdotjs&logoColor=white">
 </p>
 
-<h3 align="center">CI/CD</h3>
+<h3 align="center">Back-end</h3>
+<p align="center">
+    <img src="https://img.shields.io/badge/Java-007396?&logo=java&logoColor=white">
+    <img src="https://img.shields.io/badge/SpringBoot-6DB33F?&logo=springboot&logoColor=white">
+    <img src="https://img.shields.io/badge/Gradle-02303A?&logo=gradle&logoColor=white">
+    <img src="https://img.shields.io/badge/Hibernate-59666C?&logo=hibernate&logoColor=white">
+    <img src="https://img.shields.io/badge/MySQL-4479A1?&logo=mysql&logoColor=white">
+    <img src="https://img.shields.io/badge/Redis-DC382D?&logo=redis&logoColor=white">
+    <br>
+    <img src="https://img.shields.io/badge/Selenium-43B02A?&logo=selenium&logoColor=white">
+    <img src="https://img.shields.io/badge/H2-FF9900?&logo=h2&logoColor=white">
+    <img src="https://img.shields.io/badge/Python-3776AB?&logo=python&logoColor=white">
+    <img src="https://img.shields.io/badge/fastapi-04B486?&logo=fastapi&logoColor=white">
+</p>
+
+<h3 align="center">Infra</h3>
 <p align="center">
     <img src="https://img.shields.io/badge/Docker-2496ED?&logo=docker&logoColor=white">
     <img src="https://img.shields.io/badge/Jenkins-D24939?&logo=jenkins&logoColor=white">
     <img src="https://img.shields.io/badge/nginx-009639?&logo=nginx&logoColor=white">
-    <img src="https://img.shields.io/badge/SonarQube-4E9BCD?&logo=sonarqube&logoColor=white">
     <br>
     <img src="https://img.shields.io/badge/ubuntu-E95420?&logo=ubuntu&logoColor=white">
     <img src="https://img.shields.io/badge/amazon EC2-FF9900?&logo=amazon ec2&logoColor=white">
     <img src="https://img.shields.io/badge/amazon RDS-527FFF?&logo=amazonrds&logoColor=white">
     <img src="https://img.shields.io/badge/amazon S3-569A31?&logo=amazons3&logoColor=white">
+</p>
+
+<h3 align="center">Monitoring</h3>
+<p align="center">
+    <img src="https://img.shields.io/badge/grafana-FF8000?&logo=grafana&logoColor=white">
+    <img src="https://img.shields.io/badge/prometheus-FF4000?&logo=prometheus&logoColor=white">
 </p>
 
 <h3 align="center">Co-work tool</h3>
@@ -162,245 +283,94 @@ For more information on the importance of a professional README for your reposit
     <img src="https://img.shields.io/badge/Mattermost-0058CC?&logo=Mattermost&logoColor=white">
 </p>
 
-<!-- Features -->
+<br>
+<br>
 
-### Key Features <a name="key-features"></a>
+## ⭐ 멤버
 
-> Describe between 1-3 key features of the application.
-
-- **[key_feature_1]**
-- **[key_feature_2]**
-- **[key_feature_3]**
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- LIVE DEMO -->
-
-## 🚀 Live Demo <a name="live-demo"></a>
-
-> Add a link to your deployed project.
-
-- [Live Demo Link](https://google.com)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- GETTING STARTED -->
-
-## 💻 Getting Started <a name="getting-started"></a>
-
-> Describe how a new developer could make use of your project.
-
-To get a local copy up and running, follow these steps.
-
-### Prerequisites
-
-In order to run this project you need:
-
-<!--
-Example command:
-
-```sh
- gem install rails
-```
- -->
-
-### Setup
-
-Clone this repository to your desired folder:
-
-<!--
-Example commands:
-
-```sh
-  cd my-folder
-  git clone git@github.com:myaccount/my-project.git
-```
---->
-
-### Install
-
-Install this project with:
-
-<!--
-Example command:
-
-```sh
-  cd my-project
-  gem install
-```
---->
-
-### Usage
-
-To run the project, execute the following command:
-
-<!--
-Example command:
-
-```sh
-  rails server
-```
---->
-
-### Run tests
-
-To run tests, run the following command:
-
-<!--
-Example command:
-
-```sh
-  bin/rails test test/models/article_test.rb
-```
---->
-
-### Deployment
-
-You can deploy this project using:
-
-<!--
-Example:
-
-```sh
-
-```
- -->
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- AUTHORS -->
-
-## 👥 Authors <a name="authors"></a>
-
-> Mention all of the collaborators of this project.
-
-👤 **Author1**
-
-- GitHub: [@githubhandle](https://github.com/githubhandle)
-- Twitter: [@twitterhandle](https://twitter.com/twitterhandle)
-- LinkedIn: [LinkedIn](https://linkedin.com/in/linkedinhandle)
-
-👤 **Author2**
-
-- GitHub: [@githubhandle](https://github.com/githubhandle)
-- Twitter: [@twitterhandle](https://twitter.com/twitterhandle)
-- LinkedIn: [LinkedIn](https://linkedin.com/in/linkedinhandle)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- FUTURE FEATURES -->
-
-## 🔭 Future Features <a name="future-features"></a>
-
-> Describe 1 - 3 features you will add to the project.
-
-- [ ] **[new_feature_1]**
-- [ ] **[new_feature_2]**
-- [ ] **[new_feature_3]**
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- CONTRIBUTING -->
-
-## 🤝 Contributing <a name="contributing"></a>
-
-Contributions, issues, and feature requests are welcome!
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
 <table>
-  <tbody>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://kentcdodds.com"><img src="https://avatars.githubusercontent.com/u/1500684?v=3?s=100" width="100px;" alt="Kent C. Dodds"/><br /><sub><b>Kent C. Dodds</b></sub></a><br /><a href="#question-kentcdodds" title="Answering Questions">💬</a> <a href="https://github.com/all-contributors/all-contributors/commits?author=kentcdodds" title="Documentation">📖</a> <a href="https://github.com/all-contributors/all-contributors/pulls?q=is%3Apr+reviewed-by%3Akentcdodds" title="Reviewed Pull Requests">👀</a> <a href="#talk-kentcdodds" title="Talks">📢</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/jfmengels"><img src="https://avatars.githubusercontent.com/u/3869412?v=3?s=100" width="100px;" alt="Jeroen Engels"/><br /><sub><b>Jeroen Engels</b></sub></a><br /><a href="https://github.com/all-contributors/all-contributors/commits?author=jfmengels" title="Documentation">📖</a> <a href="https://github.com/all-contributors/all-contributors/pulls?q=is%3Apr+reviewed-by%3Ajfmengels" title="Reviewed Pull Requests">👀</a> <a href="#tool-jfmengels" title="Tools">🔧</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://jakebolam.com"><img src="https://avatars2.githubusercontent.com/u/3534236?v=4?s=100" width="100px;" alt="Jake Bolam"/><br /><sub><b>Jake Bolam</b></sub></a><br /><a href="https://github.com/all-contributors/all-contributors/commits?author=jakebolam" title="Documentation">📖</a> <a href="#tool-jakebolam" title="Tools">🔧</a> <a href="#infra-jakebolam" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-jakebolam" title="Maintenance">🚧</a> <a href="https://github.com/all-contributors/all-contributors/pulls?q=is%3Apr+reviewed-by%3Ajakebolam" title="Reviewed Pull Requests">👀</a> <a href="#question-jakebolam" title="Answering Questions">💬</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/tbenning"><img src="https://avatars2.githubusercontent.com/u/7265547?v=4?s=100" width="100px;" alt="Tyler Benning"/><br /><sub><b>Tyler Benning</b></sub></a><br /><a href="#maintenance-tbenning" title="Maintenance">🚧</a> <a href="https://github.com/all-contributors/all-contributors/commits?author=tbenning" title="Code">💻</a> <a href="#design-tbenning" title="Design">🎨</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://sinchang.me"><img src="https://avatars0.githubusercontent.com/u/3297859?v=4?s=100" width="100px;" alt="Jeff Wen"/><br /><sub><b>Jeff Wen</b></sub></a><br /><a href="#maintenance-sinchang" title="Maintenance">🚧</a> <a href="https://github.com/all-contributors/all-contributors/pulls?q=is%3Apr+reviewed-by%3Asinchang" title="Reviewed Pull Requests">👀</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="http://maxcubing.wordpress.com"><img src="https://avatars0.githubusercontent.com/u/8260834?v=4?s=100" width="100px;" alt="Maximilian Berkmann"/><br /><sub><b>Maximilian Berkmann</b></sub></a><br /><a href="#translation-Berkmann18" title="Translation">🌍</a> <a href="https://github.com/all-contributors/all-contributors/commits?author=Berkmann18" title="Documentation">📖</a> <a href="#maintenance-Berkmann18" title="Maintenance">🚧</a> <a href="https://github.com/all-contributors/all-contributors/pulls?q=is%3Apr+reviewed-by%3ABerkmann18" title="Reviewed Pull Requests">👀</a> <a href="#talk-Berkmann18" title="Talks">📢</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="http://matheu.srv.br"><img src="https://avatars0.githubusercontent.com/u/23284276?v=4?s=100" width="100px;" alt="Matheus Rocha Vieira"/><br /><sub><b>Matheus Rocha Vieira</b></sub></a><br /><a href="#translation-MatheusRV" title="Translation">🌍</a> <a href="https://github.com/all-contributors/all-contributors/commits?author=MatheusRV" title="Code">💻</a> <a href="https://github.com/all-contributors/all-contributors/commits?author=MatheusRV" title="Documentation">📖</a></td>
-    </tr>
-  </tbody>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/sgkim6">
+        <img src="https://github.com/sgkim6.png" alt="김승규" />
+      </a>
+    </td>
+     <td align="center">
+      <a href="https://github.com/yygs321">
+        <img src="https://github.com/yygs321.png" alt="박소민" />
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/ykm1256">
+        <img src="https://github.com/ykm1256.png" alt="윤경민" />
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/hyunin3">
+        <img src="https://github.com/hyunin3.png" alt="심현재" />
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/SeungAh-Yoo99">
+        <img src="https://github.com/SeungAh-Yoo99.png" alt="유승아" />
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/HJH13579">
+        <img src="https://github.com/HJH13579.png" alt="허주혁" />
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/sgkim6">
+        <b>김승규</b>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/yygs321">
+        <b>박소민</b>
+      </a>
+    <td align="center">
+      <a href="https://github.com/ykm1256">
+        <b>윤경민</b>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/hyunin3">
+        <b>심현재</b>
+      </a>
+    </td>   
+    </td>
+    <td align="center">
+      <a href="https://github.com/SeungAh-Yoo99">
+        <b>유승아</b>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/HJH13579">
+        <b>허주혁</b>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <span>PM<p/>Backend(게임 추천)  Monitoring System</span>
+    </td>
+    <td align="center">
+      <span>Infra<p/>Backend</span>
+    </td>
+    <td align="center">
+      <span>Backend Leader</span>
+    </td>
+    <td align="center">
+      <span>Frontend</span>
+    </td>
+    <td align="center">
+      <span>Frontend<p/>(튜토리얼)</span>
+    </td>
+    <td align="center">
+      <span>Frontend</span>
+    </td>
+  </tr>
 </table>
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- SUPPORT -->
-
-## ⭐️ Show your support <a name="support"></a>
-
-> Write a message to encourage readers to support your project
-
-If you like this project...
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- ACKNOWLEDGEMENTS -->
-
-## 🙏 Acknowledgments <a name="acknowledgements"></a>
-
-> Give credit to everyone who inspired your codebase.
-
-I would like to thank...
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- FAQ (optional) -->
-
-## ❓ FAQ (OPTIONAL) <a name="faq"></a>
-
-> Add at least 2 questions new developers would ask when they decide to use your project.
-
-- **[Question_1]**
-
-  - [Answer_1]
-
-- **[Question_2]**
-
-  - [Answer_2]
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- LICENSE -->
-
-## 📝 License <a name="license"></a>
-
-This project is [MIT](./LICENSE) licensed.
-
-_NOTE: we recommend using the [MIT license](https://choosealicense.com/licenses/mit/) - you can set it up quickly by [using templates available on GitHub](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-license-to-a-repository). You can also use [any other license](https://choosealicense.com/licenses/) if you wish._
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/S09P31A104/board-collie.svg?style=for-the-badge
-[contributors-url]: https://github.com/S09P31A104/board-collie/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/S09P31A104/board-collie.svg?style=for-the-badge
-[forks-url]: https://github.com/S09P31A104/board-collie/network/members
-[stars-shield]: https://img.shields.io/github/stars/S09P31A104/board-collie.svg?style=for-the-badge
-[stars-url]: https://github.com/S09P31A104/board-collie/stargazers
-[issues-shield]: https://img.shields.io/github/issues/S09P31A104/board-collie.svg?style=for-the-badge
-[issues-url]: https://github.com/S09P31A104/board-collie/issues
-[product-screenshot]: images/screenshot.png
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[Angular-url]: https://angular.io/
-[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
-[Svelte-url]: https://svelte.dev/
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-[Laravel-url]: https://laravel.com
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[Bootstrap-url]: https://getbootstrap.com
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com 
