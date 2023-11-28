@@ -282,14 +282,8 @@
 
 <h3 align="center">Monitoring</h3>
 <p align="center">
-    <img src="https://img.shields.io/badge/Docker-2496ED?&logo=docker&logoColor=white">
-    <img src="https://img.shields.io/badge/Jenkins-D24939?&logo=jenkins&logoColor=white">
-    <img src="https://img.shields.io/badge/nginx-009639?&logo=nginx&logoColor=white">
-    <br>
-    <img src="https://img.shields.io/badge/ubuntu-E95420?&logo=ubuntu&logoColor=white">
-    <img src="https://img.shields.io/badge/amazon EC2-FF9900?&logo=amazon ec2&logoColor=white">
-    <img src="https://img.shields.io/badge/amazon RDS-527FFF?&logo=amazonrds&logoColor=white">
-    <img src="https://img.shields.io/badge/amazon S3-569A31?&logo=amazons3&logoColor=white">
+    <img src="https://img.shields.io/badge/grafana-FF8000?&logo=grafana&logoColor=white">
+    <img src="https://img.shields.io/badge/prometheus-FF4000?&logo=prometheus&logoColor=white">
 </p>
 
 <h3 align="center">Co-work tool</h3>
