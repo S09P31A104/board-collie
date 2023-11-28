@@ -27,14 +27,18 @@
 ![board-collie](https://github.com/S09P31A104/board-collie/blob/docs/readme/assets/문제점.png)
 
 - **단방향 정보**
-    - 게임 시작 전, **설명서** 또는 **영상** 등의 일방적인 정보만 제공. 플레이 중 궁금한 점이 생길 경우, 직원을 호출하거나 해당 내용이 설명서 또는 영상의 어느 부분에 있는지 일일히 찾아야 함.
+    - 게임 시작 전, **설명서** 또는 **영상** 등의 일방적인 정보만 제공.
+    - 플레이 중 궁금한 점이 생길 경우, 직원을 호출하거나 해당 내용이 설명서 또는 영상의 어느 부분에 있는지 일일히 찾아야 함.
 - **많은 게임, 부실한 추천**
-    - 보드게임 카페는 평균 약 **300여 개**의 게임을 제공하지만, 단순히 매장 직원 추천 또는 인원수, 장르 별 **필터링 기능만 제공**. 개인화된 맞춤 추천이 없음.
+    - 보드게임 카페는 평균 약 **300여 개**의 게임을 제공하지만, 단순히 매장 직원 추천 또는 인원수, 장르 별 **필터링 기능만 제공**.
+    - 개인화된 맞춤 추천이 없음.
 - **튜토리얼의 부재**
     - 게임에 대한 영상 및 텍스트 기반의 **설명만 제공**. 실제로 플레이하면서 따라해볼 수 있는 기능은 제공하지 않음.
       
+⇒ 해당 문제점들을 상세히 분석하여 사용자 입장에서의 요구사항을 정의, 이를 해결하는 방향으로 프로젝트를 진행하였습니다.
 
-그 후, 저희는 해당 문제점들을 상세히 분석하여 사용자 입장에서의 요구사항을 정의했고, 이를 해결하는 방향으로 프로젝트를 진행하였습니다.
+<br>
+<br>
 
 ## ⭐ 프로젝트 주요 기능
 
@@ -42,17 +46,17 @@
 
 > **게임 상세 페이지** 및 **실물 게임 상자**에 부착된 QR을 스캔하여 모바일 챗봇 서비스를 이용할 수 있습니다.
 >
-> 해당 챗봇을 통해 사용자는 플레이 중 발생한 **궁금증**이나 **돌발상황**에 대해 자유롭게 질문할 수 있고, 이에 대한 답변을 즉각적으로 확인할 수 있습니다.
+> 사용자는 플레이 중 발생한 **궁금증**이나 **돌발상황**에 대해 자유롭게 질문할 수 있고, 이에 대한 답변을 즉각적으로 확인할 수 있습니다.
 >
-> 또한 질문의 답변이 명확하지 않거나 자세한 설명이 필요할 경우, 추가적인 질문을 통해 더욱 자세한 답변을 받을 수 있습니다.
+> 질문의 답변이 명확하지 않거나 자세한 설명이 필요할 경우, 추가적인 질문을 통해 더욱 자세한 답변을 받을 수 있습니다.
 
 <table>
   <tr>
     <td align="center">
-      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%ED%83%9C%EA%B7%B8%20%EA%B2%80%EC%83%89.gif" />
+      <img src="https://github.com/S09P31A104/board-collie/blob/docs/readme/assets/detail.png" />
     </td>
     <td align="center">
-      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EC%B5%9C%EA%B7%BC%20%EB%B3%B8%20%EA%B2%8C%EC%9E%84.gif" />
+      <img src="https://github.com/S09P31A104/board-collie/blob/docs/readme/assets/%EC%A7%88%EB%AC%B8.png" />
     </td>
     <td align="center">
       <img src="https://github.com/S09P31A104/board-collie/blob/docs/readme/assets/%EC%B1%97%EB%B4%87_%EC%8A%A4%ED%94%8C%EB%A0%8C%EB%8D%94.gif" />
@@ -60,10 +64,10 @@
   </tr>
   <tr>
     <td align="center">
-      <span>태그 검색</span>
+      <span>디테일 페이지의 QR</span>
     </td>
     <td align="center">
-      <span>최근 본 게임</span>
+      <span>튜토리얼에서의 QR</span>
     </td>
     <td align="center">
       <span>챗봇 질의응답</span>
@@ -80,7 +84,7 @@
 > 
 > 사용자는 보드게임의 플레이 방식에 대한 **몇 가지의 설문**을 진행하고, 전체 보드게임 중 일치율이 가장 높은 **6종류**의 보드게임을 추천받을 수 있습니다.
 >
-> 또한 게임 상세 페이지에서 해당 게임과 유사한 **3종류**의 게임을 확인할 수도 있습니다.
+> 게임 상세 페이지에서 해당 게임과 유사한 **3종류**의 게임을 확인할 수도 있습니다.
 
 <table>
   <tr>
@@ -111,7 +115,7 @@
 
 ### 3. 튜토리얼
 
-> 튜토리얼 기능을 통해 게임의 시작부터 끝까지, 게임 플레이 중 발생할 수 있는 상황에 대해 알맞은 **설명**과 **선택지**를 제공합니다.
+> 튜토리얼 기능을 통해 게임 플레이 중 발생할 수 있는 상황에 대해 알맞은 **설명**과 **선택지**를 제공합니다.
 >
 > 사용자는 **상황에 대한 설명**과 해당 상황에 **취할 수 있는 행동**을 선택지로 제공받게 되고, 이를 단순히 터치하는 것 만으로 마치 온라인 게임의 **튜토리얼 시스템**을 이용하는 듯한 경험을 느낄 수 있습니다.
 
@@ -148,19 +152,48 @@
 
 ### 4. 기타 - 게임 검색 및 상세 페이지
 
-> 찾고 싶은 게임을 **제목** 또는 게임의 **태그**로 검색하고, 필터 기능을 통해 **필터링**할 수 있습니다.
->
-> 게임 상세 페이지의 **좌측**에는 **챗봇 QR코드**, **튜토리얼 및 YouTube 설명영상 바로가기 링크**가 제공됩니다.
->
-> 게임 상세 페이지의 **우측**에는 게임의 **테마** 및 **진행방식** 분류, 게임에 대한 **유저평** 요약, 해당 게임과 **유사한 다른 게임**을 확인할 수 있습니다.
+> 검색페이지 <br>
+> 찾고 싶은 게임을 **제목** 또는 게임의 **태그**로 검색하고, 필터 기능을 통해 **필터링**할 수 있습니다.<br>
+> **우측**에서 **최근 본 게임**을 확인할 수 있습니다.
 
+> 상세 페이지<br>
+> **좌측**에는 **챗봇 QR코드**, **튜토리얼 및 YouTube 설명영상 바로가기 링크**가 제공됩니다.<br>
+> **우측**에는 게임의 **테마** 및 **진행방식** 분류, 게임에 대한 **유저평** 요약, 해당 게임과 **유사한 다른 게임**을 확인할 수 있습니다.
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%ED%83%9C%EA%B7%B8%20%EA%B2%80%EC%83%89.gif"/>
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EC%B5%9C%EA%B7%BC%20%EB%B3%B8%20%EA%B2%8C%EC%9E%84.gif" />
+    </td>
+    <td align="center">
+      <img src="https://github.com/S09P31A104/board-collie/blob/master/assets/%EC%9C%A0%ED%8A%9C%EB%B8%8C%20%ED%8A%9C%ED%86%A0%EB%A6%AC%EC%96%BC.gif"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <span>태그 검색</span>
+    </td>
+    <td align="center">
+      <span>최근 본 게임</span>
+    </td>
+    <td align="center">
+      <span>상세 페이지 유튜브 연결</span>
+    </td>
+  </tr>
+</table>
 <br>
 <br>
 
-
-
-
-
+## ⭐ 협업 문서 작성
+- <a href="https://www.notion.so/521a3c4269bb4639ab187111f6da3e97">팀 컨벤션</a>
+- <a href="https://www.notion.so/7ce5fe2125b14bdeace9db317ac99c9c">트러블 슈팅 일지</a>
+- <a href="https://www.notion.so/1a50b22f342541ae9696cb7011db42b8">배포 일지</a>
+- <a href="https://www.notion.so/API-cbc1465c7510479a9a4953ab899293ca">API 명세서</a>
+<br>
+<br>
 
 ## ⭐ 기술 스택
 
@@ -171,14 +204,11 @@
     <img src="https://img.shields.io/badge/PWA-5A0FC8?&logo=pwa&logoColor=white">
     <img src="https://img.shields.io/badge/TypeScript-3178C6?&logo=typescript&logoColor=white">
     <img src="https://img.shields.io/badge/Redux-764ABC?&logo=redux&logoColor=white">
+    <br>
     <img src="https://img.shields.io/badge/axios-5A29E4?&logo=axios&logoColor=white">
     <img src="https://img.shields.io/badge/ReactRouter-CA4245?&logo=reactrouter&logoColor=white">
-    <br>
-    <img src="https://img.shields.io/badge/ESLint-4B32C3?&logo=eslint&logoColor=white">
-    <img src="https://img.shields.io/badge/Prettier-F7B93E?&logo=prettier&logoColor=white">
     <img src="https://img.shields.io/badge/Mui-007FFF?&logo=mui&logoColor=white">
     <img src="https://img.shields.io/badge/styledcomponents-DB7093?&logo=styledcomponents&logoColor=white">
-    <img src="https://img.shields.io/badge/Chart.js-FF6384?&logo=chartdotjs&logoColor=white">
 </p>
 
 <h3 align="center">Back-end</h3>
@@ -186,14 +216,11 @@
     <img src="https://img.shields.io/badge/Java-007396?&logo=java&logoColor=white">
     <img src="https://img.shields.io/badge/SpringBoot-6DB33F?&logo=springboot&logoColor=white">
     <img src="https://img.shields.io/badge/Gradle-02303A?&logo=gradle&logoColor=white">
-    <img src="https://img.shields.io/badge/SpringSecurity-6DB33F?&logo=springsecurity&logoColor=white">
-    <img src="https://img.shields.io/badge/JWT-000000?&logo=jsonwebtokens&logoColor=white">
     <br>
     <img src="https://img.shields.io/badge/Hibernate-59666C?&logo=hibernate&logoColor=white">
     <img src="https://img.shields.io/badge/MySQL-4479A1?&logo=mysql&logoColor=white">
     <img src="https://img.shields.io/badge/Redis-DC382D?&logo=redis&logoColor=white">
     <img src="https://img.shields.io/badge/H2-FF9900?&logo=h2&logoColor=white">
-    <img src="https://img.shields.io/badge/Swagger-85EA2D?&logo=swagger&logoColor=white">
     <br>
     <img src="https://img.shields.io/badge/Python-3776AB?&logo=python&logoColor=white">
     <img src="https://img.shields.io/badge/Selenium-43B02A?&logo=selenium&logoColor=white">
@@ -323,19 +350,19 @@
   </tr>
   <tr>
     <td align="center">
-      <span>PM/Backend(게임 추천)/Data Construction/Monitoring System</span>
+      <span>PM<p/>Backend(게임 추천)  Monitoring System</span>
     </td>
     <td align="center">
-      <span>Backend/Infra</span>
+      <span>Infra<p/>Backend</span>
     </td>
     <td align="center">
-      <span>Backend</span>
+      <span>Backend Leader</span>
     </td>
     <td align="center">
       <span>Frontend</span>
     </td>
     <td align="center">
-      <span>Frontend<br/>(튜토리얼)</span>
+      <span>Frontend<p/>(튜토리얼)</span>
     </td>
     <td align="center">
       <span>Frontend</span>
